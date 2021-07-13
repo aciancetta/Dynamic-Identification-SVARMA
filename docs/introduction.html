@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Section 1 Introduction | Dynamic Identification in VARMA Models</title>
+  <meta name="description" content="This book present the general framework of VARMA models and introduces the notion of non-fundamentalness. The problem is assessed using the methodology of Gourieroux, Manfort and Renne (2019), which is illustrated in detail, within the framework of non-Gaussian and independent structural shocks of the corresponding structural model. Simulations and application to real-world data are presented." />
+  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Section 1 Introduction | Dynamic Identification in VARMA Models" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This book present the general framework of VARMA models and introduces the notion of non-fundamentalness. The problem is assessed using the methodology of Gourieroux, Manfort and Renne (2019), which is illustrated in detail, within the framework of non-Gaussian and independent structural shocks of the corresponding structural model. Simulations and application to real-world data are presented." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Section 1 Introduction | Dynamic Identification in VARMA Models" />
+  
+  <meta name="twitter:description" content="This book present the general framework of VARMA models and introduces the notion of non-fundamentalness. The problem is assessed using the methodology of Gourieroux, Manfort and Renne (2019), which is illustrated in detail, within the framework of non-Gaussian and independent structural shocks of the corresponding structural model. Simulations and application to real-world data are presented." />
+  
+
+<meta name="author" content="Alessandro Ciancetta" />
+
+
+<meta name="date" content="2021-07-13" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="gmr-estimation-method.html"/>
+<script src="libs/header-attrs-2.7/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Dynamic Identification in SVARMA models</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Abstract</a></li>
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="introduction.html"><a href="introduction.html#assumptions-for-ssvarma-models"><i class="fa fa-check"></i><b>1.1</b> Assumptions for SSVARMA models</a></li>
+<li class="chapter" data-level="1.2" data-path="introduction.html"><a href="introduction.html#invertibility-of-the-ma-part"><i class="fa fa-check"></i><b>1.2</b> Invertibility of the MA part</a></li>
+<li class="chapter" data-level="1.3" data-path="introduction.html"><a href="introduction.html#non-fundamentalness"><i class="fa fa-check"></i><b>1.3</b> Non-fundamentalness</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="gmr-estimation-method.html"><a href="gmr-estimation-method.html"><i class="fa fa-check"></i><b>2</b> GMR estimation method</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="gmr-estimation-method.html"><a href="gmr-estimation-method.html#maximum-likelihood-approach"><i class="fa fa-check"></i><b>2.1</b> Maximum likelihood approach</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="gmr-estimation-method.html"><a href="gmr-estimation-method.html#ma1-case"><i class="fa fa-check"></i><b>2.1.1</b> MA(1) case</a></li>
+<li class="chapter" data-level="2.1.2" data-path="gmr-estimation-method.html"><a href="gmr-estimation-method.html#ssvarmap1-case"><i class="fa fa-check"></i><b>2.1.2</b> SSVARMA(p,1) case</a></li>
+<li class="chapter" data-level="2.1.3" data-path="gmr-estimation-method.html"><a href="gmr-estimation-method.html#svarmapq-case"><i class="fa fa-check"></i><b>2.1.3</b> SVARMA(p,q) case</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="gmr-estimation-method.html"><a href="gmr-estimation-method.html#semi-parametric-estimation-two-stage-2sls-gmm-approach"><i class="fa fa-check"></i><b>2.2</b> Semi-parametric estimation: Two-stage 2SLS-GMM approach</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Dynamic Identification in VARMA Models</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="introduction" class="section level1" number="1">
+<h1><span class="header-section-number">Section 1</span> Introduction</h1>
+<p>VARMA models are an interesting generalization of ARMA models for multivariate time series. This class of models take into account the (direct) lagged effect that a shock can have on the system under investigation. This could be useful in practice, for example whenever we think that the process might react to the shocks also after some delay (i.e. if the error term has an MA structure). However, VARMA models are not as popular as standard VAR models, also because of the difficulties of estimating these models when compared with the simple least-squares estimation which is common in the VAR literature. The features of these models, however, may reveal crucial also for structural-VAR modeling. In particular, a VAR model can be seen as an approximation of an underlying VARMA process, but only if certain conditions on the moving-average parameters hold. Basically these conditions states that the parameters of the delayed effect of the shock should be smaller than one in modulus: that is, the shocks should not have an “explosive” lagged impact on the system. This condition - which we will make more precise throughout this essay - allows for the invertibility of the MA part of the model, thus making VAR approximations possible. However, in practice one does not know <em>a priori</em> whether the condition hold or not, i.e. whether the shocks are respectively <em>fundamental</em> or <em>not-fundamental</em>. In the latter case, the process cannot be inverted in its past values and an autoregressive representation of the model does not exist: a VAR representation, since it fails to identify the true parameters, would then be wrong, and the estimated impulse response functions would not be those associated with the true non-fundamental process. Therefore, if we have some reasons to believe that the process that we are estimating has a VARMA structure, we should keep in mind that VAR modeling could be misleading.</p>
+<p>In this essay, we discuss the methodology proposed by Gourieroux, Monfort and Renne (2019, GMR2019 henceforth) to assess the problem of dynamic identification of non-fundamental SVARMA processes. Section 1 presents the main assumptions and provides a formal definition of non-fundamentalness. Section 2 presents the method in detail. Section 3 discusses a simple simulation example in the case of a bivariate model. Section 4 is a toy-example of applications to real-world data.</p>
+<div id="assumptions-for-ssvarma-models" class="section level2" number="1.1">
+<h2><span class="header-section-number">1.1</span> Assumptions for SSVARMA models</h2>
+<p>Consider the following VARMA model:</p>
+<p><span class="math display">\[
+\Phi(L) Y_t = \Theta(L) \varepsilon_t, \quad Y_t \in \mathbb{R}^n
+\]</span></p>
+<p>where</p>
+<p><span class="math display">\[
+\Phi(L) = I_n - \Phi_1L - \dots - \Phi_p L^p
+\]</span></p>
+<p><span class="math display">\[
+\Theta(L) = I_n - \Theta_1L - \dots - \Theta_q L^q
+\]</span></p>
+<p>We want to make the following assumptions:</p>
+<p><u><strong>Hp. 1</strong> (Independent shocks).</u> There exists a linear transformation such that the (correlated) VARMA residuals can be expressed as the transformation of a vector of structural shocks that are mutually independent, that is:</p>
+<p><span class="math display">\[
+\exists \ C \in M_{n\times n} \ | \ \varepsilon_t = C \eta_t \quad \text{with } \det C \neq 0,
+\]</span></p>
+<p>where <span class="math inline">\(\eta_t \in \mathbb{R}^n\)</span> is such that <span class="math inline">\((\eta_1, \eta_2, \dots , \eta_T)\)</span> are independently and identically distributed (so that the shocks at each time period are random draws from the same joint distribution) and <span class="math inline">\((\eta_{1t}, \eta_{2t}, \dots, \eta_{nt})\)</span> are mutually independent (i.e. the joint distribution of the shocks is the product of their marginal distributions). <span class="math inline">\(\eta_t\)</span> are called the structural shocks of the process. The condition <span class="math inline">\(\det C \neq 0\)</span> means that the transformation has full rank, and therefore that both <span class="math inline">\(\varepsilon_t\)</span> and <span class="math inline">\(\eta_t\)</span> belongs to <span class="math inline">\(\mathbb{R}^n\)</span> and the number of structural shocks equals the number of variables in the system. Also, it implies the existence of <span class="math inline">\(C^{-1}\)</span>. When Hp.1 holds, the process is said to be a <strong>strong-structural VARMA model</strong> (SSVARMA), where “strong” derives from the assumption of mutual independence of the simultaneous shocks.</p>
+<p><u><strong>Hp. 2</strong> (Minimum order representation).</u> Matrices <span class="math inline">\(\Phi(L), \ \Theta(L)\)</span> are left-comprime, i.e. if there exists a common matrix <span class="math inline">\(C(L)\)</span> such that</p>
+<p><span class="math display">\[
+\begin{aligned}
+\Phi(L) = C(L) \widetilde{\Phi}(L) \\
+\Theta(L) = C(L) \widetilde{\Theta}(L)
+\end{aligned}
+\qquad \text{then }
+\det C(L) \text{ does not depend on L}
+\]</span></p>
+<p>Since <span class="math inline">\(\det \Phi(L) = \det C(L) \ \det \widetilde{\Phi}(L)\)</span> and <span class="math inline">\(C(L)\)</span> does not depend on L, Hp.2 implies that <span class="math inline">\(\det \Phi(L)\)</span> and <span class="math inline">\(\det \widetilde{\Phi}(L)\)</span> have the same lag order (the same holds for <span class="math inline">\(\det \Theta(L)\)</span> and <span class="math inline">\(\det \widetilde{\Theta}(L)\)</span>). Therefore, simplifying</p>
+<p><span class="math display">\[
+C(L) \widetilde{\Phi}(L) = C(L) \widetilde{\Theta}(L) \varepsilon_t
+\]</span></p>
+<p>by left-multiplying <span class="math inline">\(C(L)^{-1}\)</span> on both sides of the equation would not lead to a reduction of the lag order. This means that both the AR and MA components have minimal order.</p>
+<p><u><strong>Hp.3</strong> (Stationarity of the AR component).</u> <span class="math inline">\(\det \Phi (z) \neq 0, \ \forall z \in \mathbb{C} \ \text{s.t.} \ |z| &lt; 1\)</span>, i.e. the determinantal polynomial has roots outside the unit circle. To understand this condition, we have to work on the relationship between the roots of <span class="math inline">\(\Theta(z)\)</span> and the eigenvalues of the companion matrix. Indeed, stationarity is guaranteed when the eigenvalues of the companion matrix are <em>inside</em> the unite circle. A VARMA(p,q) process has the following VARMA(1, q) representation:</p>
+<p><span class="math display">\[
+\mathbf{y_t} = \mathbf{F y_{t-1}} + \mathbf{v_t} 
+\]</span> with</p>
+<span class="math display">\[\begin{equation}
+\mathbf{F} =\begin{bmatrix}
+\Phi_1 &amp; \Phi_2 &amp; \dots &amp; \Phi_{p-1} &amp; \Phi_p \\
+I_n &amp; 0 &amp; \dots &amp; 0 &amp; 0 \\
+ 0 &amp; I_n &amp; \dots &amp; 0 &amp; 0 \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots &amp; \vdots \\
+0 &amp; 0 &amp; \dots &amp; I_n &amp; 0
+ 
+\end{bmatrix},
+\qquad  \mathbf{y_t} =\begin{bmatrix}
+Y_t \\ Y_{t-1} \\ \vdots \\ Y_{t-p}
+\end{bmatrix}, \qquad  \mathbf{v_t} =\begin{bmatrix}
+\Theta(L)\varepsilon_t \\ 0 \\ \vdots \\ 0
+\end{bmatrix}
+\end{equation}\]</span>
+<p>Therefore, we can obtain the expression of the <span class="math inline">\(h\)</span>-steps ahead observation as</p>
+<p><span class="math display">\[
+\mathbf{y_{t+h}} = \mathbf{v_{t+h}} + \mathbf{F v_{t+h-1}} + \mathbf{F^2 v_{t+h-2}} + \dots + \mathbf{F^{h-1} v_{t+1}} + \mathbf{F^h y_{t}},
+\]</span></p>
+<p>from which it is readily seen that, in order for the process to be stationary, the eigenvalues of <span class="math inline">\(\mathbf{F}\)</span> must lay inside the unit circle (i.e. the effect of each <span class="math inline">\(\mathbf{v_t}\)</span> must die out). According to Proposition 10.1 in Hamilton (1994), the eigenvalues of <span class="math inline">\(\mathbf{F}\)</span> satisfy</p>
+<span class="math display" id="eq:chareigen">\[\begin{equation}
+\det(I_n \lambda^p - \Phi_1\lambda^{p-1} - \dots - \Phi_{p-1}\lambda - \Phi_p) = 0
+
+\tag{1.1}
+\end{equation}\]</span>
+<p>We can show that the statement in Hp.3 is just an alternative writing for: “the solutions of <span class="math inline">\(\det(I_n \lambda^p - \Phi_1\lambda^{p-1} - \dots - \Phi_{p-1}\lambda - \Phi_p) = 0\)</span> (i.e. the eigenvalues of <span class="math inline">\(\mathbf{F}\)</span>) must be smaller than one in modulus.” Indeed, we can factor the polynomial operator <span class="math inline">\(\Phi(L)\)</span> as:</p>
+<p><span class="math display">\[
+I - \Phi_1L - \Phi_2L^2 - \dots - \Phi_p L^p = (I-\lambda_1 I L) (I-\lambda_2 I L) \cdots(I-\lambda_p I L) 
+\]</span></p>
+<p>The two sides of the previous equation are equal if and only if the following equality holds <span class="math inline">\(\forall z \in \mathbb{C}\)</span>:</p>
+<p><span class="math display">\[
+I - \Phi_1 z - \Phi_2 z^2 - \dots - \Phi_p z^p = (I-\lambda_1 I z) (I-\lambda_2 I z) \cdots(I-\lambda_p I z) 
+\]</span></p>
+<p>We can divide both sides by <span class="math inline">\(z^p\)</span> and take the determinant to obtain an expression similar to eq. <a href="introduction.html#eq:chareigen">(1.1)</a> on the left-hand side:</p>
+<span class="math display" id="eq:charcomplex">\[\begin{equation}
+\det(I z^{-p} - \Phi_1 z^{-p+1} - \dots - \Phi_{p-1} z^{-1} - \Phi_p) 
+\tag{1.2}
+\end{equation}\]</span>
+<p>Polynomials in <a href="introduction.html#eq:chareigen">(1.1)</a> and <a href="introduction.html#eq:charcomplex">(1.2)</a> are equal if and only their roots are <span class="math inline">\(z_i = \lambda_i^{-1}, \ \ i \in \{1, \dots, p\}\)</span>. This entails that the eigenvalues of <span class="math inline">\(\mathbf{F}\)</span> are inside the unit circle if and only if the roots of the polynomial <a href="introduction.html#eq:charcomplex">(1.2)</a> are outside the unit circle. Basically, this equivalence comes from the different representations of the VARMA process as a difference equation or as an equation in the lag operator. Therefore, the condition in Hp.3 is a necessary and sufficient condition for the stationarity of the autoregressive part of the process.</p>
+<p><u><strong>Hp. 4</strong> (No unit roots in the MA part).</u> <span class="math inline">\(\det \Theta(z) \neq 0, \ \forall z \in \mathbb{C} \text{ s.t } |z| = 1\)</span>.</p>
+<p>This condition:</p>
+<ol style="list-style-type: decimal">
+<li><p>guarantees the “generalized” invertibility of the MA part, in the following sense: <span class="math inline">\(\exists D(L) = \sum_{k = -\infty}^{+\infty} D_k L^k\)</span> s.t. <span class="math inline">\(D(L) \Theta(L) = I\)</span>, and therefore <span class="math inline">\(\eta_t = C^{-1}D(L)\Phi(L)Y_t\)</span>. This means that the structural shocks can be retrieved when all the past, current and future values of <span class="math inline">\(Y_t\)</span> are observed.</p></li>
+<li><p>rules out cointegration (Hamilton 1994, p. 575). Indeed, consider the vector moving average (VMA) representation of the VARMA process, whose existence is guaranteed by Hp. 3:</p></li>
+</ol>
+<p><span class="math display">\[
+Y_t = \underbrace{\Phi(L)^{-1} \Theta(L)}_{\Psi(L)} \varepsilon_t
+\]</span>
+A necessary condition for cointegration is the existence of a matrix <span class="math inline">\(A\in M_{n \times n}\)</span> such that <span class="math inline">\(A&#39; \ \Psi(1) = 0\)</span>. This in turn implies that <span class="math inline">\(\det \Psi(z) = \det \Phi(z)^{-1} \det \Theta(z) = 0\)</span> at <span class="math inline">\(z \in \mathbb{C} \text{ s.t. } |z| = 1\)</span>. Since by Hp. 3<span class="math inline">\(\det \Phi(z)^{-1} \neq 0, \ \forall z \in \mathbb{C} \ s.t. |z| \geq 1\)</span>, this implies that <span class="math inline">\(\det \Theta(z)\)</span> has a unit root. Therefore, Hp. 4 is a sufficient condition to rule out the cointegration of the VARMA process.</p>
+</div>
+<div id="invertibility-of-the-ma-part" class="section level2" number="1.2">
+<h2><span class="header-section-number">1.2</span> Invertibility of the MA part</h2>
+<p>A common approach in the estimation of VARMA models is to consider the truncated VAR representation of the process: <span class="math inline">\(A(L) Y_t = \varepsilon_t\)</span>, where <span class="math inline">\(A(L) = \Theta(L)^{-1} \Phi(L)\)</span>. However, an implicit assumption behind this procedure is that <span class="math inline">\(\Theta(L)\)</span> is invertible in the past, i.e. <span class="math inline">\(\det\Theta(z) \neq 0, \  \forall z \in \mathbb{C} \ s.t. \ |z| &lt; 1\)</span>. The following example illustrates the problem of ill-located roots of the determinental polynomial.</p>
+<div class="example">
+<p><span id="exm:unlabeled-div-1" class="example"><strong>Example 1.1  (Ill-located MA roots) </strong></span>Consider an ARMA(1,1) process:</p>
+<p><span class="math display">\[
+(1-\phi L) y_t = (1 + \theta L) \varepsilon_t, \quad |\phi| &lt; 1, \ |\theta| &gt;1.
+\]</span></p>
+<p>Since the AR component of the process is invertible, it admits an MA(<span class="math inline">\(\infty\)</span>) representation:</p>
+<p><span class="math display">\[
+\begin{align}y_t &amp;= (1-\phi L)^{-1}(1 + \theta L) \varepsilon_t = \left(\sum_{k=0}^{\infty} \phi^k L^k\right) (1 + \theta L) \varepsilon_t = \\&amp;= \sum_{k=0}^{\infty} \phi^k \varepsilon_{t-k} + \theta \underbrace{\sum_{k=1}^{\infty} \phi^k \varepsilon_{t-k}}_{\sum_{k=0}^{\infty} \phi^k \varepsilon_{t-k}-\varepsilon_t} \\\implies y_t &amp;= (1+\theta) \sum_{k=0}^{\infty} \phi^k \varepsilon_{t-k} - \theta \varepsilon_t\end{align}
+\]</span>That is, the value observed at time <span class="math inline">\(t\)</span> can be expressed as a linear combination of the present and past values of the shocks.</p>
+<p>On the contrary, the process does not admit an AR(<span class="math inline">\(\infty\)</span>) representation. Indeed, let <span class="math inline">\(\theta(L) = 1 + \theta L\)</span>. The equality holds if and only if it is <span class="math inline">\(\theta(z) = 1 + \theta z\)</span>, <span class="math inline">\(\forall z \in \mathbb{C}\)</span>. The root of this polynomial is <span class="math inline">\(z = -1/\theta \in \mathbb{R}\)</span>, which is smaller than one in modulus. This implies that the eigenvalue of the companion matrix <span class="math inline">\(\lambda\)</span> is such that <span class="math inline">\(|\lambda| &gt;1\)</span> (indeed, the companion matrix is the scalar <span class="math inline">\(\theta\)</span> itself). Therefore, the shock <span class="math inline">\(\varepsilon_t\)</span> would be an infinite sum of terms greater than one, which does not converge to any finite number.</p>
+<p>However, it is possible to obtain an alternative representation, which is “autoregressive” in the future values of <span class="math inline">\(y_t\)</span>. Start by rewriting <span class="math inline">\(1+\theta L\)</span> as <span class="math inline">\(\theta L (1 + \frac{1}{\theta} L^{-1})\)</span>, where <span class="math inline">\(L^{-1}\)</span> is the forward operator. The operator <span class="math inline">\(1 + \frac{1}{\theta} L^{-1}\)</span> is invertible, and the process can be rewritten as:</p>
+<p><span class="math display">\[
+\begin{align}\theta L \varepsilon_t &amp;= (1 + \theta ^{-1} L ^{-1}) (1 - \phi L ) y_t = \\&amp;= \left( \sum_{k = 0}^{\infty} \theta ^{-k} L ^{-k}\right) (1-\phi L) y_t \end{align}
+\]</span></p>
+<p>which, after some manipulations, becomes</p>
+<p><span class="math display">\[
+\varepsilon_t = (1-\phi)\sum_{k = 1}^\infty \frac{1}{\theta^k}y_{t+k} - \phi y_t.
+\]</span></p>
+<p>That is, the shocks of the process can be rewritten as a linear combination of the present and future values of <span class="math inline">\(y_t\)</span>.</p>
+</div>
+</div>
+<div id="non-fundamentalness" class="section level2" number="1.3">
+<h2><span class="header-section-number">1.3</span> Non-fundamentalness</h2>
+<p>As the example shows, when the MA polynomial has some roots inside the unit circle there is an asymmetry in the information contained in the structural shocks and in the observed values. In this case, if we knew all the present and past shocks of the process we could retrieve its present and past values. On the contrary, if we knew all the present and past values of the process, we would still be unable to retrieve the past and present shocks. We can provide a rigorous explanation of this fact through the following</p>
+<div class="definition">
+<p><span id="def:unlabeled-div-2" class="definition"><strong>Definition 1.1  </strong></span>Consider the process <span class="math inline">\(x_t \in \mathbb{R}^n\)</span>. Given its present and past observations<span class="math inline">\(\{x_t, x_{t-1}, x_{t-2},\dots\}\)</span>, the information set is defined as</p>
+<p><span class="math display">\[
+\mathcal{H}^t_x = \overline{\text{span}}(x_t, x_{t-1}, x_{t-2}, \dots),
+\]</span></p>
+<p>i.e. it is the set of all the possible linear combinations of the present and past values of <span class="math inline">\(x_t\)</span>.</p>
+</div>
+<p>From the previous example, we can notice that:</p>
+<ul>
+<li><p>Knowing <span class="math inline">\(\{\varepsilon_{t}, \varepsilon_{t-1}, \varepsilon_{t-2}, \dots \}\)</span> implies knowing also <span class="math inline">\(\{y_t, y_{t-1}, y_{t-2}, \dots\}\)</span> <span class="math inline">\(\implies\)</span> <span class="math inline">\(\mathcal{H}_y \subseteq \mathcal{H}_{\varepsilon}\)</span></p></li>
+<li><p>Knowing <span class="math inline">\(\{y_t, y_{t-1}, y_{t-2}, \dots\}\)</span> does not imply knowing also <span class="math inline">\(\{\varepsilon_{t}, \varepsilon_{t-1}, \varepsilon_{t-2}, \dots \}\)</span> <span class="math inline">\(\implies\)</span> <span class="math inline">\(\mathcal{H}_\varepsilon \not\subseteq \mathcal{H}_{y}\)</span></p></li>
+</ul>
+<p>Therefore, <span class="math inline">\(\mathcal{H}_y \subset \mathcal{H}_{\varepsilon}\)</span>. When this is the case, we say that the VARMA process is <em>non-fundamental</em>.</p>
+<div class="definition">
+<p><span id="def:unlabeled-div-3" class="definition"><strong>Definition 1.2  </strong></span>The VARMA process <span class="math inline">\(\Phi(L) Y_t = \Theta(L) \varepsilon_t\)</span> is said to be <strong>non-fundamental</strong> when <span class="math inline">\(\mathcal{H}_Y \subset \mathcal{H}_{\varepsilon}\)</span>, or, analogously, when <span class="math inline">\(\exists z \in \mathbb{C}, |z|&lt;1, \ s.t. \ \det(\Theta(z)) = 0.\)</span></p>
+</div>
+<p>In that case, there exists at least one eigenvalue of the “companion” matrix of the MA part of the process that is larger than one in modulus.</p>
+<p>Non-fundamentalness may be a problem for VAR modeling in many practical situations. Indeed, if the VAR model approximates an underlying VARMA model, the identification of the true coefficients is impossible whenever the effect of some shocks intensifies after one or more time periods. Namely, non-fundamentalness arises whenever some entries of the <span class="math inline">\(\Theta\)</span> matrices are “too big” (see for instance Figure 6 in GMR2019 for the 2x2 case). This could be a relevant case in many economic application, where the strength of a shock could well increase after one or more period. Indeed, after its first outbreak, a shock might propagate in the system and, by affecting the expectations of the agents, it could reach its maximum effect with some delay. Therefore, the case of eigenvalues of the MA “companion” matrix greater than one in modulus cannot be simply discarded.</p>
+<p>The problem is made more significant by the fact that it is not possible to distinguish between a fundamental and a non-fundamental process using the standard techniques. This can be shown by exploiting the following relevant corollary to Theorem 2 in Lippi and Reichlin (1994):</p>
+<div class="theorem">
+<p><span id="thm:fundamental-representation" class="theorem"><strong>Theorem 1.1  </strong></span>Any non-fundamental VARMA process admits a fundamental representation that can be obtained by using Blaschke matrices. That is, given a non-fundamental <span class="math inline">\(\Phi(L) Y_t = \Theta(L)\varepsilon_t\)</span>, there exists an invertible matrix <span class="math inline">\(B(L)\)</span> with the property that <span class="math inline">\(B(L)^{-1} = B^*(L^{-1})\)</span> such that</p>
+<p><span class="math display">\[
+\Phi(L)Y_t = \underbrace{\Theta(L)B(L)^{-1}}_{\tilde{\Theta}(L)} \underbrace{B(L)\varepsilon_t}_{\tilde{\varepsilon}_t}
+\]</span></p>
+<p>is fundamental, i.e. <span class="math inline">\(\det{\tilde{\Theta}(z)} \neq 0, \forall z \in \mathbb{C} \ s.t. \ |z|&lt;1\)</span>, with <span class="math inline">\(E[\tilde{\varepsilon}_t \tilde{\varepsilon}_s] = 0\)</span> but <span class="math inline">\(\tilde{\varepsilon}_t\)</span> not independent on <span class="math inline">\(\tilde{\varepsilon}_s\)</span>.</p>
+</div>
+<p>A consequence of Th. <a href="introduction.html#thm:fundamental-representation">1.1</a> is that standard methods for the estimation of VAR models do in general fail to identify the correct representation of the process. Indeed, if <span class="math inline">\(\Theta(L)\)</span> is not invertible, the VAR approximation becomes <span class="math inline">\(\tilde{A}(L) Y_t = \tilde{\varepsilon}_t\)</span>, with <span class="math inline">\(\tilde{A}(L) = \tilde{\Theta}(L)^{-1}\Phi(L)\)</span>. Moreover, if we consider the process <span class="math inline">\(\tilde{Y}_t\)</span> such that <span class="math inline">\(\Phi(L) \tilde{Y}_t = \tilde{\Theta}(L) \tilde{C} \eta_t\)</span>, with <span class="math inline">\(V(\tilde{\varepsilon}_t) = \tilde{C}\tilde{C}&#39;\)</span>, the two processes <span class="math inline">\(Y_t, \tilde{Y}_t\)</span> have the same second-roder dynamic properties, namely the same autocovariance functions. This entails that all the methods that relies on distinguishing different second-order properties (like the Yule-Walker equations) fail to distinguish between <span class="math inline">\(\Theta(L)\)</span> and <span class="math inline">\(\tilde{\Theta}(L)\)</span>. However, the impulse response functions associated to shocks in <span class="math inline">\(Y_t\)</span> and <span class="math inline">\(\tilde{Y}_t\)</span> are different.</p>
+<div class="example">
+<p><span id="exm:unlabeled-div-4" class="example"><strong>Example 1.2  (2nd order properties and IRF) </strong></span>Consider the MA(1) processes
+<span class="math display">\[
+y_t = \sigma \eta_t - \theta \sigma \eta_{t-1} \\
+\tilde{y}_t = \sigma \theta \eta_t - \sigma \eta_{t-1}
+\]</span>
+with <span class="math inline">\(E[\eta_t] = 0, E[\eta_t^2]= 1, \theta\sigma&gt;1\)</span>. The two processes have the same autocovariance functions:</p>
+<p><span class="math display">\[
+\begin{align}
+\text{cov}(y_t, y_{t-h}) = \text{cov}(\tilde{y}_t, \tilde{y}_{t-h}) =
+\begin{cases}
+  E[y_t^2] &amp;= E[\tilde{y}_t^2] &amp;= \sigma^2(1+\theta^2)  \quad &amp; \text{for } h = 0\\
+  E[y_t y_{t-1}] &amp;= E[\tilde{y}_t \tilde{y}_{t-1}] &amp;= -\theta \sigma^2  \quad &amp; \text{for } h = 1 \\
+  0 &amp;&amp;&amp; \text{for } h \geq 2
+\end{cases}
+\end{align}
+\]</span></p>
+<p>However, <span class="math inline">\(y_t\)</span> and <span class="math inline">\(\tilde{y}_t\)</span> respond differently to a shock in <span class="math inline">\(\eta_t\)</span>:</p>
+<p><span class="math display">\[
+\begin{align}
+\frac{\partial y_{t+h}}{\partial \eta_t} =
+\begin{cases}
+\sigma \quad &amp; \text{for } h = 0 \\
+-\theta \sigma \quad &amp; \text{for } h = 1\\
+0 \quad &amp; \text{for } h \geq 2
+\end{cases}; 
+\qquad
+\frac{\partial \tilde{y}_{t+h}}{\partial \eta_t} = 
+\begin{cases}
+\sigma \theta  \quad &amp; \text{for } h = 0 \\
+-\sigma \quad &amp; \text{for } h = 1\\
+0 \quad &amp; \text{for } h \geq 2
+\end{cases}
+\end{align}
+\]</span></p>
+</div>
+<p>The methods that try to distinguish fundamental and non-fundamental MA coefficients relying on the second-order properties of the process cannot work in this context. For this reason, GMR2019 proposes a new estimation procedure for SSVARMA models that relies on higher-order conditions for identifying the true structural shocks. Of course, the method is suitable for any distribution of the structural shocks with the only exception of the Gaussian distribution, whose higher-order moments are null whatever the mean and variance.</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="gmr-estimation-method.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["Dynamic-Identification-GitHub2.pdf", "Dynamic-Identification-GitHub2.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

@@ -1,0 +1,283 @@
+# GMR estimation method
+<!-- **sarebbe interessante provare diverse funzioni $g(.)$ e poi fare ML ratio test per prendere quella che fitta meglio i dati, in modo da rendere ML estimation un po' più data-driven** -->
+
+As we introduced in the previous Section, non-Gaussianity of the shocks is a necessary condition for identifiability.
+
+[**Hp.5** (Non-Gaussianity of the shocks).]{.ul} Each component of $\eta_t$ has a non-zero $r$-th cumulant with $r>2$ and at least one finite moment $s\geq r$.
+
+The following Theorem provides one of the main results in GMR2019.
+
+::: {.theorem #obs-equivalence} 
+(Observational equivalence of SSVARMA processes). Consider the SSVARMA processes $Y_t, \tilde{Y}_t$ defined by
+$$
+\begin{align}
+\Phi(L) Y_t &= \Theta(L) C \eta_t\\
+\Phi(L) \tilde{Y}_t &= \tilde{\Theta}(L) \tilde{C} \tilde{\eta}_t 
+\end{align}
+$$
+Under Hp. 1-5, $Y_t$ and $\tilde{Y}_t$ are observationally equivalent if and only if $\Theta(L) = \tilde{\Theta}(L)$, $C = \tilde{C}$ and the distribution of $\eta_t$ and $\tilde{\eta}_t$ coincide.
+:::
+
+As a direct consequence of Th. \@ref(thm:obs-equivalence), if processes characterized by Hp.1-5 differ for the MA part, then they can be distinguished by exploiting higher-order conditions. 
+
+A last assumption that we make to assure global identifiability (i.e. to identify the coefficients with no ambiguity regarding their sign and order) is the following:
+
+[**Hp.6** (Global identifiability).]{.ul} The components of the first row of $C$ are non-negative and in increasing order.
+
+The next two sections present the two methods developed by GMR2019. The first one is a parametric maximum-likelihood approach that requires to assume the distribution of the structural shocks in advance. The second one is a semi-parametric approach consisting in a two-step procedure. Even if it has the advantage of requiring no assumptions on the distribution of the shocks, it is less efficient than the ML procedure when the true distribution is known. Of course, both methods require that the distribution of the shocks is not Gaussian to exploit higher-moments for identification.
+
+
+## Maximum likelihood approach
+
+### MA(1) case
+Consider the simple MA(1) case first: $y_t = \varepsilon_t + \theta \varepsilon_{t-1}$, where $\varepsilon_t$ is i.i.d. over time, with a common non-Gaussian p.d.f. $g(\varepsilon; \gamma)$, $\gamma$ being a vector of unknown parameters. We have to derive the log-likelihood of a sample of observed values $(y_1, y_2, \dots, y_T)$, considering the three cases $|\theta|<1, \ |\theta| >1, \ |\theta| = 1$. To this end, we have to express the vector of shocks as a function of the observed values and of the parameters we want to estimate (in this case, $\theta$). Since the precise expression of the shocks as a function of the past values of $y_t$ would require a perfect knowledge of the infinite past before the shock, while we only observe a finite sample of the past, we need consider the truncated approximation of that expression. Therefore, the method is more precisily a *truncated* maximum-likelihood approach. Finally, we will substitute this expression into the p.d.f. of the shocks. Since the shocks are independent over time, their joint probability is the product of the probability of each draw. The maximum likelihood estimator will be the value of $\theta$ that maximizes the value of the likelihood function given the observed sample. 
+
+[$|\theta|<1$]{.ul}: We can express $\varepsilon_t$ as a function of $\theta$ by exploiting standard invertibility:
+
+$$
+\varepsilon_t(\theta) = (1-\theta L)^{-1} y_t = \sum_{h = 0}^\infty \theta^h y_{t-h} = \sum_{h = 0}^{t-1} \theta^h y_{t-h} + \theta^t
+\underbrace{ \sum_{h = 0}^{\infty} \theta^h y_{-h}}_{ = \varepsilon_0(\theta) \text{ (unobserved)} }
+$$
+
+The truncated log-likelihood expresses the probability of the observable approximation $\varepsilon_t(\theta) - \varepsilon_0(\theta)$ as a function of the parameter $\theta$, for values $|\theta|<1$:
+$$
+L_1(\theta; y_1, \dots, y_T, \gamma) = 
+\log \left(\prod_{t=1}^Tg(\varepsilon_t(\theta) - \varepsilon_0(\theta); \gamma)\right)  = 
+\sum_{t = 1}^T \log g \left(\sum_{h = 0}^{t-1} \theta^h y_{t-h}; \gamma\right),
+$$
+where we have exploited the fact that the shocks are independent draws from the same distribution to express the joint probability $g_{\varepsilon_1, \dots, \varepsilon_T}$ as the product of the common marginal distribution $g$.
+
+
+[$\theta>1$]{.ul}: for this case, we have to compute the likelihood that the observed sample came from a non-fundamental representation. As before, we have to express the shocks as a function of the observed values, by exploiting the "generalized" invertibility of the shocks in the future:
+$$
+y_t = (1+\theta L) \varepsilon_t = \theta L(1+\theta^{-1} L^{-1})
+$$
+from which
+$$
+\begin{align}
+\varepsilon_t(\theta) &=  \theta^{-1} L^{-1} (1+\theta^{-1} L^{-1})^{-1} y_t = \theta^{-1} L^{-1}(1+ \theta^{-1} L^{-1} + \theta^{-2} L^{-2} + \dots ) y_t = 
+= \sum_{h = 1}^{\infty} \theta^{-h} y_{t+h} = \\
+& = \sum_{h = 1}^{T-t} \theta^{-h} y_{t+h} + \theta^{-T-t}
+    \underbrace{ \sum_{h = 1}^{\infty} \theta^{-h} y_{T+h}}_{\varepsilon_T(\theta) \text{ (unobserved)}}
+\end{align}
+$$
+
+The truncated log-likelihood of $\varepsilon_t(\theta) - \varepsilon_T(\theta)$ for $|\theta|>1$ is:
+$$
+L_2(\theta; y_1, \dots, y_T, \gamma) = 
+\sum_{t = 0}^{T-1} \log\left[ \frac{1}{| \theta|}g \left(\sum_{h = 1}^{T-t} \theta^{-h} y_{t+h}; \gamma\right) \right]
+$$
+The factor $\frac{1}{|\theta|}$ (which can be collected separately from the previous expression as $T \log(1/|\theta|)$) comes from the Jacobian equation that can be derived from the following well known theorem (Mood et al., p.211, Th. 15).
+
+:::{.theorem} 
+(P.d.f. of a transformed random vector)
+Consider 
+$$
+\begin{align}
+y_2 & = f_1(\varepsilon_1, \varepsilon_2, \dots, \varepsilon_T) =  \varepsilon_{2} + \theta \varepsilon_{1}\\
+y_3 & = f_2(\varepsilon_1, \varepsilon_2, \dots, \varepsilon_T) = \varepsilon_{3} + \theta \varepsilon_{2}\\
+& \vdots    \\
+y_{T} & = f_{T}(\varepsilon_1, \varepsilon_2, \dots, \varepsilon_T) = \varepsilon_{T} + \theta \varepsilon_{T-1}\\
+\end{align}
+$$
+($f_1, \dots, f_{T-1}$ are one-to-one transformations of jointly continuous random variables with p.d.f. $g_{\varepsilon_{2}, \dots, \varepsilon_{T}}(\varepsilon_{2}, \dots, \varepsilon_{T})$). Consider also the inverse transformation 
+$$
+\begin{align}
+\varepsilon_1(\theta; y_1,\dots, y_T) &= f_1^{-1}(y_1,\dots, y_T) =  \theta^{-1}y_2+ \theta^{-2}y_3 +\dots+ \theta^{-(T-1)}y_T \\
+\varepsilon_2(\theta; y_1,\dots, y_T) &= f_2^{-1}(y_1,\dots, y_T) =  0 + \theta^{-1}y_3+ \theta^{-2}y_4 +\dots+ \theta^{-(T-2)}y_{T-1}\\
+& \vdots \\
+\varepsilon_{T-1}(\theta; y_1,\dots, y_T) &= f_{T-1}^{-1}(y_1,\dots, y_T) = 0+0+\dots+ 0+\theta^{-1}y_T
+\end{align}
+$$
+Define $J$ as the Jacobian of $f^{-1} = (f_1^{-1}, \dots, f_{T-1}^{-1})$:
+$$
+J =
+\begin{bmatrix}
+\frac{\partial f_1^{-1}}{\partial y_1} & \dots & \frac{\partial f_1^{-1}}{\partial y_{T-1}} \\
+\vdots & \ddots  & \vdots \\
+\frac{\partial f_{T-1}^{-1}}{\partial y_1} & \dots & \frac{\partial f_{T-1}^{-1}}{\partial y_{T-1}}
+\end{bmatrix}
+=
+\begin{bmatrix}
+\theta^{-1} & \theta^{-2}  & \dots & \theta^{-(T-1)} \\
+0 & \theta^{-1}  & \dots & \theta^{-(T-2)} \\
+\vdots &&& \\
+0 & 0 & \dots &  \theta^{-1}
+\end{bmatrix}
+$$
+Then the p.d.f. of the transformed vector $\mathbf{y} = f(\mathbf{\varepsilon})$ can be obtained as
+
+$$
+g_{y_1, \dots, y_T} (.)= \det J \ g_{\varepsilon_1, \dots, \varepsilon_T} (.)
+$$
+The determinant of $J$ is $\det J = \frac{1}{\theta^{T}}$.
+:::
+
+The **truncated log-likelihood** function is given by:
+$$
+L(\theta; y_1, \dots, y_T, \gamma) =
+L_1(\theta; y_1, \dots, y_T, \gamma) 1_{|\theta|<1} + 
+L_2(\theta; y_1, \dots, y_T, \gamma) 1_{|\theta|\geq1}
+$$
+The function $L$ is not continuous in $\theta = 1$. However, the exact likelihood function is continuous and differentiable. Indeed, it is given by:
+$$
+\mathcal{L}(\theta; y_1, \dots, y_T, \gamma) = 
+\log \left[ \int g(\varepsilon_0 | y_1, \dots, y_T; \gamma) \ d\varepsilon \right] \propto 
+\log \left[ \int g(y_1, \dots, y_T | \varepsilon_0; \gamma) g(\varepsilon_0; \gamma) \ d \varepsilon\right],
+$$
+which is in general differentiable, as the argument of the integral is a product of differentiable functions. Even though the exact likelihood cannot be directly computed, many properties of the truncated likelihood are asymptotically equivalent to those of the exact likelihood, and proving its properties is therefore useful.
+
+::: {.proposition #consistency}
+(Consistency of the truncated maximum likelihood estimator, Proposition 2 in GMR2019) Let $\Lambda_0$ be the true vector of parameters of a SSVARMA(p,q) model, and let $\hat{\Lambda}_T, \hat{\Lambda}_T^u$ denote respectively the truncated and untruncated maximum likelihood estimators of $\Lambda_0$. Under Hp. 1-6 and under some further regularity conditions,
+$$
+\hat{\Lambda}_T, \hat{\Lambda}_T^u \ \xrightarrow{a.s.} \ \Lambda_0
+$$
+Moreover, the two estimators are asymptotically normal.
+:::
+
+### SSVARMA(p,1) case
+The multivariate case requires some methematical expedients. Let us consider first the SSVARMA(p,1) case: the general SSVAMRA(p,q) estimation will then be a naural extension. The process is:
+$$
+\Phi(L) Y_t = \varepsilon_t + \Theta \varepsilon_{t-1}
+$$
+where the errors are linear combinations of the i.i.d. structural shocks $\eta_t$ with independent components: $\varepsilon_t = C \eta_t$, with $E[\eta_{t}] = 0$, $V[\eta_{t}] = 1$. The p.d.f. of the errors is $g(\varepsilon_t; C, \gamma)$.
+
+As a first step, consider the Schur decomposition of matrix $\Theta$:
+$$
+\Theta = A'_{\Theta} U_{\Theta} A_{\Theta},
+$$
+where $A_{\Theta}$ is an orthogonal matrix (meaning that $A^{-1}_{\Theta} = A'_{\Theta}$) and $U_{\Theta}$ is an upper block-triangular matrix, whose diagonal blocks cointains the eigenvalues of $\Theta$. The $1 \times 1$ blocks are the real eigenvalues, the $2 \times 2$ blocks contains the complex eigenvalues $\lambda, \overline{\lambda}$ in the form
+$$
+U_{k\Theta} = 
+\begin{bmatrix}
+\text{Re}(\lambda) & \text{Im}(\lambda) \\
+- \text{Im}(\lambda) & \text{Re}(\lambda) 
+\end{bmatrix},
+$$
+$n_k \in \{1,2\}$ will denote the dimension of the matrix $U_{k\Theta}$. We can left-multiply $\Phi(L) Y_t = \varepsilon_t + \Theta \varepsilon_{t-1}$ by $A_{\Theta}'$ to get a VMA(1) representation of the process. Define $W_t = A_{\Theta}'\Phi(L) Y_t$ and $\varepsilon^*_t = A_{\Theta}' \varepsilon_t$ to get
+$$
+W_t = \varepsilon_t^* - U_\Theta \varepsilon_{t-1}^*
+$$
+Without loss of generality, we assume that the block-diagonal elements $U_{k\Theta}$ have eigenvalues larger than one for $k \in \{1, \dots ,s\}$ and eigenvalues smaller than one for $k \in \{s+1, \dots , K\}$. We can also define $\varepsilon_t^{(1)}, \varepsilon_t^{(2)}$ such that $\varepsilon_t = [\varepsilon_t'^{(1)}, \varepsilon_t'^{(2)}]'$, where $\varepsilon_t^{(1)}$ has length equal to the non-fundamentalness order $m = n_1 + \dots + n_s$ and $\varepsilon_t^{(2)}$ has length equal to $n-m$. Similarly we also write $W_t = [W_t'^{(1)}, W_t'^{(2)}]'$. We have:
+$$
+\begin{bmatrix}
+\varepsilon_t^{(1)} \\ \varepsilon_t^{(2)}
+\end{bmatrix}
+= 
+\begin{bmatrix}
+W_t^{(1)} \\ W_t^{(2)}
+\end{bmatrix}
++
+\begin{bmatrix}
+U_\Theta^{(1)} & U_\Theta^{(12)} \\
+0 & U_\Theta^{(2)}
+\end{bmatrix}
+\begin{bmatrix}
+\varepsilon_{t-1}^{(1)} \\ \varepsilon_{t-2}^{(2)}
+\end{bmatrix}
+$$
+
+The shocks can now be expressed as a function of $W_t$ (which is in turn a function of the data and the parameters). Moreover, we can distinguish different expression for the errors associated with eigenvalues smaller or bigger than one. In particular, in analogy with the MA(1) case, we can express $\varepsilon_t^{(2)}$ as a linear combination of the present and past values of the data, and  $\varepsilon_t^{(1)}$ as a linear combination of the present and future values of the data:
+$$
+\begin{align}
+\varepsilon_t^{*(2)} & = W_t^{(2)} + U_\Theta^{(2)}W_{t-1}^{(2)} + [U_\Theta^{(2)}]^2 W_{t-2}^{(2)} + \dots + [U_\Theta^{(2)}]^{t-1} W_{1}^{(2)} + \underbrace{[U_\Theta^{(2)}]^t \varepsilon^{*(2)}_0}_{\text{unobserved}}\\
+\varepsilon_t^{*(1)} & = \underbrace{[U_\Theta^{(1)}]^{-(T-t)} \varepsilon_T^{*(1)}}_{\text{unobserved}} - [U_\Theta^{(1)}]^{-1} W_{t+1}^{*(1)} - [U_\Theta^{(1)}]^{-2} W_{t+2}^{*(1)} - \dots - [U_\Theta^{(1)}]^{-(T-t)} W_{T}^{*(1)} + \\ & - \underbrace{[U_{\Theta}^{(1)}]^{-1}U_{\Theta}^{(12)} \varepsilon_t^{*(2)}}_{\text{truncated}} - \dots - \underbrace{[U_{\Theta}^{(1)}]^{-(T-t)}U_{\Theta}^{(12)} \varepsilon_{T-1}^{*(2)}}_{\text{truncated}}
+\end{align}
+$$
+
+Keeping in mind that $\varepsilon_t = A_{\Theta} \varepsilon_t^{*}$, we can now write the truncated log-likelihood function. Let $\Lambda = \{\Phi_1, \dots, \Phi_p, \Theta, C, \gamma\}$ be the vector of parameters to be estimated and $\lambda_i(\Theta)$ the $i$-th eigenvalue of $\Theta$. The truncated versions of $\varepsilon_t^{*(1)}, \varepsilon_t^{*(2)}$, which depend only on the model parameters and on observed values, are:
+
+$$
+\begin{align}
+\varepsilon_t^{*(2)}|_{truncated} &=  W_t^{(2)} + U_\Theta^{(2)}W_{t-1}^{(2)} + [U_\Theta^{(2)}]^2 W_{t-2}^{(2)} + \dots + [U_\Theta^{(2)}]^{t-1} W_{1}^{(2)} \\
+\varepsilon_t^{*(1)}|_{truncated} &= [U_\Theta^{(1)}]^{-1} W_{t+1}^{*(1)} - [U_\Theta^{(1)}]^{-2} W_{t+2}^{*(1)} - \dots - [U_\Theta^{(1)}]^{-(T-t)} W_{T}^{*(1)} + \\
+  & - [U_{\Theta}^{(1)}]^{-1}U_{\Theta}^{(12)} (W_t^{(2)} + U_\Theta^{(2)}W_{t-1}^{(2)} + \dots + [U_\Theta^{(2)}]^{t-1} W_{1}^{(2)})- \dots + \\
+  & - [U_{\Theta}^{(1)}]^{-(T-t)}U_{\Theta}^{(12)} (W_{T-1}^{(2)} + U_\Theta^{(2)}W_{T-2}^{(2)} + \dots + [U_\Theta^{(2)}]^{T-2} W_{1}^{(2)} ) 
+\end{align}
+$$
+
+By expressing $\varepsilon^*_t$ as a function of the observed data and the model parameters, we can set up the Jacobian equation to get
+$$
+L_{truncated}(\Lambda) = 
+-T \sum_{i = 1}^{n} \log |\lambda_i(\Theta)| 1_{|\lambda_i(\Theta)|>1} +
+\sum_{t = 1}^T \log g\left[A_{\Theta} 
+\begin{pmatrix}
+\varepsilon_t^{*(1)}|_{truncated} \\
+\varepsilon_t^{*(2)}|_{truncated}
+\end{pmatrix} ; C, \gamma
+\right]
+$$
+Again, Prop. \@ref(prp:consistency) applies and the truncated ML estimator $\hat{\Lambda} = \arg\max_\Lambda L_{truncated}(\Lambda)$ is a consistent and asymptotically normal estimator of the true $\Lambda$.
+
+### SVARMA(p,q) case
+The general case where $\Theta(L)$ is of order $q>1$ can be reduced to the previous one. Define 
+
+$$
+\begin{align}
+\tilde{\varepsilon}_t &= [\varepsilon_t', \dots, \varepsilon_{t-q+1}']'   \\
+\tilde{Y}_t &= [Y_t', 0_{1 \times(n-1)q}]'   \\
+\tilde{\Phi_k} &= \mathbf{uu}' \otimes \Phi_k, \quad \text{where} \ \ \mathbf{u} = [1,0,\dots,0]'\\
+\\
+\tilde{\Theta} &= 
+\begin{bmatrix}
+\Theta_1 & \Theta_2 & \dots & \Theta_{q-1} & \Theta_q \\
+I        &  0       & \dots & 0            & 0        \\
+0        &  I       & \dots & 0            & 0        \\
+\vdots       &  \vdots       & \ddots & \vdots            & \vdots        \\
+0        &  0       & \dots & I            & 0        \\
+\end{bmatrix}
+\end{align}
+$$
+where the eigenvalues of $\tilde{\Theta}$ are the reciprocal of the roots of $\det \Theta(z)$. Then, the process can be rewritten as
+$$
+\tilde{\Phi}(L) \tilde{Y}_t = \tilde{\varepsilon}_t - \tilde{\Theta}\tilde{\varepsilon}_{t-1}
+$$
+which reduces to the previous case (even though the process is not a VARMA(p,1), because $\tilde{\varepsilon}_t$ is not a white noise).
+
+It is useful to stress the role that non-Gaussianity plays in this method. Indeed, it is not immediately clear why we should not choose the p.d.f. of the Normal distribution as our $g(.)$. The problem is that with a Gaussian p.d.f., the limiting likelihood function (if the infinite time series were observed) would assume the same value both in the true value of the paramater and in its fundamenral representation. In the practical case of a finite sample, the likelihood would be maximum in one point, but it would be impossible to say whether the estimate approximates the true value of the parameters or their fundamental representation. The following example clarifies this case.
+
+::: {.example name="The role of non-Gaussianity"}
+Consider the MA(1) process $y_t = \varepsilon_t - \theta \varepsilon_{t-1}$, with $\varepsilon_t \sim N(0, \sigma^2)$, i.i.d. and mutually independent. Consider the value of the likelihood function if the whole time series $\{y_t\}_{t=-\infty}^{+\infty}$ were observed:
+$$
+L_\infty(\theta; y_1, \dots, y_T, \gamma) = 1_{|\theta|<1} \tilde{L}_1((\theta; y_1, \dots, y_T, \gamma) + 1_{|\theta|\geq1} \tilde{L}_2((\theta; y_1, \dots, y_T, \gamma)
+$$
+where, in the Gaussian case:
+$$
+\begin{align}
+\tilde{L}_1(\theta; y_1, \dots, y_T, \gamma) &= E_0 \log g \left(\sum_{h = 0}^{+\infty} \theta^h y_{t-h}; \gamma\right) =\\
+&=E_0\log \left[ \frac{1}{\sigma\sqrt{2\pi}} \exp\left( -\frac{1}{2}\frac{(\sum_{h = 0}^{+\infty} \theta^h y_{t-h})^2}{\sigma^2}  \right)   \right] = \\
+& = -\frac{1}{2} \log(2\pi) -\frac{1}{2} \log \sigma^2 - \frac{1}{2\sigma^2} E_0 \left[\left(\sum_{h = 0}^{+\infty} \theta^h y_{t-h}\right)^2\right]\\
+\tilde{L}_2(\theta; y_1, \dots, y_T, \gamma) &= E_0 \log \frac{1}{|\theta|} g \left(-\sum_{h = 0}^{+\infty} \frac{1}{\theta^{h+1}} y_{t+h+1}; \gamma\right) = \\
+& = -\frac{1}{2} \log(2 \pi) - \frac{1}{2} \log(\theta^2\sigma^2) - \frac{1}{2\theta^2 \sigma^2} E_0 \left[\left(\sum_{h = 0}^{+\infty} \frac{1}{\theta^h} y_{t+h+1}\right)^2\right]
+\end{align}
+$$
+The asymptotic log-likelihood $L_\infty$ reaches its minimum at both $(\theta, \sigma^2)$ and $(\frac{1}{\theta}, \theta^2 \sigma^2)$. Therefore, $\theta$ and $\sigma$ are not identified, and the finite sample ML estimation cannot distinguish between the fundamental and non-fundamental representation of the same process.
+:::
+<!--```{r}
+L1 <- function(theta, sigma, T=300){
+  value <- -0.5*log(sigma^2) - 0.5 *sigma^(-2)/T*sum(theta^(1:T)*rnorm(T))^2
+  value <- ifelse(value > 1e4, 1e4)
+  value
+}
+L2 <- function(theta, sigma, T=300){
+  value <- -0.5*log(sigma^2*theta^2) - 0.5 *(theta*sigma)^(-2)/T*sum(theta^(-(1:T))*rnorm(T))^2
+  value <- ifelse(value > 1e4, 1e4)
+  value
+}
+L <- function(theta, sigma=1, T = 300){
+  L1(theta, sigma, T)*1*(theta<1) + L2(theta, sigma, T)*1*(theta>=1) 
+}
+
+theta_grid <- seq(-2, 2, length.out = 1000)
+plot(theta_grid, L(theta_grid))
+L(theta_grid, sigma = 1)
+```-->
+
+
+
+
+
+
+
+
+

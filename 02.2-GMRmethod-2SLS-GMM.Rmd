@@ -1,0 +1,109 @@
+## Semi-parametric estimation: Two-stage 2SLS-GMM approach
+
+<!-- **Perché fermarsi al secondo step della procedura? Bisognerebbe trovare un modo per renderla iterativa e sfruttare l'informazione su $C, \Theta$ del secondo step per migliorare la stima di $\Phi_1, \dots, \Phi_p$ del primo passaggio e così via fino a convergenza** -->
+
+The main drawback of maximum likelihood estimation is that we need to choose *a priori* a probability density function for the structural shocks, which is in general unknown. We could think of some methods to choose which distribution of the shocks best fits the data. For instance, we could compare the likelihood of the same model with different p.d.f.'s and choose the functional form which gives the likelihood function with highest maximum. However, for the $q = 1$ case, GMR2019 propose a different approach, namely a semi-parametric estimation method which makes no prior assumption on the distribution of the shocks.
+
+Consider a SVARMA(p,1) process:
+$$
+\begin{equation}
+Y_t = \Phi_1 Y_{t-1} + \dots + \Phi_p Y_{t-p} + C\eta_t + C \Theta \eta_{t-1}
+(\#eq:SVARMAp1)
+\end{equation}
+$$
+The procedure consists of two steps. 
+
+First, we use two-stage least squares (2SLS) to estimate $\Phi_1, \dots, \Phi_p$ and $Z_t = C\eta_t + C \Theta \eta_{t-1}$ as $\hat{Z}_t = Y_t - (\hat\Phi_1 Y_{t-1} + \dots + \hat\Phi_p Y_{t-p})$. Indeed, estimating directly Eq. \@ref(eq:SVARMAp1) would lead to biased estimates, because the error terms are correlated with $Y_{t-1}$: $E[Y_{t-1} Z_t] = E[(\Phi_1 Y_{t-2} + \dots + \Phi_{p} Y_{t-p-1} + C\eta_{t-1} + C \Theta \eta_{t-2})( C\eta_t + C \Theta \eta_{t-1}) = C^2\Theta E[\eta_{t-1}^2] \neq 0$. On the contrary, we can use $Y_{t-2}, \dots, Y_{t-1-k}, k \geq p$ as instruments, whose exogeneity is guaranteed by $E[ C\eta_t + C \Theta \eta_{t-1}| Y_{t-2}, \dots, Y_{t-1-k}] = 0$, to obtain consistent estimates $\Phi_1$ and, in turn, of $\hat{Z}_t$. Note that the condition $k\geq p$ assures that the first-stage regression of the TSLS estimator has at least one regressor which is not included in the main equation, thus avoiding multicollinearity.
+
+The second step exploits moment restrictions on the structural shocks to estimate the mixing matrix $C$ and the matrix of the MA coefficients $\Theta$ from $\hat{Z}_t$, in a pure MA framework (note that, as pointed out by GMR2019 themselves, if $\Theta_1 = 0$ then $C$ can be directly be estimated via ICA). To this aim, the assumption of non-Gaussianity is crucial, since the moment restrictions regard moments higher than the second. 
+To obtain the moment restrictions, we consider the pairwise log-Laplace transform of $(Z_t, Z_{t-1})$, i.e. their joint cumulant generating function (c.g.f.). This would allow to impose the conditions on the cumulants, that uniquely identify the distribution of the shocks. For any $u,v \in \mathbb{R}^n$, the c.g.f. is
+$$
+\begin{align}
+\log E[\exp(u'Z_t + v'Z_{t-1})] &= \log E[\exp\left(u'(C\eta_t + (\Theta C) \eta_{t-1}) + v'(C \eta_{t-1} + (\Theta C) \eta_{t-2})   \right)] = \\
+&= \log E[\exp(u'(C\eta_t + (\Theta C) \eta_{t-1})   \exp(v'(C\eta_{t-1} + (\Theta C) \eta_{t-2})] = \\
+&= \log \left( E[\exp(u'C \eta_t)] E[\exp(u'(\Theta C) \eta_{t-1})] E[\exp(v'C \eta_{t-1})] E[\exp(v'(\Theta C) \eta_{t-2})]  \right)
+(\#eq:cgf)
+\end{align}
+$$
+where the last equality comes from the fact that if two generic random variables $X, Y$ are independent (like $\eta_t, \eta_{t-1}, \eta_{t-2}$), then $E[e^{t(X+Y)}] = E[e^{tX}]E[e^{tY}]$. The c.g.f. in Eq. \@ref(eq:cgf) can be expanded as a McLaurin power series of the form
+$$
+K(w) = \sum_{n= 1}^\infty \kappa_n\frac{w^n}{n!}
+$$
+where $\kappa_n$ is the $n$-th cumulant of the distribution. To apply the moment conditions, we expand the series up to the fourth degree. Since $E[\eta_j] = 0, E[\eta^2_j] = 1$, we have
+$$
+K_{\eta_j}(w) = \frac{w^2}{2} + \frac{w^3}{6}\kappa_{3j} + \frac{w^4}{24}\kappa_{4j}
+$$
+By further algebraic manipulations, we can get the four moment conditions that hold for any couple $(u,v)$.
+$$
+\begin{align}
+E[(u'Z_t + v' Z_{t-1})^2] &= \sum_{j= 1}^n [(u'C_j)^2 + (u'(\Theta C)_j + v'C_j)^2 + (v'(\Theta C)_j)^2]\\
+E[(u'Z_t + v' Z_{t-1})^3] &= \sum_{j= 1}^n \kappa_{3j}[(u'C_j)^3 + (u'(\Theta C)_j + v'C_j)^3 + (v'(\Theta C)_j)^3]        \\
+E[(u'Z_t + v' Z_{t-1})^4] &= \sum_{j= 1}^n \kappa_{4j}[(u'C_j)^4 + (u'(\Theta C)_j + v'C_j)^4 + (v'(\Theta C)_j)^4] + \\
+& + 3\left(\sum_{j= 1}^n [(u'C_j)^2 + (u'(\Theta C)_j + v'C_j)^2 + (v'(\Theta C)_j)^2]\right)^2
+(\#eq:moments)
+\end{align}
+$$
+
+Therefore, the set of moment restrictions is of the form
+$$
+E[h(Z_t, Z_{t-1}); \beta] = 0, \quad \text{with } \beta = [\text{vec}C', \text{vec}(\Theta C)', \kappa_{31}, \dots, \kappa_{3n}, \kappa_{41}, \dots, \kappa_{4n}]
+$$
+where $h(.)$ is defined as in Eqs. \@ref(eq:moments). Since the number of parameters to be estimated in $\beta$ is $2n^2+2n$, the order condition is $r\geq 2n^2+2n$.
+
+Therefore, by exploiting the analogy principle between the population and the sample moments, we can obtain the estimator for $\beta$ as
+$$
+\hat\beta = \arg\min_\beta \frac{1}{T}\sum_{t=1}^Th(\hat{Z}_t, \hat{Z}_{t-1}; \beta)
+$$
+
+
+The following example clarifies the procedure in the MA(1) case.
+
+::: {.example name="Moment method in the MA(1) case"}
+In the case of a MA(1), $\theta$ can be easily identified if the distribution of the shocks is skewed. Indeed:
+$$
+\begin{align}
+E[y_t y_{t-1}^2] &= E[(\varepsilon_{t}-\theta \varepsilon_{t-1})(\varepsilon_{t-1}-\theta \varepsilon_{t-2})^2] = -\theta E[\varepsilon_{t}^3] \\
+E[y_t^2 y_{t-1}] &= E[(\varepsilon_{t}-\theta \varepsilon_{t-1})^2(\varepsilon_{t-1}-\theta \varepsilon_{t-2})] = \theta^2 E[\varepsilon_{t}^3]
+\end{align}
+$$
+Therefore, whenever $E[\varepsilon_{t}^3] \neq 0$, the parameter is identified as
+$$
+\theta = - \frac{E[y_t^2 y_{t-1}]}{E[y_t y_{t-1}^2]}
+$$
+and can be consistently estimated as $\hat\theta = - \frac{\sum_{t=1}^T y_t y_t^2}{\sum_{t=1}^T y_t^2 y_t}$.
+:::
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

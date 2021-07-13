@@ -1,21 +1,246 @@
-# Introduction {#intro}
+# Introduction
+VARMA models are an interesting generalization of ARMA models for multivariate time series. This class of models take into account the (direct) lagged effect that a shock can have on the system under investigation. This could be useful in practice, for example whenever we think that the process might react to the shocks also after some delay (i.e. if the error term has an MA structure). However, VARMA models are not as popular as standard VAR models, also because of the difficulties of estimating these models when compared with the simple least-squares estimation which is common in the VAR literature. The features of these models, however, may reveal crucial also for structural-VAR modeling. In particular, a VAR model can be seen as an approximation of an underlying VARMA process, but only if certain conditions on the moving-average parameters hold. Basically these conditions states that the parameters of the delayed effect of the shock should be smaller than one in modulus: that is, the shocks should not have an "explosive" lagged impact on the system. This condition - which we will make more precise throughout this essay - allows for the invertibility of the MA part of the model, thus making VAR approximations possible. However, in practice one does not know *a priori* whether the condition hold or not, i.e. whether the shocks are respectively *fundamental* or *not-fundamental*. In the latter case, the process cannot be inverted in its past values and an autoregressive representation of the model does not exist: a VAR representation, since it fails to identify the true parameters, would then be wrong, and the estimated impulse response functions would not be those associated with the true non-fundamental process. Therefore, if we have some reasons to believe that the process that we are estimating has a VARMA structure, we should keep in mind that VAR modeling could be misleading. 
 
-You can label chapter and section titles using `{#label}` after them, e.g., we can reference Chapter \@ref(intro). If you do not manually label them, there will be automatic labels anyway, e.g., Chapter \@ref(methods).
+In this essay, we discuss the methodology proposed by Gourieroux, Monfort and Renne (2019, GMR2019 henceforth) to assess the problem of dynamic identification of non-fundamental SVARMA processes. Section 1 presents the main assumptions and provides a formal definition of non-fundamentalness. Section 2 presents the method in detail. Section 3 discusses a simple simulation example in the case of a bivariate model. Section 4 is a toy-example of applications to real-world data. 
 
-Figures and tables with captions will be placed in `figure` and `table` environments, respectively.
 
-```{r nice-fig, fig.cap='Here is a nice figure!', out.width='80%', fig.asp=.75, fig.align='center'}
-par(mar = c(4, 4, .1, .1))
-plot(pressure, type = 'b', pch = 19)
+## Assumptions for SSVARMA models
+
+Consider the following VARMA model:
+
+$$
+\Phi(L) Y_t = \Theta(L) \varepsilon_t, \quad Y_t \in \mathbb{R}^n
+$$
+
+where
+
+$$
+\Phi(L) = I_n - \Phi_1L - \dots - \Phi_p L^p
+$$
+
+$$
+\Theta(L) = I_n - \Theta_1L - \dots - \Theta_q L^q
+$$
+
+We want to make the following assumptions:
+
+[**Hp. 1** (Independent shocks).]{.ul} There exists a linear transformation such that the (correlated) VARMA residuals can be expressed as the transformation of a vector of structural shocks that are mutually independent, that is:
+
+$$
+\exists \ C \in M_{n\times n} \ | \ \varepsilon_t = C \eta_t \quad \text{with } \det C \neq 0,
+$$
+
+where $\eta_t \in \mathbb{R}^n$ is such that $(\eta_1, \eta_2, \dots , \eta_T)$ are independently and identically distributed (so that the shocks at each time period are random draws from the same joint distribution) and $(\eta_{1t}, \eta_{2t}, \dots, \eta_{nt})$ are mutually independent (i.e. the joint distribution of the shocks is the product of their marginal distributions). $\eta_t$ are called the structural shocks of the process. The condition $\det C \neq 0$ means that the transformation has full rank, and therefore that both $\varepsilon_t$ and $\eta_t$ belongs to $\mathbb{R}^n$ and the number of structural shocks equals the number of variables in the system. Also, it implies the existence of $C^{-1}$. When Hp.1 holds, the process is said to be a **strong-structural VARMA model** (SSVARMA), where "strong" derives from the assumption of mutual independence of the simultaneous shocks.
+
+[**Hp. 2** (Minimum order representation).]{.ul} Matrices $\Phi(L), \ \Theta(L)$ are left-comprime, i.e. if there exists a common matrix $C(L)$ such that
+
+$$
+\begin{aligned}
+\Phi(L) = C(L) \widetilde{\Phi}(L) \\
+\Theta(L) = C(L) \widetilde{\Theta}(L)
+\end{aligned}
+\qquad \text{then }
+\det C(L) \text{ does not depend on L}
+$$
+
+Since $\det \Phi(L) = \det C(L) \ \det \widetilde{\Phi}(L)$ and $C(L)$ does not depend on L, Hp.2 implies that $\det \Phi(L)$ and $\det \widetilde{\Phi}(L)$ have the same lag order (the same holds for $\det \Theta(L)$ and $\det \widetilde{\Theta}(L)$). Therefore, simplifying
+
+$$
+C(L) \widetilde{\Phi}(L) = C(L) \widetilde{\Theta}(L) \varepsilon_t
+$$
+
+by left-multiplying $C(L)^{-1}$ on both sides of the equation would not lead to a reduction of the lag order. This means that both the AR and MA components have minimal order.
+
+[**Hp.3** (Stationarity of the AR component).]{.ul} $\det \Phi (z) \neq 0, \ \forall z \in \mathbb{C} \ \text{s.t.} \ |z| < 1$, i.e. the determinantal polynomial has roots outside the unit circle. To understand this condition, we have to work on the relationship between the roots of $\Theta(z)$ and the eigenvalues of the companion matrix. Indeed, stationarity is guaranteed when the eigenvalues of the companion matrix are *inside* the unite circle. A VARMA(p,q) process has the following VARMA(1, q) representation:
+
+$$
+\mathbf{y_t} = \mathbf{F y_{t-1}} + \mathbf{v_t} 
+$$ with
+
+```{=tex}
+\begin{equation}
+\mathbf{F} =\begin{bmatrix}
+\Phi_1 & \Phi_2 & \dots & \Phi_{p-1} & \Phi_p \\
+I_n & 0 & \dots & 0 & 0 \\
+ 0 & I_n & \dots & 0 & 0 \\
+\vdots & \vdots & \ddots & \vdots & \vdots \\
+0 & 0 & \dots & I_n & 0
+ 
+\end{bmatrix},
+\qquad  \mathbf{y_t} =\begin{bmatrix}
+Y_t \\ Y_{t-1} \\ \vdots \\ Y_{t-p}
+\end{bmatrix}, \qquad  \mathbf{v_t} =\begin{bmatrix}
+\Theta(L)\varepsilon_t \\ 0 \\ \vdots \\ 0
+\end{bmatrix}
+\end{equation}
 ```
+Therefore, we can obtain the expression of the $h$-steps ahead observation as
 
-Reference a figure by its code chunk label with the `fig:` prefix, e.g., see Figure \@ref(fig:nice-fig). Similarly, you can reference tables generated from `knitr::kable()`, e.g., see Table \@ref(tab:nice-tab).
+$$
+\mathbf{y_{t+h}} = \mathbf{v_{t+h}} + \mathbf{F v_{t+h-1}} + \mathbf{F^2 v_{t+h-2}} + \dots + \mathbf{F^{h-1} v_{t+1}} + \mathbf{F^h y_{t}},
+$$
 
-```{r nice-tab, tidy=FALSE}
-knitr::kable(
-  head(iris, 20), caption = 'Here is a nice table!',
-  booktabs = TRUE
-)
+from which it is readily seen that, in order for the process to be stationary, the eigenvalues of $\mathbf{F}$ must lay inside the unit circle (i.e. the effect of each $\mathbf{v_t}$ must die out). According to Proposition 10.1 in Hamilton (1994), the eigenvalues of $\mathbf{F}$ satisfy
+
+```{=tex}
+\begin{equation}
+\det(I_n \lambda^p - \Phi_1\lambda^{p-1} - \dots - \Phi_{p-1}\lambda - \Phi_p) = 0
+
+(\#eq:chareigen)
+\end{equation}
 ```
+We can show that the statement in Hp.3 is just an alternative writing for: "the solutions of $\det(I_n \lambda^p - \Phi_1\lambda^{p-1} - \dots - \Phi_{p-1}\lambda - \Phi_p) = 0$ (i.e. the eigenvalues of $\mathbf{F}$) must be smaller than one in modulus". Indeed, we can factor the polynomial operator $\Phi(L)$ as:
 
-You can write citations, too. For example, we are using the **bookdown** package [@R-bookdown] in this sample book, which was built on top of R Markdown and **knitr** [@xie2015].
+$$
+I - \Phi_1L - \Phi_2L^2 - \dots - \Phi_p L^p = (I-\lambda_1 I L) (I-\lambda_2 I L) \cdots(I-\lambda_p I L) 
+$$
+
+The two sides of the previous equation are equal if and only if the following equality holds $\forall z \in \mathbb{C}$:
+
+$$
+I - \Phi_1 z - \Phi_2 z^2 - \dots - \Phi_p z^p = (I-\lambda_1 I z) (I-\lambda_2 I z) \cdots(I-\lambda_p I z) 
+$$
+
+We can divide both sides by $z^p$ and take the determinant to obtain an expression similar to eq. \@ref(eq:chareigen) on the left-hand side:
+
+```{=tex}
+\begin{equation}
+\det(I z^{-p} - \Phi_1 z^{-p+1} - \dots - \Phi_{p-1} z^{-1} - \Phi_p) 
+(\#eq:charcomplex)
+\end{equation}
+```
+Polynomials in \@ref(eq:chareigen) and \@ref(eq:charcomplex) are equal if and only their roots are $z_i = \lambda_i^{-1}, \ \ i \in \{1, \dots, p\}$. This entails that the eigenvalues of $\mathbf{F}$ are inside the unit circle if and only if the roots of the polynomial \@ref(eq:charcomplex) are outside the unit circle. Basically, this equivalence comes from the different representations of the VARMA process as a difference equation or as an equation in the lag operator. Therefore, the condition in Hp.3 is a necessary and sufficient condition for the stationarity of the autoregressive part of the process.
+
+[**Hp. 4** (No unit roots in the MA part).]{.ul} $\det \Theta(z) \neq 0, \ \forall z \in \mathbb{C} \text{ s.t } |z| = 1$.
+
+This condition:
+
+1)  guarantees the "generalized" invertibility of the MA part, in the following sense: $\exists D(L) = \sum_{k = -\infty}^{+\infty} D_k L^k$ s.t. $D(L) \Theta(L) = I$, and therefore $\eta_t = C^{-1}D(L)\Phi(L)Y_t$. This means that the structural shocks can be retrieved when all the past, current and future values of $Y_t$ are observed.
+
+2)  rules out cointegration (Hamilton 1994, p. 575). Indeed, consider the vector moving average (VMA) representation of the VARMA process, whose existence is guaranteed by Hp. 3:
+
+$$
+Y_t = \underbrace{\Phi(L)^{-1} \Theta(L)}_{\Psi(L)} \varepsilon_t
+$$
+A necessary condition for cointegration is the existence of a matrix $A\in M_{n \times n}$ such that $A' \ \Psi(1) = 0$. This in turn implies that $\det \Psi(z) = \det \Phi(z)^{-1} \det \Theta(z) = 0$ at $z \in \mathbb{C} \text{ s.t. } |z| = 1$. Since by Hp. 3$\det \Phi(z)^{-1} \neq 0, \ \forall z \in \mathbb{C} \ s.t. |z| \geq 1$, this implies that $\det \Theta(z)$ has a unit root. Therefore, Hp. 4 is a sufficient condition to rule out the cointegration of the VARMA process.
+
+## Invertibility of the MA part
+
+A common approach in the estimation of VARMA models is to consider the truncated VAR representation of the process: $A(L) Y_t = \varepsilon_t$, where $A(L) = \Theta(L)^{-1} \Phi(L)$. However, an implicit assumption behind this procedure is that $\Theta(L)$ is invertible in the past, i.e. $\det\Theta(z) \neq 0, \  \forall z \in \mathbb{C} \ s.t. \ |z| < 1$. The following example illustrates the problem of ill-located roots of the determinental polynomial.
+
+::: {.example name="Ill-located MA roots"}
+Consider an ARMA(1,1) process:
+
+$$
+(1-\phi L) y_t = (1 + \theta L) \varepsilon_t, \quad |\phi| < 1, \ |\theta| >1.
+$$
+
+Since the AR component of the process is invertible, it admits an MA($\infty$) representation:
+
+$$
+\begin{align}y_t &= (1-\phi L)^{-1}(1 + \theta L) \varepsilon_t = \left(\sum_{k=0}^{\infty} \phi^k L^k\right) (1 + \theta L) \varepsilon_t = \\&= \sum_{k=0}^{\infty} \phi^k \varepsilon_{t-k} + \theta \underbrace{\sum_{k=1}^{\infty} \phi^k \varepsilon_{t-k}}_{\sum_{k=0}^{\infty} \phi^k \varepsilon_{t-k}-\varepsilon_t} \\\implies y_t &= (1+\theta) \sum_{k=0}^{\infty} \phi^k \varepsilon_{t-k} - \theta \varepsilon_t\end{align}
+$$That is, the value observed at time $t$ can be expressed as a linear combination of the present and past values of the shocks.
+
+On the contrary, the process does not admit an AR($\infty$) representation. Indeed, let $\theta(L) = 1 + \theta L$. The equality holds if and only if it is $\theta(z) = 1 + \theta z$, $\forall z \in \mathbb{C}$. The root of this polynomial is $z = -1/\theta \in \mathbb{R}$, which is smaller than one in modulus. This implies that the eigenvalue of the companion matrix $\lambda$ is such that $|\lambda| >1$ (indeed, the companion matrix is the scalar $\theta$ itself). Therefore, the shock $\varepsilon_t$ would be an infinite sum of terms greater than one, which does not converge to any finite number.
+
+However, it is possible to obtain an alternative representation, which is "autoregressive" in the future values of $y_t$. Start by rewriting $1+\theta L$ as $\theta L (1 + \frac{1}{\theta} L^{-1})$, where $L^{-1}$ is the forward operator. The operator $1 + \frac{1}{\theta} L^{-1}$ is invertible, and the process can be rewritten as:
+
+$$
+\begin{align}\theta L \varepsilon_t &= (1 + \theta ^{-1} L ^{-1}) (1 - \phi L ) y_t = \\&= \left( \sum_{k = 0}^{\infty} \theta ^{-k} L ^{-k}\right) (1-\phi L) y_t \end{align}
+$$
+
+which, after some manipulations, becomes
+
+$$
+\varepsilon_t = (1-\phi)\sum_{k = 1}^\infty \frac{1}{\theta^k}y_{t+k} - \phi y_t.
+$$
+
+That is, the shocks of the process can be rewritten as a linear combination of the present and future values of $y_t$.
+:::
+
+## Non-fundamentalness
+
+As the example shows, when the MA polynomial has some roots inside the unit circle there is an asymmetry in the information contained in the structural shocks and in the observed values. In this case, if we knew all the present and past shocks of the process we could retrieve its present and past values. On the contrary, if we knew all the present and past values of the process, we would still be unable to retrieve the past and present shocks. We can provide a rigorous explanation of this fact through the following
+
+::: {.definition}
+Consider the process $x_t \in \mathbb{R}^n$. Given its present and past observations$\{x_t, x_{t-1}, x_{t-2},\dots\}$, the information set is defined as
+
+$$
+\mathcal{H}^t_x = \overline{\text{span}}(x_t, x_{t-1}, x_{t-2}, \dots),
+$$
+
+i.e. it is the set of all the possible linear combinations of the present and past values of $x_t$.
+:::
+
+From the previous example, we can notice that:
+
+-   Knowing $\{\varepsilon_{t}, \varepsilon_{t-1}, \varepsilon_{t-2}, \dots \}$ implies knowing also $\{y_t, y_{t-1}, y_{t-2}, \dots\}$ $\implies$ $\mathcal{H}_y \subseteq \mathcal{H}_{\varepsilon}$
+
+-   Knowing $\{y_t, y_{t-1}, y_{t-2}, \dots\}$ does not imply knowing also $\{\varepsilon_{t}, \varepsilon_{t-1}, \varepsilon_{t-2}, \dots \}$ $\implies$ $\mathcal{H}_\varepsilon \not\subseteq \mathcal{H}_{y}$
+
+Therefore, $\mathcal{H}_y \subset \mathcal{H}_{\varepsilon}$. When this is the case, we say that the VARMA process is *non-fundamental*.
+
+::: {.definition}
+The VARMA process $\Phi(L) Y_t = \Theta(L) \varepsilon_t$ is said to be **non-fundamental** when $\mathcal{H}_Y \subset \mathcal{H}_{\varepsilon}$, or, analogously, when $\exists z \in \mathbb{C}, |z|<1, \ s.t. \ \det(\Theta(z)) = 0.$
+:::
+
+In that case, there exists at least one eigenvalue of the "companion" matrix of the MA part of the process that is larger than one in modulus.
+
+Non-fundamentalness may be a problem for VAR modeling in many practical situations. Indeed, if the VAR model approximates an underlying VARMA model, the identification of the true coefficients is impossible whenever the effect of some shocks intensifies after one or more time periods. Namely, non-fundamentalness arises whenever some entries of the $\Theta$ matrices are "too big" (see for instance Figure 6 in GMR2019 for the 2x2 case). This could be a relevant case in many economic application, where the strength of a shock could well increase after one or more period. Indeed, after its first outbreak, a shock might propagate in the system and, by affecting the expectations of the agents, it could reach its maximum effect with some delay. Therefore, the case of eigenvalues of the MA "companion" matrix greater than one in modulus cannot be simply discarded.
+
+The problem is made more significant by the fact that it is not possible to distinguish between a fundamental and a non-fundamental process using the standard techniques. This can be shown by exploiting the following relevant corollary to Theorem 2 in Lippi and Reichlin (1994):
+
+::: {.theorem #fundamental-representation}
+Any non-fundamental VARMA process admits a fundamental representation that can be obtained by using Blaschke matrices. That is, given a non-fundamental $\Phi(L) Y_t = \Theta(L)\varepsilon_t$, there exists an invertible matrix $B(L)$ with the property that $B(L)^{-1} = B^*(L^{-1})$ such that
+
+$$
+\Phi(L)Y_t = \underbrace{\Theta(L)B(L)^{-1}}_{\tilde{\Theta}(L)} \underbrace{B(L)\varepsilon_t}_{\tilde{\varepsilon}_t}
+$$
+
+is fundamental, i.e. $\det{\tilde{\Theta}(z)} \neq 0, \forall z \in \mathbb{C} \ s.t. \ |z|<1$, with $E[\tilde{\varepsilon}_t \tilde{\varepsilon}_s] = 0$ but $\tilde{\varepsilon}_t$ not independent on $\tilde{\varepsilon}_s$.
+:::
+
+A consequence of Th. \@ref(thm:fundamental-representation) is that standard methods for the estimation of VAR models do in general fail to identify the correct representation of the process. Indeed, if $\Theta(L)$ is not invertible, the VAR approximation becomes $\tilde{A}(L) Y_t = \tilde{\varepsilon}_t$, with $\tilde{A}(L) = \tilde{\Theta}(L)^{-1}\Phi(L)$. Moreover, if we consider the process $\tilde{Y}_t$ such that $\Phi(L) \tilde{Y}_t = \tilde{\Theta}(L) \tilde{C} \eta_t$, with $V(\tilde{\varepsilon}_t) = \tilde{C}\tilde{C}'$, the two processes $Y_t, \tilde{Y}_t$ have the same second-roder dynamic properties, namely the same autocovariance functions. This entails that all the methods that relies on distinguishing different second-order properties (like the Yule-Walker equations) fail to distinguish between $\Theta(L)$ and $\tilde{\Theta}(L)$. However, the impulse response functions associated to shocks in $Y_t$ and $\tilde{Y}_t$ are different.
+
+::: {.example name="2nd order properties and IRF"}
+Consider the MA(1) processes
+$$
+y_t = \sigma \eta_t - \theta \sigma \eta_{t-1} \\
+\tilde{y}_t = \sigma \theta \eta_t - \sigma \eta_{t-1}
+$$
+with $E[\eta_t] = 0, E[\eta_t^2]= 1, \theta\sigma>1$. The two processes have the same autocovariance functions:
+
+$$
+\begin{align}
+\text{cov}(y_t, y_{t-h}) = \text{cov}(\tilde{y}_t, \tilde{y}_{t-h}) =
+\begin{cases}
+  E[y_t^2] &= E[\tilde{y}_t^2] &= \sigma^2(1+\theta^2)  \quad & \text{for } h = 0\\
+  E[y_t y_{t-1}] &= E[\tilde{y}_t \tilde{y}_{t-1}] &= -\theta \sigma^2  \quad & \text{for } h = 1 \\
+  0 &&& \text{for } h \geq 2
+\end{cases}
+\end{align}
+$$
+
+However, $y_t$ and $\tilde{y}_t$ respond differently to a shock in $\eta_t$:
+
+$$
+\begin{align}
+\frac{\partial y_{t+h}}{\partial \eta_t} =
+\begin{cases}
+\sigma \quad & \text{for } h = 0 \\
+-\theta \sigma \quad & \text{for } h = 1\\
+0 \quad & \text{for } h \geq 2
+\end{cases}; 
+\qquad
+\frac{\partial \tilde{y}_{t+h}}{\partial \eta_t} = 
+\begin{cases}
+\sigma \theta  \quad & \text{for } h = 0 \\
+-\sigma \quad & \text{for } h = 1\\
+0 \quad & \text{for } h \geq 2
+\end{cases}
+\end{align}
+$$
+
+:::
+
+The methods that try to distinguish fundamental and non-fundamental MA coefficients relying on the second-order properties of the process cannot work in this context. For this reason, GMR2019 proposes a new estimation procedure for SSVARMA models that relies on higher-order conditions for identifying the true structural shocks. Of course, the method is suitable for any distribution of the structural shocks with the only exception of the Gaussian distribution, whose higher-order moments are null whatever the mean and variance.

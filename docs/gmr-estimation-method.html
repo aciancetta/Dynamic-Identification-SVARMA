@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Section 2 GMR estimation method | Dynamic Identification in VARMA Models</title>
+  <meta name="description" content="This book present the general framework of VARMA models and introduces the notion of non-fundamentalness. The problem is assessed using the methodology of Gourieroux, Manfort and Renne (2019), which is illustrated in detail, within the framework of non-Gaussian and independent structural shocks of the corresponding structural model. Simulations and application to real-world data are presented." />
+  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Section 2 GMR estimation method | Dynamic Identification in VARMA Models" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This book present the general framework of VARMA models and introduces the notion of non-fundamentalness. The problem is assessed using the methodology of Gourieroux, Manfort and Renne (2019), which is illustrated in detail, within the framework of non-Gaussian and independent structural shocks of the corresponding structural model. Simulations and application to real-world data are presented." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Section 2 GMR estimation method | Dynamic Identification in VARMA Models" />
+  
+  <meta name="twitter:description" content="This book present the general framework of VARMA models and introduces the notion of non-fundamentalness. The problem is assessed using the methodology of Gourieroux, Manfort and Renne (2019), which is illustrated in detail, within the framework of non-Gaussian and independent structural shocks of the corresponding structural model. Simulations and application to real-world data are presented." />
+  
+
+<meta name="author" content="Alessandro Ciancetta" />
+
+
+<meta name="date" content="2021-07-13" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="introduction.html"/>
+
+<script src="libs/header-attrs-2.7/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Dynamic Identification in SVARMA models</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Abstract</a></li>
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="introduction.html"><a href="introduction.html#assumptions-for-ssvarma-models"><i class="fa fa-check"></i><b>1.1</b> Assumptions for SSVARMA models</a></li>
+<li class="chapter" data-level="1.2" data-path="introduction.html"><a href="introduction.html#invertibility-of-the-ma-part"><i class="fa fa-check"></i><b>1.2</b> Invertibility of the MA part</a></li>
+<li class="chapter" data-level="1.3" data-path="introduction.html"><a href="introduction.html#non-fundamentalness"><i class="fa fa-check"></i><b>1.3</b> Non-fundamentalness</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="gmr-estimation-method.html"><a href="gmr-estimation-method.html"><i class="fa fa-check"></i><b>2</b> GMR estimation method</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="gmr-estimation-method.html"><a href="gmr-estimation-method.html#maximum-likelihood-approach"><i class="fa fa-check"></i><b>2.1</b> Maximum likelihood approach</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="gmr-estimation-method.html"><a href="gmr-estimation-method.html#ma1-case"><i class="fa fa-check"></i><b>2.1.1</b> MA(1) case</a></li>
+<li class="chapter" data-level="2.1.2" data-path="gmr-estimation-method.html"><a href="gmr-estimation-method.html#ssvarmap1-case"><i class="fa fa-check"></i><b>2.1.2</b> SSVARMA(p,1) case</a></li>
+<li class="chapter" data-level="2.1.3" data-path="gmr-estimation-method.html"><a href="gmr-estimation-method.html#svarmapq-case"><i class="fa fa-check"></i><b>2.1.3</b> SVARMA(p,q) case</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="gmr-estimation-method.html"><a href="gmr-estimation-method.html#semi-parametric-estimation-two-stage-2sls-gmm-approach"><i class="fa fa-check"></i><b>2.2</b> Semi-parametric estimation: Two-stage 2SLS-GMM approach</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Dynamic Identification in VARMA Models</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="gmr-estimation-method" class="section level1" number="2">
+<h1><span class="header-section-number">Section 2</span> GMR estimation method</h1>
+<!-- **sarebbe interessante provare diverse funzioni $g(.)$ e poi fare ML ratio test per prendere quella che fitta meglio i dati, in modo da rendere ML estimation un po' più data-driven** -->
+<p>As we introduced in the previous Section, non-Gaussianity of the shocks is a necessary condition for identifiability.</p>
+<p><u><strong>Hp.5</strong> (Non-Gaussianity of the shocks).</u> Each component of <span class="math inline">\(\eta_t\)</span> has a non-zero <span class="math inline">\(r\)</span>-th cumulant with <span class="math inline">\(r&gt;2\)</span> and at least one finite moment <span class="math inline">\(s\geq r\)</span>.</p>
+<p>The following Theorem provides one of the main results in GMR2019.</p>
+<div class="theorem">
+<p><span id="thm:obs-equivalence" class="theorem"><strong>Theorem 2.1  </strong></span>(Observational equivalence of SSVARMA processes). Consider the SSVARMA processes <span class="math inline">\(Y_t, \tilde{Y}_t\)</span> defined by
+<span class="math display">\[
+\begin{align}
+\Phi(L) Y_t &amp;= \Theta(L) C \eta_t\\
+\Phi(L) \tilde{Y}_t &amp;= \tilde{\Theta}(L) \tilde{C} \tilde{\eta}_t 
+\end{align}
+\]</span>
+Under Hp. 1-5, <span class="math inline">\(Y_t\)</span> and <span class="math inline">\(\tilde{Y}_t\)</span> are observationally equivalent if and only if <span class="math inline">\(\Theta(L) = \tilde{\Theta}(L)\)</span>, <span class="math inline">\(C = \tilde{C}\)</span> and the distribution of <span class="math inline">\(\eta_t\)</span> and <span class="math inline">\(\tilde{\eta}_t\)</span> coincide.</p>
+</div>
+<p>As a direct consequence of Th. <a href="gmr-estimation-method.html#thm:obs-equivalence">2.1</a>, if processes characterized by Hp.1-5 differ for the MA part, then they can be distinguished by exploiting higher-order conditions.</p>
+<p>A last assumption that we make to assure global identifiability (i.e. to identify the coefficients with no ambiguity regarding their sign and order) is the following:</p>
+<p><u><strong>Hp.6</strong> (Global identifiability).</u> The components of the first row of <span class="math inline">\(C\)</span> are non-negative and in increasing order.</p>
+<p>The next two sections present the two methods developed by GMR2019. The first one is a parametric maximum-likelihood approach that requires to assume the distribution of the structural shocks in advance. The second one is a semi-parametric approach consisting in a two-step procedure. Even if it has the advantage of requiring no assumptions on the distribution of the shocks, it is less efficient than the ML procedure when the true distribution is known. Of course, both methods require that the distribution of the shocks is not Gaussian to exploit higher-moments for identification.</p>
+<div id="maximum-likelihood-approach" class="section level2" number="2.1">
+<h2><span class="header-section-number">2.1</span> Maximum likelihood approach</h2>
+<div id="ma1-case" class="section level3" number="2.1.1">
+<h3><span class="header-section-number">2.1.1</span> MA(1) case</h3>
+<p>Consider the simple MA(1) case first: <span class="math inline">\(y_t = \varepsilon_t + \theta \varepsilon_{t-1}\)</span>, where <span class="math inline">\(\varepsilon_t\)</span> is i.i.d. over time, with a common non-Gaussian p.d.f. <span class="math inline">\(g(\varepsilon; \gamma)\)</span>, <span class="math inline">\(\gamma\)</span> being a vector of unknown parameters. We have to derive the log-likelihood of a sample of observed values <span class="math inline">\((y_1, y_2, \dots, y_T)\)</span>, considering the three cases <span class="math inline">\(|\theta|&lt;1, \ |\theta| &gt;1, \ |\theta| = 1\)</span>. To this end, we have to express the vector of shocks as a function of the observed values and of the parameters we want to estimate (in this case, <span class="math inline">\(\theta\)</span>). Since the precise expression of the shocks as a function of the past values of <span class="math inline">\(y_t\)</span> would require a perfect knowledge of the infinite past before the shock, while we only observe a finite sample of the past, we need consider the truncated approximation of that expression. Therefore, the method is more precisily a <em>truncated</em> maximum-likelihood approach. Finally, we will substitute this expression into the p.d.f. of the shocks. Since the shocks are independent over time, their joint probability is the product of the probability of each draw. The maximum likelihood estimator will be the value of <span class="math inline">\(\theta\)</span> that maximizes the value of the likelihood function given the observed sample.</p>
+<p><u><span class="math inline">\(|\theta|&lt;1\)</span></u>: We can express <span class="math inline">\(\varepsilon_t\)</span> as a function of <span class="math inline">\(\theta\)</span> by exploiting standard invertibility:</p>
+<p><span class="math display">\[
+\varepsilon_t(\theta) = (1-\theta L)^{-1} y_t = \sum_{h = 0}^\infty \theta^h y_{t-h} = \sum_{h = 0}^{t-1} \theta^h y_{t-h} + \theta^t
+\underbrace{ \sum_{h = 0}^{\infty} \theta^h y_{-h}}_{ = \varepsilon_0(\theta) \text{ (unobserved)} }
+\]</span></p>
+<p>The truncated log-likelihood expresses the probability of the observable approximation <span class="math inline">\(\varepsilon_t(\theta) - \varepsilon_0(\theta)\)</span> as a function of the parameter <span class="math inline">\(\theta\)</span>, for values <span class="math inline">\(|\theta|&lt;1\)</span>:
+<span class="math display">\[
+L_1(\theta; y_1, \dots, y_T, \gamma) = 
+\log \left(\prod_{t=1}^Tg(\varepsilon_t(\theta) - \varepsilon_0(\theta); \gamma)\right)  = 
+\sum_{t = 1}^T \log g \left(\sum_{h = 0}^{t-1} \theta^h y_{t-h}; \gamma\right),
+\]</span>
+where we have exploited the fact that the shocks are independent draws from the same distribution to express the joint probability <span class="math inline">\(g_{\varepsilon_1, \dots, \varepsilon_T}\)</span> as the product of the common marginal distribution <span class="math inline">\(g\)</span>.</p>
+<p><u><span class="math inline">\(\theta&gt;1\)</span></u>: for this case, we have to compute the likelihood that the observed sample came from a non-fundamental representation. As before, we have to express the shocks as a function of the observed values, by exploiting the “generalized” invertibility of the shocks in the future:
+<span class="math display">\[
+y_t = (1+\theta L) \varepsilon_t = \theta L(1+\theta^{-1} L^{-1})
+\]</span>
+from which
+<span class="math display">\[
+\begin{align}
+\varepsilon_t(\theta) &amp;=  \theta^{-1} L^{-1} (1+\theta^{-1} L^{-1})^{-1} y_t = \theta^{-1} L^{-1}(1+ \theta^{-1} L^{-1} + \theta^{-2} L^{-2} + \dots ) y_t = 
+= \sum_{h = 1}^{\infty} \theta^{-h} y_{t+h} = \\
+&amp; = \sum_{h = 1}^{T-t} \theta^{-h} y_{t+h} + \theta^{-T-t}
+    \underbrace{ \sum_{h = 1}^{\infty} \theta^{-h} y_{T+h}}_{\varepsilon_T(\theta) \text{ (unobserved)}}
+\end{align}
+\]</span></p>
+<p>The truncated log-likelihood of <span class="math inline">\(\varepsilon_t(\theta) - \varepsilon_T(\theta)\)</span> for <span class="math inline">\(|\theta|&gt;1\)</span> is:
+<span class="math display">\[
+L_2(\theta; y_1, \dots, y_T, \gamma) = 
+\sum_{t = 0}^{T-1} \log\left[ \frac{1}{| \theta|}g \left(\sum_{h = 1}^{T-t} \theta^{-h} y_{t+h}; \gamma\right) \right]
+\]</span>
+The factor <span class="math inline">\(\frac{1}{|\theta|}\)</span> (which can be collected separately from the previous expression as <span class="math inline">\(T \log(1/|\theta|)\)</span>) comes from the Jacobian equation that can be derived from the following well known theorem (Mood et al., p.211, Th. 15).</p>
+<div class="theorem">
+<p><span id="thm:unlabeled-div-5" class="theorem"><strong>Theorem 2.2  </strong></span>(P.d.f. of a transformed random vector)
+Consider
+<span class="math display">\[
+\begin{align}
+y_2 &amp; = f_1(\varepsilon_1, \varepsilon_2, \dots, \varepsilon_T) =  \varepsilon_{2} + \theta \varepsilon_{1}\\
+y_3 &amp; = f_2(\varepsilon_1, \varepsilon_2, \dots, \varepsilon_T) = \varepsilon_{3} + \theta \varepsilon_{2}\\
+&amp; \vdots    \\
+y_{T} &amp; = f_{T}(\varepsilon_1, \varepsilon_2, \dots, \varepsilon_T) = \varepsilon_{T} + \theta \varepsilon_{T-1}\\
+\end{align}
+\]</span>
+(<span class="math inline">\(f_1, \dots, f_{T-1}\)</span> are one-to-one transformations of jointly continuous random variables with p.d.f. <span class="math inline">\(g_{\varepsilon_{2}, \dots, \varepsilon_{T}}(\varepsilon_{2}, \dots, \varepsilon_{T})\)</span>). Consider also the inverse transformation
+<span class="math display">\[
+\begin{align}
+\varepsilon_1(\theta; y_1,\dots, y_T) &amp;= f_1^{-1}(y_1,\dots, y_T) =  \theta^{-1}y_2+ \theta^{-2}y_3 +\dots+ \theta^{-(T-1)}y_T \\
+\varepsilon_2(\theta; y_1,\dots, y_T) &amp;= f_2^{-1}(y_1,\dots, y_T) =  0 + \theta^{-1}y_3+ \theta^{-2}y_4 +\dots+ \theta^{-(T-2)}y_{T-1}\\
+&amp; \vdots \\
+\varepsilon_{T-1}(\theta; y_1,\dots, y_T) &amp;= f_{T-1}^{-1}(y_1,\dots, y_T) = 0+0+\dots+ 0+\theta^{-1}y_T
+\end{align}
+\]</span>
+Define <span class="math inline">\(J\)</span> as the Jacobian of <span class="math inline">\(f^{-1} = (f_1^{-1}, \dots, f_{T-1}^{-1})\)</span>:
+<span class="math display">\[
+J =
+\begin{bmatrix}
+\frac{\partial f_1^{-1}}{\partial y_1} &amp; \dots &amp; \frac{\partial f_1^{-1}}{\partial y_{T-1}} \\
+\vdots &amp; \ddots  &amp; \vdots \\
+\frac{\partial f_{T-1}^{-1}}{\partial y_1} &amp; \dots &amp; \frac{\partial f_{T-1}^{-1}}{\partial y_{T-1}}
+\end{bmatrix}
+=
+\begin{bmatrix}
+\theta^{-1} &amp; \theta^{-2}  &amp; \dots &amp; \theta^{-(T-1)} \\
+0 &amp; \theta^{-1}  &amp; \dots &amp; \theta^{-(T-2)} \\
+\vdots &amp;&amp;&amp; \\
+0 &amp; 0 &amp; \dots &amp;  \theta^{-1}
+\end{bmatrix}
+\]</span>
+Then the p.d.f. of the transformed vector <span class="math inline">\(\mathbf{y} = f(\mathbf{\varepsilon})\)</span> can be obtained as</p>
+<p><span class="math display">\[
+g_{y_1, \dots, y_T} (.)= \det J \ g_{\varepsilon_1, \dots, \varepsilon_T} (.)
+\]</span>
+The determinant of <span class="math inline">\(J\)</span> is <span class="math inline">\(\det J = \frac{1}{\theta^{T}}\)</span>.</p>
+</div>
+<p>The <strong>truncated log-likelihood</strong> function is given by:
+<span class="math display">\[
+L(\theta; y_1, \dots, y_T, \gamma) =
+L_1(\theta; y_1, \dots, y_T, \gamma) 1_{|\theta|&lt;1} + 
+L_2(\theta; y_1, \dots, y_T, \gamma) 1_{|\theta|\geq1}
+\]</span>
+The function <span class="math inline">\(L\)</span> is not continuous in <span class="math inline">\(\theta = 1\)</span>. However, the exact likelihood function is continuous and differentiable. Indeed, it is given by:
+<span class="math display">\[
+\mathcal{L}(\theta; y_1, \dots, y_T, \gamma) = 
+\log \left[ \int g(\varepsilon_0 | y_1, \dots, y_T; \gamma) \ d\varepsilon \right] \propto 
+\log \left[ \int g(y_1, \dots, y_T | \varepsilon_0; \gamma) g(\varepsilon_0; \gamma) \ d \varepsilon\right],
+\]</span>
+which is in general differentiable, as the argument of the integral is a product of differentiable functions. Even though the exact likelihood cannot be directly computed, many properties of the truncated likelihood are asymptotically equivalent to those of the exact likelihood, and proving its properties is therefore useful.</p>
+<div class="proposition">
+<p><span id="prp:consistency" class="proposition"><strong>Proposition 2.1  </strong></span>(Consistency of the truncated maximum likelihood estimator, Proposition 2 in GMR2019) Let <span class="math inline">\(\Lambda_0\)</span> be the true vector of parameters of a SSVARMA(p,q) model, and let <span class="math inline">\(\hat{\Lambda}_T, \hat{\Lambda}_T^u\)</span> denote respectively the truncated and untruncated maximum likelihood estimators of <span class="math inline">\(\Lambda_0\)</span>. Under Hp. 1-6 and under some further regularity conditions,
+<span class="math display">\[
+\hat{\Lambda}_T, \hat{\Lambda}_T^u \ \xrightarrow{a.s.} \ \Lambda_0
+\]</span>
+Moreover, the two estimators are asymptotically normal.</p>
+</div>
+</div>
+<div id="ssvarmap1-case" class="section level3" number="2.1.2">
+<h3><span class="header-section-number">2.1.2</span> SSVARMA(p,1) case</h3>
+<p>The multivariate case requires some methematical expedients. Let us consider first the SSVARMA(p,1) case: the general SSVAMRA(p,q) estimation will then be a naural extension. The process is:
+<span class="math display">\[
+\Phi(L) Y_t = \varepsilon_t + \Theta \varepsilon_{t-1}
+\]</span>
+where the errors are linear combinations of the i.i.d. structural shocks <span class="math inline">\(\eta_t\)</span> with independent components: <span class="math inline">\(\varepsilon_t = C \eta_t\)</span>, with <span class="math inline">\(E[\eta_{t}] = 0\)</span>, <span class="math inline">\(V[\eta_{t}] = 1\)</span>. The p.d.f. of the errors is <span class="math inline">\(g(\varepsilon_t; C, \gamma)\)</span>.</p>
+<p>As a first step, consider the Schur decomposition of matrix <span class="math inline">\(\Theta\)</span>:
+<span class="math display">\[
+\Theta = A&#39;_{\Theta} U_{\Theta} A_{\Theta},
+\]</span>
+where <span class="math inline">\(A_{\Theta}\)</span> is an orthogonal matrix (meaning that <span class="math inline">\(A^{-1}_{\Theta} = A&#39;_{\Theta}\)</span>) and <span class="math inline">\(U_{\Theta}\)</span> is an upper block-triangular matrix, whose diagonal blocks cointains the eigenvalues of <span class="math inline">\(\Theta\)</span>. The <span class="math inline">\(1 \times 1\)</span> blocks are the real eigenvalues, the <span class="math inline">\(2 \times 2\)</span> blocks contains the complex eigenvalues <span class="math inline">\(\lambda, \overline{\lambda}\)</span> in the form
+<span class="math display">\[
+U_{k\Theta} = 
+\begin{bmatrix}
+\text{Re}(\lambda) &amp; \text{Im}(\lambda) \\
+- \text{Im}(\lambda) &amp; \text{Re}(\lambda) 
+\end{bmatrix},
+\]</span>
+<span class="math inline">\(n_k \in \{1,2\}\)</span> will denote the dimension of the matrix <span class="math inline">\(U_{k\Theta}\)</span>. We can left-multiply <span class="math inline">\(\Phi(L) Y_t = \varepsilon_t + \Theta \varepsilon_{t-1}\)</span> by <span class="math inline">\(A_{\Theta}&#39;\)</span> to get a VMA(1) representation of the process. Define <span class="math inline">\(W_t = A_{\Theta}&#39;\Phi(L) Y_t\)</span> and <span class="math inline">\(\varepsilon^*_t = A_{\Theta}&#39; \varepsilon_t\)</span> to get
+<span class="math display">\[
+W_t = \varepsilon_t^* - U_\Theta \varepsilon_{t-1}^*
+\]</span>
+Without loss of generality, we assume that the block-diagonal elements <span class="math inline">\(U_{k\Theta}\)</span> have eigenvalues larger than one for <span class="math inline">\(k \in \{1, \dots ,s\}\)</span> and eigenvalues smaller than one for <span class="math inline">\(k \in \{s+1, \dots , K\}\)</span>. We can also define <span class="math inline">\(\varepsilon_t^{(1)}, \varepsilon_t^{(2)}\)</span> such that <span class="math inline">\(\varepsilon_t = [\varepsilon_t&#39;^{(1)}, \varepsilon_t&#39;^{(2)}]&#39;\)</span>, where <span class="math inline">\(\varepsilon_t^{(1)}\)</span> has length equal to the non-fundamentalness order <span class="math inline">\(m = n_1 + \dots + n_s\)</span> and <span class="math inline">\(\varepsilon_t^{(2)}\)</span> has length equal to <span class="math inline">\(n-m\)</span>. Similarly we also write <span class="math inline">\(W_t = [W_t&#39;^{(1)}, W_t&#39;^{(2)}]&#39;\)</span>. We have:
+<span class="math display">\[
+\begin{bmatrix}
+\varepsilon_t^{(1)} \\ \varepsilon_t^{(2)}
+\end{bmatrix}
+= 
+\begin{bmatrix}
+W_t^{(1)} \\ W_t^{(2)}
+\end{bmatrix}
++
+\begin{bmatrix}
+U_\Theta^{(1)} &amp; U_\Theta^{(12)} \\
+0 &amp; U_\Theta^{(2)}
+\end{bmatrix}
+\begin{bmatrix}
+\varepsilon_{t-1}^{(1)} \\ \varepsilon_{t-2}^{(2)}
+\end{bmatrix}
+\]</span></p>
+<p>The shocks can now be expressed as a function of <span class="math inline">\(W_t\)</span> (which is in turn a function of the data and the parameters). Moreover, we can distinguish different expression for the errors associated with eigenvalues smaller or bigger than one. In particular, in analogy with the MA(1) case, we can express <span class="math inline">\(\varepsilon_t^{(2)}\)</span> as a linear combination of the present and past values of the data, and <span class="math inline">\(\varepsilon_t^{(1)}\)</span> as a linear combination of the present and future values of the data:
+<span class="math display">\[
+\begin{align}
+\varepsilon_t^{*(2)} &amp; = W_t^{(2)} + U_\Theta^{(2)}W_{t-1}^{(2)} + [U_\Theta^{(2)}]^2 W_{t-2}^{(2)} + \dots + [U_\Theta^{(2)}]^{t-1} W_{1}^{(2)} + \underbrace{[U_\Theta^{(2)}]^t \varepsilon^{*(2)}_0}_{\text{unobserved}}\\
+\varepsilon_t^{*(1)} &amp; = \underbrace{[U_\Theta^{(1)}]^{-(T-t)} \varepsilon_T^{*(1)}}_{\text{unobserved}} - [U_\Theta^{(1)}]^{-1} W_{t+1}^{*(1)} - [U_\Theta^{(1)}]^{-2} W_{t+2}^{*(1)} - \dots - [U_\Theta^{(1)}]^{-(T-t)} W_{T}^{*(1)} + \\ &amp; - \underbrace{[U_{\Theta}^{(1)}]^{-1}U_{\Theta}^{(12)} \varepsilon_t^{*(2)}}_{\text{truncated}} - \dots - \underbrace{[U_{\Theta}^{(1)}]^{-(T-t)}U_{\Theta}^{(12)} \varepsilon_{T-1}^{*(2)}}_{\text{truncated}}
+\end{align}
+\]</span></p>
+<p>Keeping in mind that <span class="math inline">\(\varepsilon_t = A_{\Theta} \varepsilon_t^{*}\)</span>, we can now write the truncated log-likelihood function. Let <span class="math inline">\(\Lambda = \{\Phi_1, \dots, \Phi_p, \Theta, C, \gamma\}\)</span> be the vector of parameters to be estimated and <span class="math inline">\(\lambda_i(\Theta)\)</span> the <span class="math inline">\(i\)</span>-th eigenvalue of <span class="math inline">\(\Theta\)</span>. The truncated versions of <span class="math inline">\(\varepsilon_t^{*(1)}, \varepsilon_t^{*(2)}\)</span>, which depend only on the model parameters and on observed values, are:</p>
+<p><span class="math display">\[
+\begin{align}
+\varepsilon_t^{*(2)}|_{truncated} &amp;=  W_t^{(2)} + U_\Theta^{(2)}W_{t-1}^{(2)} + [U_\Theta^{(2)}]^2 W_{t-2}^{(2)} + \dots + [U_\Theta^{(2)}]^{t-1} W_{1}^{(2)} \\
+\varepsilon_t^{*(1)}|_{truncated} &amp;= [U_\Theta^{(1)}]^{-1} W_{t+1}^{*(1)} - [U_\Theta^{(1)}]^{-2} W_{t+2}^{*(1)} - \dots - [U_\Theta^{(1)}]^{-(T-t)} W_{T}^{*(1)} + \\
+  &amp; - [U_{\Theta}^{(1)}]^{-1}U_{\Theta}^{(12)} (W_t^{(2)} + U_\Theta^{(2)}W_{t-1}^{(2)} + \dots + [U_\Theta^{(2)}]^{t-1} W_{1}^{(2)})- \dots + \\
+  &amp; - [U_{\Theta}^{(1)}]^{-(T-t)}U_{\Theta}^{(12)} (W_{T-1}^{(2)} + U_\Theta^{(2)}W_{T-2}^{(2)} + \dots + [U_\Theta^{(2)}]^{T-2} W_{1}^{(2)} ) 
+\end{align}
+\]</span></p>
+<p>By expressing <span class="math inline">\(\varepsilon^*_t\)</span> as a function of the observed data and the model parameters, we can set up the Jacobian equation to get
+<span class="math display">\[
+L_{truncated}(\Lambda) = 
+-T \sum_{i = 1}^{n} \log |\lambda_i(\Theta)| 1_{|\lambda_i(\Theta)|&gt;1} +
+\sum_{t = 1}^T \log g\left[A_{\Theta} 
+\begin{pmatrix}
+\varepsilon_t^{*(1)}|_{truncated} \\
+\varepsilon_t^{*(2)}|_{truncated}
+\end{pmatrix} ; C, \gamma
+\right]
+\]</span>
+Again, Prop. <a href="gmr-estimation-method.html#prp:consistency">2.1</a> applies and the truncated ML estimator <span class="math inline">\(\hat{\Lambda} = \arg\max_\Lambda L_{truncated}(\Lambda)\)</span> is a consistent and asymptotically normal estimator of the true <span class="math inline">\(\Lambda\)</span>.</p>
+</div>
+<div id="svarmapq-case" class="section level3" number="2.1.3">
+<h3><span class="header-section-number">2.1.3</span> SVARMA(p,q) case</h3>
+<p>The general case where <span class="math inline">\(\Theta(L)\)</span> is of order <span class="math inline">\(q&gt;1\)</span> can be reduced to the previous one. Define</p>
+<p><span class="math display">\[
+\begin{align}
+\tilde{\varepsilon}_t &amp;= [\varepsilon_t&#39;, \dots, \varepsilon_{t-q+1}&#39;]&#39;   \\
+\tilde{Y}_t &amp;= [Y_t&#39;, 0_{1 \times(n-1)q}]&#39;   \\
+\tilde{\Phi_k} &amp;= \mathbf{uu}&#39; \otimes \Phi_k, \quad \text{where} \ \ \mathbf{u} = [1,0,\dots,0]&#39;\\
+\\
+\tilde{\Theta} &amp;= 
+\begin{bmatrix}
+\Theta_1 &amp; \Theta_2 &amp; \dots &amp; \Theta_{q-1} &amp; \Theta_q \\
+I        &amp;  0       &amp; \dots &amp; 0            &amp; 0        \\
+0        &amp;  I       &amp; \dots &amp; 0            &amp; 0        \\
+\vdots       &amp;  \vdots       &amp; \ddots &amp; \vdots            &amp; \vdots        \\
+0        &amp;  0       &amp; \dots &amp; I            &amp; 0        \\
+\end{bmatrix}
+\end{align}
+\]</span>
+where the eigenvalues of <span class="math inline">\(\tilde{\Theta}\)</span> are the reciprocal of the roots of <span class="math inline">\(\det \Theta(z)\)</span>. Then, the process can be rewritten as
+<span class="math display">\[
+\tilde{\Phi}(L) \tilde{Y}_t = \tilde{\varepsilon}_t - \tilde{\Theta}\tilde{\varepsilon}_{t-1}
+\]</span>
+which reduces to the previous case (even though the process is not a VARMA(p,1), because <span class="math inline">\(\tilde{\varepsilon}_t\)</span> is not a white noise).</p>
+<p>It is useful to stress the role that non-Gaussianity plays in this method. Indeed, it is not immediately clear why we should not choose the p.d.f. of the Normal distribution as our <span class="math inline">\(g(.)\)</span>. The problem is that with a Gaussian p.d.f., the limiting likelihood function (if the infinite time series were observed) would assume the same value both in the true value of the paramater and in its fundamenral representation. In the practical case of a finite sample, the likelihood would be maximum in one point, but it would be impossible to say whether the estimate approximates the true value of the parameters or their fundamental representation. The following example clarifies this case.</p>
+<div class="example">
+<p><span id="exm:unlabeled-div-6" class="example"><strong>Example 2.1  (The role of non-Gaussianity) </strong></span>Consider the MA(1) process <span class="math inline">\(y_t = \varepsilon_t - \theta \varepsilon_{t-1}\)</span>, with <span class="math inline">\(\varepsilon_t \sim N(0, \sigma^2)\)</span>, i.i.d. and mutually independent. Consider the value of the likelihood function if the whole time series <span class="math inline">\(\{y_t\}_{t=-\infty}^{+\infty}\)</span> were observed:
+<span class="math display">\[
+L_\infty(\theta; y_1, \dots, y_T, \gamma) = 1_{|\theta|&lt;1} \tilde{L}_1((\theta; y_1, \dots, y_T, \gamma) + 1_{|\theta|\geq1} \tilde{L}_2((\theta; y_1, \dots, y_T, \gamma)
+\]</span>
+where, in the Gaussian case:
+<span class="math display">\[
+\begin{align}
+\tilde{L}_1(\theta; y_1, \dots, y_T, \gamma) &amp;= E_0 \log g \left(\sum_{h = 0}^{+\infty} \theta^h y_{t-h}; \gamma\right) =\\
+&amp;=E_0\log \left[ \frac{1}{\sigma\sqrt{2\pi}} \exp\left( -\frac{1}{2}\frac{(\sum_{h = 0}^{+\infty} \theta^h y_{t-h})^2}{\sigma^2}  \right)   \right] = \\
+&amp; = -\frac{1}{2} \log(2\pi) -\frac{1}{2} \log \sigma^2 - \frac{1}{2\sigma^2} E_0 \left[\left(\sum_{h = 0}^{+\infty} \theta^h y_{t-h}\right)^2\right]\\
+\tilde{L}_2(\theta; y_1, \dots, y_T, \gamma) &amp;= E_0 \log \frac{1}{|\theta|} g \left(-\sum_{h = 0}^{+\infty} \frac{1}{\theta^{h+1}} y_{t+h+1}; \gamma\right) = \\
+&amp; = -\frac{1}{2} \log(2 \pi) - \frac{1}{2} \log(\theta^2\sigma^2) - \frac{1}{2\theta^2 \sigma^2} E_0 \left[\left(\sum_{h = 0}^{+\infty} \frac{1}{\theta^h} y_{t+h+1}\right)^2\right]
+\end{align}
+\]</span>
+The asymptotic log-likelihood <span class="math inline">\(L_\infty\)</span> reaches its minimum at both <span class="math inline">\((\theta, \sigma^2)\)</span> and <span class="math inline">\((\frac{1}{\theta}, \theta^2 \sigma^2)\)</span>. Therefore, <span class="math inline">\(\theta\)</span> and <span class="math inline">\(\sigma\)</span> are not identified, and the finite sample ML estimation cannot distinguish between the fundamental and non-fundamental representation of the same process.</p>
+</div>
+<!--```{r}
+L1 <- function(theta, sigma, T=300){
+  value <- -0.5*log(sigma^2) - 0.5 *sigma^(-2)/T*sum(theta^(1:T)*rnorm(T))^2
+  value <- ifelse(value > 1e4, 1e4)
+  value
+}
+L2 <- function(theta, sigma, T=300){
+  value <- -0.5*log(sigma^2*theta^2) - 0.5 *(theta*sigma)^(-2)/T*sum(theta^(-(1:T))*rnorm(T))^2
+  value <- ifelse(value > 1e4, 1e4)
+  value
+}
+L <- function(theta, sigma=1, T = 300){
+  L1(theta, sigma, T)*1*(theta<1) + L2(theta, sigma, T)*1*(theta>=1) 
+}
+
+theta_grid <- seq(-2, 2, length.out = 1000)
+plot(theta_grid, L(theta_grid))
+L(theta_grid, sigma = 1)
+```-->
+
+</div>
+</div>
+<div id="semi-parametric-estimation-two-stage-2sls-gmm-approach" class="section level2" number="2.2">
+<h2><span class="header-section-number">2.2</span> Semi-parametric estimation: Two-stage 2SLS-GMM approach</h2>
+<!-- **Perché fermarsi al secondo step della procedura? Bisognerebbe trovare un modo per renderla iterativa e sfruttare l'informazione su $C, \Theta$ del secondo step per migliorare la stima di $\Phi_1, \dots, \Phi_p$ del primo passaggio e così via fino a convergenza** -->
+<p>The main drawback of maximum likelihood estimation is that we need to choose <em>a priori</em> a probability density function for the structural shocks, which is in general unknown. We could think of some methods to choose which distribution of the shocks best fits the data. For instance, we could compare the likelihood of the same model with different p.d.f.’s and choose the functional form which gives the likelihood function with highest maximum. However, for the <span class="math inline">\(q = 1\)</span> case, GMR2019 propose a different approach, namely a semi-parametric estimation method which makes no prior assumption on the distribution of the shocks.</p>
+<p>Consider a SVARMA(p,1) process:
+<span class="math display" id="eq:SVARMAp1">\[
+\begin{equation}
+Y_t = \Phi_1 Y_{t-1} + \dots + \Phi_p Y_{t-p} + C\eta_t + C \Theta \eta_{t-1}
+\tag{2.1}
+\end{equation}
+\]</span>
+The procedure consists of two steps.</p>
+<p>First, we use two-stage least squares (2SLS) to estimate <span class="math inline">\(\Phi_1, \dots, \Phi_p\)</span> and <span class="math inline">\(Z_t = C\eta_t + C \Theta \eta_{t-1}\)</span> as <span class="math inline">\(\hat{Z}_t = Y_t - (\hat\Phi_1 Y_{t-1} + \dots + \hat\Phi_p Y_{t-p})\)</span>. Indeed, estimating directly Eq. <a href="gmr-estimation-method.html#eq:SVARMAp1">(2.1)</a> would lead to biased estimates, because the error terms are correlated with <span class="math inline">\(Y_{t-1}\)</span>: <span class="math inline">\(E[Y_{t-1} Z_t] = E[(\Phi_1 Y_{t-2} + \dots + \Phi_{p} Y_{t-p-1} + C\eta_{t-1} + C \Theta \eta_{t-2})( C\eta_t + C \Theta \eta_{t-1}) = C^2\Theta E[\eta_{t-1}^2] \neq 0\)</span>. On the contrary, we can use <span class="math inline">\(Y_{t-2}, \dots, Y_{t-1-k}, k \geq p\)</span> as instruments, whose exogeneity is guaranteed by <span class="math inline">\(E[ C\eta_t + C \Theta \eta_{t-1}| Y_{t-2}, \dots, Y_{t-1-k}] = 0\)</span>, to obtain consistent estimates <span class="math inline">\(\Phi_1\)</span> and, in turn, of <span class="math inline">\(\hat{Z}_t\)</span>. Note that the condition <span class="math inline">\(k\geq p\)</span> assures that the first-stage regression of the TSLS estimator has at least one regressor which is not included in the main equation, thus avoiding multicollinearity.</p>
+<p>The second step exploits moment restrictions on the structural shocks to estimate the mixing matrix <span class="math inline">\(C\)</span> and the matrix of the MA coefficients <span class="math inline">\(\Theta\)</span> from <span class="math inline">\(\hat{Z}_t\)</span>, in a pure MA framework (note that, as pointed out by GMR2019 themselves, if <span class="math inline">\(\Theta_1 = 0\)</span> then <span class="math inline">\(C\)</span> can be directly be estimated via ICA). To this aim, the assumption of non-Gaussianity is crucial, since the moment restrictions regard moments higher than the second.
+To obtain the moment restrictions, we consider the pairwise log-Laplace transform of <span class="math inline">\((Z_t, Z_{t-1})\)</span>, i.e. their joint cumulant generating function (c.g.f.). This would allow to impose the conditions on the cumulants, that uniquely identify the distribution of the shocks. For any <span class="math inline">\(u,v \in \mathbb{R}^n\)</span>, the c.g.f. is
+<span class="math display" id="eq:cgf">\[
+\begin{align}
+\log E[\exp(u&#39;Z_t + v&#39;Z_{t-1})] &amp;= \log E[\exp\left(u&#39;(C\eta_t + (\Theta C) \eta_{t-1}) + v&#39;(C \eta_{t-1} + (\Theta C) \eta_{t-2})   \right)] = \\
+&amp;= \log E[\exp(u&#39;(C\eta_t + (\Theta C) \eta_{t-1})   \exp(v&#39;(C\eta_{t-1} + (\Theta C) \eta_{t-2})] = \\
+&amp;= \log \left( E[\exp(u&#39;C \eta_t)] E[\exp(u&#39;(\Theta C) \eta_{t-1})] E[\exp(v&#39;C \eta_{t-1})] E[\exp(v&#39;(\Theta C) \eta_{t-2})]  \right)
+\tag{2.2}
+\end{align}
+\]</span>
+where the last equality comes from the fact that if two generic random variables <span class="math inline">\(X, Y\)</span> are independent (like <span class="math inline">\(\eta_t, \eta_{t-1}, \eta_{t-2}\)</span>), then <span class="math inline">\(E[e^{t(X+Y)}] = E[e^{tX}]E[e^{tY}]\)</span>. The c.g.f. in Eq. <a href="gmr-estimation-method.html#eq:cgf">(2.2)</a> can be expanded as a McLaurin power series of the form
+<span class="math display">\[
+K(w) = \sum_{n= 1}^\infty \kappa_n\frac{w^n}{n!}
+\]</span>
+where <span class="math inline">\(\kappa_n\)</span> is the <span class="math inline">\(n\)</span>-th cumulant of the distribution. To apply the moment conditions, we expand the series up to the fourth degree. Since <span class="math inline">\(E[\eta_j] = 0, E[\eta^2_j] = 1\)</span>, we have
+<span class="math display">\[
+K_{\eta_j}(w) = \frac{w^2}{2} + \frac{w^3}{6}\kappa_{3j} + \frac{w^4}{24}\kappa_{4j}
+\]</span>
+By further algebraic manipulations, we can get the four moment conditions that hold for any couple <span class="math inline">\((u,v)\)</span>.
+<span class="math display" id="eq:moments">\[
+\begin{align}
+E[(u&#39;Z_t + v&#39; Z_{t-1})^2] &amp;= \sum_{j= 1}^n [(u&#39;C_j)^2 + (u&#39;(\Theta C)_j + v&#39;C_j)^2 + (v&#39;(\Theta C)_j)^2]\\
+E[(u&#39;Z_t + v&#39; Z_{t-1})^3] &amp;= \sum_{j= 1}^n \kappa_{3j}[(u&#39;C_j)^3 + (u&#39;(\Theta C)_j + v&#39;C_j)^3 + (v&#39;(\Theta C)_j)^3]        \\
+E[(u&#39;Z_t + v&#39; Z_{t-1})^4] &amp;= \sum_{j= 1}^n \kappa_{4j}[(u&#39;C_j)^4 + (u&#39;(\Theta C)_j + v&#39;C_j)^4 + (v&#39;(\Theta C)_j)^4] + \\
+&amp; + 3\left(\sum_{j= 1}^n [(u&#39;C_j)^2 + (u&#39;(\Theta C)_j + v&#39;C_j)^2 + (v&#39;(\Theta C)_j)^2]\right)^2
+\tag{2.3}
+\end{align}
+\]</span></p>
+<p>Therefore, the set of moment restrictions is of the form
+<span class="math display">\[
+E[h(Z_t, Z_{t-1}); \beta] = 0, \quad \text{with } \beta = [\text{vec}C&#39;, \text{vec}(\Theta C)&#39;, \kappa_{31}, \dots, \kappa_{3n}, \kappa_{41}, \dots, \kappa_{4n}]
+\]</span>
+where <span class="math inline">\(h(.)\)</span> is defined as in Eqs. <a href="gmr-estimation-method.html#eq:moments">(2.3)</a>. Since the number of parameters to be estimated in <span class="math inline">\(\beta\)</span> is <span class="math inline">\(2n^2+2n\)</span>, the order condition is <span class="math inline">\(r\geq 2n^2+2n\)</span>.</p>
+<p>Therefore, by exploiting the analogy principle between the population and the sample moments, we can obtain the estimator for <span class="math inline">\(\beta\)</span> as
+<span class="math display">\[
+\hat\beta = \arg\min_\beta \frac{1}{T}\sum_{t=1}^Th(\hat{Z}_t, \hat{Z}_{t-1}; \beta)
+\]</span></p>
+<p>The following example clarifies the procedure in the MA(1) case.</p>
+<div class="example">
+<p><span id="exm:unlabeled-div-7" class="example"><strong>Example 2.2  (Moment method in the MA(1) case) </strong></span>In the case of a MA(1), <span class="math inline">\(\theta\)</span> can be easily identified if the distribution of the shocks is skewed. Indeed:
+<span class="math display">\[
+\begin{align}
+E[y_t y_{t-1}^2] &amp;= E[(\varepsilon_{t}-\theta \varepsilon_{t-1})(\varepsilon_{t-1}-\theta \varepsilon_{t-2})^2] = -\theta E[\varepsilon_{t}^3] \\
+E[y_t^2 y_{t-1}] &amp;= E[(\varepsilon_{t}-\theta \varepsilon_{t-1})^2(\varepsilon_{t-1}-\theta \varepsilon_{t-2})] = \theta^2 E[\varepsilon_{t}^3]
+\end{align}
+\]</span>
+Therefore, whenever <span class="math inline">\(E[\varepsilon_{t}^3] \neq 0\)</span>, the parameter is identified as
+<span class="math display">\[
+\theta = - \frac{E[y_t^2 y_{t-1}]}{E[y_t y_{t-1}^2]}
+\]</span>
+and can be consistently estimated as <span class="math inline">\(\hat\theta = - \frac{\sum_{t=1}^T y_t y_t^2}{\sum_{t=1}^T y_t^2 y_t}\)</span>.</p>
+</div>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="introduction.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["Dynamic-Identification-GitHub2.pdf", "Dynamic-Identification-GitHub2.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
