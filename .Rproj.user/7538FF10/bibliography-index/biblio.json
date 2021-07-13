@@ -1,0 +1,52 @@
+{
+    "sources": [
+        {
+            "author": [
+                {
+                    "family": "Hamilton",
+                    "given": "James Douglas"
+                }
+            ],
+            "id": "hamilton1994",
+            "issued": {
+                "date-parts": [
+                    [
+                        1994
+                    ]
+                ]
+            },
+            "publisher": "Princeton university press",
+            "title": "Time series analysis",
+            "type": "book"
+        },
+        {
+            "author": [
+                {
+                    "family": "Blanchard",
+                    "given": "Olivier Jean"
+                },
+                {
+                    "family": "Quah",
+                    "given": "Danny"
+                }
+            ],
+            "container-title": "American Economic Review",
+            "id": "BlanchardQuah1989",
+            "issue": "4",
+            "issued": {
+                "date-parts": [
+                    [
+                        1989
+                    ]
+                ]
+            },
+            "page": "655-673",
+            "title": "The Dynamic Effects of Aggregate Demand and Supply Disturbances",
+            "type": "article-journal",
+            "volume": "79"
+        }
+    ],
+    "project_biblios": [
+        "book.bib"
+    ]
+}
