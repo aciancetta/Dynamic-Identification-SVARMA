@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Section 3 SVARMA(1,1) example | Dynamic Identification in SVARMA Models</title>
+  <meta name="description" content="This book present the general framework of VARMA models and introduces the notion of non-fundamentalness. The problem is assessed using the methodology of Gourieroux, Manfort and Renne (2019), which is illustrated in detail, within the framework of non-Gaussian and independent structural shocks of the corresponding structural model. Simulations and application to real-world data are presented." />
+  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Section 3 SVARMA(1,1) example | Dynamic Identification in SVARMA Models" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This book present the general framework of VARMA models and introduces the notion of non-fundamentalness. The problem is assessed using the methodology of Gourieroux, Manfort and Renne (2019), which is illustrated in detail, within the framework of non-Gaussian and independent structural shocks of the corresponding structural model. Simulations and application to real-world data are presented." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Section 3 SVARMA(1,1) example | Dynamic Identification in SVARMA Models" />
+  
+  <meta name="twitter:description" content="This book present the general framework of VARMA models and introduces the notion of non-fundamentalness. The problem is assessed using the methodology of Gourieroux, Manfort and Renne (2019), which is illustrated in detail, within the framework of non-Gaussian and independent structural shocks of the corresponding structural model. Simulations and application to real-world data are presented." />
+  
+
+<meta name="author" content="Alessandro Ciancetta" />
+
+
+<meta name="date" content="2021-07-13" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="gmr-estimation-method.html"/>
+<link rel="next" href="application-to-real-world-data.html"/>
+<script src="libs/header-attrs-2.7/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Dynamic Identification in SVARMAs</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Abstract</a></li>
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="introduction.html"><a href="introduction.html#assumptions-for-ssvarma-models"><i class="fa fa-check"></i><b>1.1</b> Assumptions for SSVARMA models</a></li>
+<li class="chapter" data-level="1.2" data-path="introduction.html"><a href="introduction.html#invertibility-of-the-ma-part"><i class="fa fa-check"></i><b>1.2</b> Invertibility of the MA part</a></li>
+<li class="chapter" data-level="1.3" data-path="introduction.html"><a href="introduction.html#non-fundamentalness"><i class="fa fa-check"></i><b>1.3</b> Non-fundamentalness</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="gmr-estimation-method.html"><a href="gmr-estimation-method.html"><i class="fa fa-check"></i><b>2</b> GMR estimation method</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="gmr-estimation-method.html"><a href="gmr-estimation-method.html#maximum-likelihood-approach"><i class="fa fa-check"></i><b>2.1</b> Maximum likelihood approach</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="gmr-estimation-method.html"><a href="gmr-estimation-method.html#ma1-case"><i class="fa fa-check"></i><b>2.1.1</b> MA(1) case</a></li>
+<li class="chapter" data-level="2.1.2" data-path="gmr-estimation-method.html"><a href="gmr-estimation-method.html#ssvarmap1-case"><i class="fa fa-check"></i><b>2.1.2</b> SSVARMA(p,1) case</a></li>
+<li class="chapter" data-level="2.1.3" data-path="gmr-estimation-method.html"><a href="gmr-estimation-method.html#svarmapq-case"><i class="fa fa-check"></i><b>2.1.3</b> SVARMA(p,q) case</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="gmr-estimation-method.html"><a href="gmr-estimation-method.html#semi-parametric-estimation-two-stage-2sls-gmm-approach"><i class="fa fa-check"></i><b>2.2</b> Semi-parametric estimation: Two-stage 2SLS-GMM approach</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="svarma11-example.html"><a href="svarma11-example.html"><i class="fa fa-check"></i><b>3</b> SVARMA(1,1) example</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="svarma11-example.html"><a href="svarma11-example.html#simulation"><i class="fa fa-check"></i><b>3.1</b> Simulation</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="svarma11-example.html"><a href="svarma11-example.html#two-gaussian-mixtures"><i class="fa fa-check"></i><b>3.1.1</b> Two Gaussian mixtures</a></li>
+<li class="chapter" data-level="3.1.2" data-path="svarma11-example.html"><a href="svarma11-example.html#gaussian-mixture-and-t-student"><i class="fa fa-check"></i><b>3.1.2</b> Gaussian mixture and t-student</a></li>
+<li class="chapter" data-level="3.1.3" data-path="svarma11-example.html"><a href="svarma11-example.html#two-t-student"><i class="fa fa-check"></i><b>3.1.3</b> Two t-student</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="svarma11-example.html"><a href="svarma11-example.html#estimation"><i class="fa fa-check"></i><b>3.2</b> Estimation</a></li>
+<li class="chapter" data-level="3.3" data-path="svarma11-example.html"><a href="svarma11-example.html#results"><i class="fa fa-check"></i><b>3.3</b> Results</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="svarma11-example.html"><a href="svarma11-example.html#two-gaussian-mixtures-1"><i class="fa fa-check"></i><b>3.3.1</b> Two Gaussian Mixtures</a></li>
+<li class="chapter" data-level="3.3.2" data-path="svarma11-example.html"><a href="svarma11-example.html#gaussian-mixtures-and-t-student"><i class="fa fa-check"></i><b>3.3.2</b> Gaussian mixtures and t-student</a></li>
+<li class="chapter" data-level="3.3.3" data-path="svarma11-example.html"><a href="svarma11-example.html#two-t-student-1"><i class="fa fa-check"></i><b>3.3.3</b> Two t-student</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="application-to-real-world-data.html"><a href="application-to-real-world-data.html"><i class="fa fa-check"></i><b>4</b> Application to real-world data</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Dynamic Identification in SVARMA Models</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="svarma11-example" class="section level1" number="3">
+<h1><span class="header-section-number">Section 3</span> SVARMA(1,1) example</h1>
+<p>We now follow the procedure from GMR2019 to simulate a (stationary) structural VARMA process. We will then use both the maximum-likelihood and the two-step 2SLS-GMM procedure proposed by the authors to estimate the model and compare the results with the true values. The process we simulate is the following bivariate SVARMA(1,1):
+<span class="math display">\[
+y_t = \Phi_1 y_{t-1} + C\eta_t + \Theta C\eta_{t-1},
+\]</span></p>
+<p>where <span class="math inline">\(C\)</span> is the mixing matrix and <span class="math inline">\(\eta_t\)</span> are the <strong>independent</strong> and <strong>non-Gaussian</strong> structural shocks of the process. The extensive form of the system is the following:
+<span class="math display">\[
+\begin{cases}
+y_{1t} = \phi_{11} y_{1t-1} + \phi_{12} y_{2t-1} + c_{11} \eta_{1t} + c_{12} \eta_{2t} + (\theta_{11} c_{11} + \theta_{12} c_{21}) \eta_{1t-1} + (\theta_{11} c_{12} + \theta_{12} c_{22}) \eta_{2t-1}   \\
+y_{2t} = \phi_{21} y_{1t-1} + \phi_{22} y_{2t-1} + c_{21} \eta_{1t} + c_{22} \eta_{2t} + (\theta_{21} c_{11} + \theta_{22} c_{21}) \eta_{1t-1} + (\theta_{21} c_{12} + \theta_{22} c_{22}) \eta_{2t-1} 
+\end{cases}
+\]</span>
+We can see that the moving average structure of the system greatly increase the complexity of the model with respect to a standard SVAR(1) process. In particular, the system reacts not only to contemporaneous shocks but also to past shocks in both variables. The entity of the reaction is described by <span class="math inline">\(\Theta\)</span>, which must be identified together with the mixing matrix <span class="math inline">\(C\)</span>.</p>
+<p>In a nutshell, the problem of non-fundamentalness mainly consists on the inadequacy of standard estimation techniques when a coefficient <span class="math inline">\(\theta_{ij}\)</span> is greater than one in modulus. This can actually be e frequent case in practice, since it means that some shocks may have a lagged impact and unfold their effects after one or more periods.</p>
+<p>Below, I adapt the code provided by GMR2019 to show a minimal practical example of their estimation technique using simulated data.</p>
+<div id="simulation" class="section level2" number="3.1">
+<h2><span class="header-section-number">3.1</span> Simulation</h2>
+<p>To illustrate the method and evaluate its performances, we simulate different processes characterized by different distributions of the structural shocks.</p>
+<p>In particular, we will draw the shocks from three different combinations: two Gaussian mixtures; one Gaussian mixture and one Student t; two Student t. We will show that the method is imprecise when the distribution of one of the shocks is a Student t with many degrees of freedom, because this is similar to the Gaussian case and identification based on higher order moments fails. On the contrary, a precise estimation is achieved when the shocks are distributed as Gaussian mixtures, since the moments higher than the second are distant in the (true) non-fundamental process and its fundamental representation.</p>
+<p>For the purposes of the simulation study, we have to generate shocks whose distribution has skewness and kurtosis that are set in advance. To this end, we have to choose the parameters of the distribution which are consistent with the chosen skewness and kurtosis. This passage requires a bit of algebraic manipulations in the case of the mixture Gaussian distribution. Consider the following p.d.f. of a Gaussian mixture:</p>
+<p><span class="math display">\[
+g(\mu_1, \mu_2, \sigma_1, \sigma_2, p) = p \ N(\mu_1, \sigma_1) +  (1-p) \ \ N(\mu_2, \sigma_2)
+\]</span></p>
+<p>where <span class="math inline">\(N(\mu_i, \sigma_i) = \frac{1}{\sigma_i \sqrt{2\pi}} \exp\left[-\frac{1}{2}\left(\frac{x-\mu_i}{\sigma_i}\right)^2\right]\)</span> denotes the p.d.f. of the Normal distribution. We want to fix the third and fourth cumulants of the distribution and compute the parameters <span class="math inline">\(\mu_1, \mu_2, \sigma_1, \sigma_2\)</span> accordingly.</p>
+<p>Let <span class="math inline">\(X \sim g(\mu_1, \mu_2, \sigma_1, \sigma_2, p)\)</span>, with <span class="math inline">\(X_1 \sim N(\mu_1, \sigma_1), \ X_2 \sim N(\mu_2, \sigma_2)\)</span>. We impose: <span class="math display">\[
+\begin{align}
+E[X] &amp;= 0 \\
+E[X^2] &amp;= 1 \\
+E[X^3] &amp;= \kappa_3 \\
+E[X^4] &amp;= \kappa_4
+\end{align}
+\]</span> We also know that <span class="math display">\[
+\begin{align}
+E[X_i] &amp;= \mu_i \\
+E[X_i^2] &amp;= \sigma_i^2+\mu_i^2 \\
+E[X_i^3] &amp;= \mu_i^3 + 3\mu_i\sigma_i^2  \\
+E[X_i^4] &amp;= \mu_i^4 + 6\mu_i^2\sigma_i^2 + 3\sigma_i^4
+\end{align}
+\]</span> and <span class="math display">\[
+E[h(X)] = p E[h(X_1)] + (1-p)E[h(X_2)]   
+\]</span> From the previous expressions we get: <span class="math display" id="eq:parametrization-mixt">\[
+\begin{align}
+p \mu_1 + (1-p) \mu_2 &amp;= 0 \implies \mu_2 = -\frac{p}{1-p} \mu_1 \\
+p (\sigma_1^2 + \mu_1^2) + (1-p) (\sigma_2^2 + \mu_2^2) &amp;= 1 \implies \sigma_2^2 = \frac{1}{1-p}\left(1 - p\sigma_1^2 - \frac{p}{1-p}\mu_1^2\right) \\
+p(\mu_1^3 + 3\mu_1\sigma_1^2) + (1-p)(\mu_2^3 + 3\mu_2\sigma_2^2) &amp;= \kappa_3\implies
+\sigma_1^2 = \frac{1-p}{3p \mu_1} \left[\kappa_3 - \frac{p(1+p)}{(1-p)^2} \mu_1^3 + \frac{3p\mu_1}{1-p}\right]
+\end{align}
+\tag{3.1}
+\]</span> We are left to find a parameter <span class="math inline">\(\mu_1\)</span> consistent with <span class="math inline">\(\kappa_3, \kappa_4\)</span>. To this end, in the simulation we proceed as follows:</p>
+<ul>
+<li>Initialize e vector of <span class="math inline">\(\tilde{\mu}_1\)</span> in regular intervals of (-30, 30)</li>
+<li>For each value in <span class="math inline">\(\tilde{\mu}_1\)</span>, compute the corresponding <span class="math inline">\(\tilde{\mu}_2, \tilde{\sigma}_1, \tilde{\sigma}_2\)</span> using the formulas in Eq. <a href="svarma11-example.html#eq:parametrization-mixt">(3.1)</a>.</li>
+<li>For each of the resulting Gaussian mixture <span class="math inline">\(g(\tilde{\mu}_1, \tilde{\mu}_2, \tilde{\sigma}_2, \tilde{\sigma}_2)\)</span>, compute the kurtosis
+<span class="math display">\[
+\tilde{\kappa}_4(\tilde{\mu}_1) = p(\tilde\mu_i^4 + 6\tilde\mu_i^2\tilde\sigma_i^2 + 3\tilde\sigma_i^4) + (1-p)(\tilde\mu_i^4 + 6\tilde\mu_i^2\tilde\sigma_i^2 + 3\tilde\sigma_i^4)
+\]</span></li>
+<li>Choose the <span class="math inline">\(\mu_1\)</span> that minimizes the distance from the desired <span class="math inline">\(\kappa_4\)</span>: <span class="math display">\[
+ \mu_1 = \arg \min_{\tilde{\mu_1}} [\tilde{\kappa}_4(\tilde{\mu}_1) - \kappa_4]^2
+ \]</span></li>
+</ul>
+<p>Moreover, in their code, GMR2019 introduce a different parametrization of the Gaussian mixture, that is in one-to-one relation with the original one but is computationally more stable for their algorithm. It uses three parameters for each distribution that are trigonometric transformations of the original parameters.
+<!-- 
+DUBBI:
+-   perché kappa.4.modif ?
+--></p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="svarma11-example.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Run relevant packages</span></span>
+<span id="cb1-2"><a href="svarma11-example.html#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(optimx)      <span class="co"># Optimization for maximum likelihood</span></span>
+<span id="cb1-3"><a href="svarma11-example.html#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(vars)</span></code></pre></div>
+<pre><code>## Loading required package: MASS</code></pre>
+<pre><code>## Loading required package: strucchange</code></pre>
+<pre><code>## Loading required package: zoo</code></pre>
+<pre><code>## 
+## Attaching package: &#39;zoo&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     as.Date, as.Date.numeric</code></pre>
+<pre><code>## Loading required package: sandwich</code></pre>
+<pre><code>## Loading required package: urca</code></pre>
+<pre><code>## Loading required package: lmtest</code></pre>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="svarma11-example.html#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(doParallel)  <span class="co"># Parallel computing for long executions</span></span></code></pre></div>
+<pre><code>## Loading required package: foreach</code></pre>
+<pre><code>## Loading required package: iterators</code></pre>
+<pre><code>## Loading required package: parallel</code></pre>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="svarma11-example.html#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(compiler)</span>
+<span id="cb14-2"><a href="svarma11-example.html#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span></code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;stringr&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:strucchange&#39;:
+## 
+##     boundary</code></pre>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="svarma11-example.html#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Matrix)</span>
+<span id="cb17-2"><a href="svarma11-example.html#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
+<pre><code>## -- Attaching packages --------------------------------------- tidyverse 1.3.0 --</code></pre>
+<pre><code>## v ggplot2 3.3.2     v purrr   0.3.4
+## v tibble  3.0.3     v dplyr   1.0.3
+## v tidyr   1.1.2     v forcats 0.4.0
+## v readr   1.4.0</code></pre>
+<pre><code>## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+## x purrr::accumulate() masks foreach::accumulate()
+## x stringr::boundary() masks strucchange::boundary()
+## x tidyr::expand()     masks Matrix::expand()
+## x dplyr::filter()     masks stats::filter()
+## x dplyr::lag()        masks stats::lag()
+## x tidyr::pack()       masks Matrix::pack()
+## x dplyr::select()     masks MASS::select()
+## x tidyr::unpack()     masks Matrix::unpack()
+## x purrr::when()       masks foreach::when()</code></pre>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="svarma11-example.html#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb21-2"><a href="svarma11-example.html#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="svarma11-example.html#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="do">## Set working directory</span></span>
+<span id="cb21-4"><a href="svarma11-example.html#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">&quot;C:/Users/Alessandro Ciancetta/Documents/Universita/UniPi/V/TesiEconomics/Papers SSVARMA/Gourieroux2019-Supplementary_2021/Rcodes_2021&quot;</span>)</span>
+<span id="cb21-5"><a href="svarma11-example.html#cb21-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-6"><a href="svarma11-example.html#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="do">## Load the code by GMR2019</span></span>
+<span id="cb21-7"><a href="svarma11-example.html#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">&quot;various_prog/set.of.procedures.R&quot;</span>)</span></code></pre></div>
+<p>As a first step, we define the length of the sample an its dimensionality.</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="svarma11-example.html#cb22-1" aria-hidden="true" tabindex="-1"></a>T <span class="ot">&lt;-</span> <span class="dv">300</span>   <span class="co"># Sample size</span></span>
+<span id="cb22-2"><a href="svarma11-example.html#cb22-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">2</span>     <span class="co"># Number of variables</span></span></code></pre></div>
+<p>We now set the model parameters and the initial values of the simulation.</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="svarma11-example.html#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Model parameters</span></span>
+<span id="cb23-2"><a href="svarma11-example.html#cb23-2" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="dv">1</span>                            <span class="co"># number of lags</span></span>
+<span id="cb23-3"><a href="svarma11-example.html#cb23-3" aria-hidden="true" tabindex="-1"></a>Phi <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="dv">0</span>,<span class="fu">c</span>(n,n,p))          <span class="co"># AR coefficients</span></span>
+<span id="cb23-4"><a href="svarma11-example.html#cb23-4" aria-hidden="true" tabindex="-1"></a>Phi[<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>] <span class="ot">&lt;-</span> .<span class="dv">8</span></span>
+<span id="cb23-5"><a href="svarma11-example.html#cb23-5" aria-hidden="true" tabindex="-1"></a>Phi[<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">1</span>] <span class="ot">&lt;-</span> .<span class="dv">3</span></span>
+<span id="cb23-6"><a href="svarma11-example.html#cb23-6" aria-hidden="true" tabindex="-1"></a>Phi[<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="sc">-</span>.<span class="dv">3</span></span>
+<span id="cb23-7"><a href="svarma11-example.html#cb23-7" aria-hidden="true" tabindex="-1"></a>Phi[<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">1</span>] <span class="ot">&lt;-</span> .<span class="dv">5</span></span>
+<span id="cb23-8"><a href="svarma11-example.html#cb23-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-9"><a href="svarma11-example.html#cb23-9" aria-hidden="true" tabindex="-1"></a>q <span class="ot">&lt;-</span> <span class="dv">1</span>                            <span class="co"># MA order</span></span>
+<span id="cb23-10"><a href="svarma11-example.html#cb23-10" aria-hidden="true" tabindex="-1"></a>Theta <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="cn">NaN</span>,<span class="fu">c</span>(n,n,q))      <span class="co"># MA coefficients (non-fundamental)</span></span>
+<span id="cb23-11"><a href="svarma11-example.html#cb23-11" aria-hidden="true" tabindex="-1"></a>Theta[,,<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fu">diag</span>(<span class="fu">c</span>(<span class="sc">-</span>.<span class="dv">5</span>,<span class="sc">-</span><span class="dv">2</span>))</span>
+<span id="cb23-12"><a href="svarma11-example.html#cb23-12" aria-hidden="true" tabindex="-1"></a>Theta[<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb23-13"><a href="svarma11-example.html#cb23-13" aria-hidden="true" tabindex="-1"></a>Theta[<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb23-14"><a href="svarma11-example.html#cb23-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-15"><a href="svarma11-example.html#cb23-15" aria-hidden="true" tabindex="-1"></a>Mu <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">0</span>,n)                    <span class="co"># intercept (null)</span></span>
+<span id="cb23-16"><a href="svarma11-example.html#cb23-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-17"><a href="svarma11-example.html#cb23-17" aria-hidden="true" tabindex="-1"></a>C <span class="ot">&lt;-</span> <span class="fu">diag</span>(n)                      <span class="co"># mixing matrix</span></span>
+<span id="cb23-18"><a href="svarma11-example.html#cb23-18" aria-hidden="true" tabindex="-1"></a>C[<span class="dv">1</span>,<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb23-19"><a href="svarma11-example.html#cb23-19" aria-hidden="true" tabindex="-1"></a>C[<span class="dv">2</span>,<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb23-20"><a href="svarma11-example.html#cb23-20" aria-hidden="true" tabindex="-1"></a>C[<span class="dv">1</span>,<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb23-21"><a href="svarma11-example.html#cb23-21" aria-hidden="true" tabindex="-1"></a>C[<span class="dv">2</span>,<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="fl">0.5</span></span>
+<span id="cb23-22"><a href="svarma11-example.html#cb23-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-23"><a href="svarma11-example.html#cb23-23" aria-hidden="true" tabindex="-1"></a><span class="do">## Initial values for the simulation</span></span>
+<span id="cb23-24"><a href="svarma11-example.html#cb23-24" aria-hidden="true" tabindex="-1"></a>Y0 <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">0</span>,n<span class="sc">*</span>p)</span>
+<span id="cb23-25"><a href="svarma11-example.html#cb23-25" aria-hidden="true" tabindex="-1"></a>eta0 <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">0</span>,q <span class="sc">*</span> n)</span></code></pre></div>
+<p>In the next three sections, we set up three different combinations for the distribution of the shocks.</p>
+<div id="two-gaussian-mixtures" class="section level3" number="3.1.1">
+<h3><span class="header-section-number">3.1.1</span> Two Gaussian mixtures</h3>
+<p>We begin by specifying the model for the case where both the shocks are distributed as Gaussian mixtures.</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="svarma11-example.html#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Shock 1 distribution</span></span>
+<span id="cb24-2"><a href="svarma11-example.html#cb24-2" aria-hidden="true" tabindex="-1"></a>p<span class="fl">.1</span> <span class="ot">&lt;-</span> .<span class="dv">1</span>           <span class="co"># mixing probability</span></span>
+<span id="cb24-3"><a href="svarma11-example.html#cb24-3" aria-hidden="true" tabindex="-1"></a>kappa<span class="fl">.3</span>_1 <span class="ot">&lt;-</span> <span class="dv">2</span>      <span class="co"># third cumulant</span></span>
+<span id="cb24-4"><a href="svarma11-example.html#cb24-4" aria-hidden="true" tabindex="-1"></a>kappa<span class="fl">.4</span>_1 <span class="ot">&lt;-</span> <span class="dv">6</span>      <span class="co"># fourth cumulant</span></span>
+<span id="cb24-5"><a href="svarma11-example.html#cb24-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-6"><a href="svarma11-example.html#cb24-6" aria-hidden="true" tabindex="-1"></a><span class="do">## Change in parameters used for GMM estimation</span></span>
+<span id="cb24-7"><a href="svarma11-example.html#cb24-7" aria-hidden="true" tabindex="-1"></a>kappa.<span class="fl">3.</span>modif <span class="ot">&lt;-</span> <span class="fu">c</span>(kappa<span class="fl">.3</span>_1)</span>
+<span id="cb24-8"><a href="svarma11-example.html#cb24-8" aria-hidden="true" tabindex="-1"></a>kappa.<span class="fl">4.</span>modif <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span> <span class="sc">+</span> kappa<span class="fl">.4</span>_1 <span class="sc">-</span> kappa<span class="fl">.3</span>_1<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb24-9"><a href="svarma11-example.html#cb24-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-10"><a href="svarma11-example.html#cb24-10" aria-hidden="true" tabindex="-1"></a><span class="do">## Baseline and alternative parametrization of the Gaussian (for computational convenience)</span></span>
+<span id="cb24-11"><a href="svarma11-example.html#cb24-11" aria-hidden="true" tabindex="-1"></a>param.mixture<span class="fl">.1</span> <span class="ot">&lt;-</span> <span class="fu">get.Gaussian.mixture.from.kappa</span>(kappa<span class="fl">.3</span>_1,kappa<span class="fl">.4</span>_1,p<span class="fl">.1</span>)</span></code></pre></div>
+<p><img src="Dynamic-Identification-GitHub2_files/figure-html/shock1distr-1.png" width="672" /></p>
+<pre><code>## [1] &quot;Variance of distri.:1&quot;
+## [1] &quot;kappa_3 of distri.:2&quot;
+## [1] &quot;kappa_4 of distri.:5.9998955175277&quot;</code></pre>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="svarma11-example.html#cb26-1" aria-hidden="true" tabindex="-1"></a>param.distri<span class="fl">.1</span> <span class="ot">&lt;-</span> <span class="fu">make.theta1.2.3</span>(p<span class="fl">.1</span>,param.mixture<span class="fl">.1</span><span class="sc">$</span>mu<span class="fl">.1</span>,param.mixture<span class="fl">.1</span><span class="sc">$</span>sigma<span class="fl">.1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="svarma11-example.html#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Shock 2 distribution</span></span>
+<span id="cb27-2"><a href="svarma11-example.html#cb27-2" aria-hidden="true" tabindex="-1"></a>p<span class="fl">.2</span> <span class="ot">&lt;-</span> .<span class="dv">5</span></span>
+<span id="cb27-3"><a href="svarma11-example.html#cb27-3" aria-hidden="true" tabindex="-1"></a>kappa<span class="fl">.3</span>_2 <span class="ot">&lt;-</span> <span class="fl">1.1</span></span>
+<span id="cb27-4"><a href="svarma11-example.html#cb27-4" aria-hidden="true" tabindex="-1"></a>kappa<span class="fl">.4</span>_2 <span class="ot">&lt;-</span> <span class="fl">1.5</span></span>
+<span id="cb27-5"><a href="svarma11-example.html#cb27-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-6"><a href="svarma11-example.html#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="do">## Change in parameters used for GMM estimation</span></span>
+<span id="cb27-7"><a href="svarma11-example.html#cb27-7" aria-hidden="true" tabindex="-1"></a>kappa.<span class="fl">3.</span>modif <span class="ot">&lt;-</span> <span class="fu">c</span>(kappa.<span class="fl">3.</span>modif,kappa<span class="fl">.3</span>_2)</span>
+<span id="cb27-8"><a href="svarma11-example.html#cb27-8" aria-hidden="true" tabindex="-1"></a>kappa.<span class="fl">4.</span>modif <span class="ot">&lt;-</span> <span class="fu">c</span>(kappa.<span class="fl">4.</span>modif,<span class="dv">2</span> <span class="sc">+</span> kappa<span class="fl">.4</span>_2 <span class="sc">-</span> kappa<span class="fl">.3</span>_2<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb27-9"><a href="svarma11-example.html#cb27-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-10"><a href="svarma11-example.html#cb27-10" aria-hidden="true" tabindex="-1"></a><span class="do">## Baseline and alternative parametrization of the Gaussian (for computational convenience)</span></span>
+<span id="cb27-11"><a href="svarma11-example.html#cb27-11" aria-hidden="true" tabindex="-1"></a>param.mixture<span class="fl">.2</span> <span class="ot">&lt;-</span> <span class="fu">get.Gaussian.mixture.from.kappa</span>(kappa<span class="fl">.3</span>_2,kappa<span class="fl">.4</span>_2,p<span class="fl">.2</span>)</span></code></pre></div>
+<p><img src="Dynamic-Identification-GitHub2_files/figure-html/shock2distr-1.png" width="672" /></p>
+<pre><code>## [1] &quot;Variance of distri.:1&quot;
+## [1] &quot;kappa_3 of distri.:1.1&quot;
+## [1] &quot;kappa_4 of distri.:1.5003007769495&quot;</code></pre>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="svarma11-example.html#cb29-1" aria-hidden="true" tabindex="-1"></a>param.distri<span class="fl">.2</span> <span class="ot">&lt;-</span> <span class="fu">make.theta1.2.3</span>(p<span class="fl">.2</span>,param.mixture<span class="fl">.2</span><span class="sc">$</span>mu<span class="fl">.1</span>,param.mixture<span class="fl">.2</span><span class="sc">$</span>sigma<span class="fl">.1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="svarma11-example.html#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Summarize the distribution of the shocks in a unique object</span></span>
+<span id="cb30-2"><a href="svarma11-example.html#cb30-2" aria-hidden="true" tabindex="-1"></a>distri_mixt2 <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">type=</span><span class="fu">c</span>(<span class="st">&quot;mixt.gaussian&quot;</span>,<span class="st">&quot;mixt.gaussian&quot;</span>),</span>
+<span id="cb30-3"><a href="svarma11-example.html#cb30-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">mu=</span><span class="fu">c</span>(param.mixture<span class="fl">.1</span><span class="sc">$</span>mu<span class="fl">.1</span>,param.mixture<span class="fl">.2</span><span class="sc">$</span>mu<span class="fl">.1</span>),</span>
+<span id="cb30-4"><a href="svarma11-example.html#cb30-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">sigma=</span><span class="fu">c</span>(param.mixture<span class="fl">.1</span><span class="sc">$</span>sigma<span class="fl">.1</span>,param.mixture<span class="fl">.2</span><span class="sc">$</span>sigma<span class="fl">.1</span>),</span>
+<span id="cb30-5"><a href="svarma11-example.html#cb30-5" aria-hidden="true" tabindex="-1"></a>               <span class="at">p=</span><span class="fu">c</span>(p<span class="fl">.1</span>, p<span class="fl">.2</span>),</span>
+<span id="cb30-6"><a href="svarma11-example.html#cb30-6" aria-hidden="true" tabindex="-1"></a>               <span class="at">df=</span><span class="fu">c</span>(<span class="cn">NaN</span>,<span class="cn">NaN</span>))</span>
+<span id="cb30-7"><a href="svarma11-example.html#cb30-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-8"><a href="svarma11-example.html#cb30-8" aria-hidden="true" tabindex="-1"></a><span class="do">## Create an object Model</span></span>
+<span id="cb30-9"><a href="svarma11-example.html#cb30-9" aria-hidden="true" tabindex="-1"></a>Model_mixt2 <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb30-10"><a href="svarma11-example.html#cb30-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">Mu =</span> Mu,</span>
+<span id="cb30-11"><a href="svarma11-example.html#cb30-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">Phi =</span> Phi,</span>
+<span id="cb30-12"><a href="svarma11-example.html#cb30-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">Theta =</span> Theta,</span>
+<span id="cb30-13"><a href="svarma11-example.html#cb30-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">C =</span> C,</span>
+<span id="cb30-14"><a href="svarma11-example.html#cb30-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">distri =</span> distri_mixt2</span>
+<span id="cb30-15"><a href="svarma11-example.html#cb30-15" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p>The function <code>simul.VARMA</code> simulates the SVARMA process using the given parameters and initial values. The shocks are generated according to the distributions specified in the object <code>Model_mixt2$distri</code>.</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="svarma11-example.html#cb31-1" aria-hidden="true" tabindex="-1"></a>res_mixt2 <span class="ot">&lt;-</span> <span class="fu">simul.VARMA</span>(Model_mixt2,</span>
+<span id="cb31-2"><a href="svarma11-example.html#cb31-2" aria-hidden="true" tabindex="-1"></a>                   <span class="at">nb.sim =</span> T<span class="sc">+</span><span class="dv">1</span>,</span>
+<span id="cb31-3"><a href="svarma11-example.html#cb31-3" aria-hidden="true" tabindex="-1"></a>                   Y0,eta0)</span>
+<span id="cb31-4"><a href="svarma11-example.html#cb31-4" aria-hidden="true" tabindex="-1"></a>Y_mixt2 <span class="ot">&lt;-</span> <span class="fu">t</span>(res_mixt2<span class="sc">$</span>Y)[,<span class="dv">1</span><span class="sc">:</span>n]</span>
+<span id="cb31-5"><a href="svarma11-example.html#cb31-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-6"><a href="svarma11-example.html#cb31-6" aria-hidden="true" tabindex="-1"></a>data_sim <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">date =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(Y_mixt2), <span class="at">Y1 =</span> Y_mixt2[,<span class="dv">1</span>], <span class="at">Y2 =</span> Y_mixt2[,<span class="dv">2</span>]) <span class="sc">%&gt;%</span> </span>
+<span id="cb31-7"><a href="svarma11-example.html#cb31-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span>date, <span class="at">names_to =</span> <span class="st">&quot;factor&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;value&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb31-8"><a href="svarma11-example.html#cb31-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">factor =</span> <span class="fu">fct_relevel</span>(factor, <span class="fu">names</span>(Y_mixt2)))</span>
+<span id="cb31-9"><a href="svarma11-example.html#cb31-9" aria-hidden="true" tabindex="-1"></a>data_sim <span class="sc">%&gt;%</span> </span>
+<span id="cb31-10"><a href="svarma11-example.html#cb31-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> value)) <span class="sc">+</span> </span>
+<span id="cb31-11"><a href="svarma11-example.html#cb31-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb31-12"><a href="svarma11-example.html#cb31-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="fu">vars</span>(factor), <span class="at">nrow =</span> <span class="fu">ncol</span>(Y_mixt2), <span class="at">dir =</span> <span class="st">&quot;v&quot;</span>, <span class="at">scales =</span> <span class="st">&quot;free&quot;</span>) <span class="sc">+</span></span>
+<span id="cb31-13"><a href="svarma11-example.html#cb31-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Simulated series (two Gaussian mixtures)&quot;</span>,</span>
+<span id="cb31-14"><a href="svarma11-example.html#cb31-14" aria-hidden="true" tabindex="-1"></a>         <span class="at">y =</span> <span class="st">&quot;&quot;</span>, <span class="at">x=</span> <span class="st">&quot;&quot;</span>) </span></code></pre></div>
+<p><img src="Dynamic-Identification-GitHub2_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>We also set the initial values for the estimation procedures of the next sections.</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="svarma11-example.html#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="do">## GMM estimation</span></span>
+<span id="cb32-2"><a href="svarma11-example.html#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="do">## Specify the moments</span></span>
+<span id="cb32-3"><a href="svarma11-example.html#cb32-3" aria-hidden="true" tabindex="-1"></a>u <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">0</span>),<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">2</span>),<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>),<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">0</span>),<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>),<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">0</span>),<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">2</span>),<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">2</span>))</span>
+<span id="cb32-4"><a href="svarma11-example.html#cb32-4" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>),<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>),<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">0</span>),<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>),<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">2</span>),<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">2</span>),<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">0</span>),<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>))</span>
+<span id="cb32-5"><a href="svarma11-example.html#cb32-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-6"><a href="svarma11-example.html#cb32-6" aria-hidden="true" tabindex="-1"></a><span class="do">## Specify the initial values as the true values + randomness</span></span>
+<span id="cb32-7"><a href="svarma11-example.html#cb32-7" aria-hidden="true" tabindex="-1"></a>param.ini<span class="fl">.0</span>_mixt2 <span class="ot">&lt;-</span> <span class="fu">c</span>(Model_mixt2<span class="sc">$</span>C,Model_mixt2<span class="sc">$</span>Theta,kappa.<span class="fl">3.</span>modif,kappa.<span class="fl">4.</span>modif)</span>
+<span id="cb32-8"><a href="svarma11-example.html#cb32-8" aria-hidden="true" tabindex="-1"></a><span class="co"># add randomness:</span></span>
+<span id="cb32-9"><a href="svarma11-example.html#cb32-9" aria-hidden="true" tabindex="-1"></a>param.ini.GMM_mixt2 <span class="ot">&lt;-</span> param.ini<span class="fl">.0</span>_mixt2 <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">+</span> .<span class="dv">2</span> <span class="sc">*</span> <span class="fu">rnorm</span>(<span class="fu">length</span>(param.ini<span class="fl">.0</span>_mixt2)))</span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="svarma11-example.html#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="do">## MLE Estimation</span></span>
+<span id="cb33-2"><a href="svarma11-example.html#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="do">## Set initial values (true values+randomness),</span></span>
+<span id="cb33-3"><a href="svarma11-example.html#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="do">## including the parameters of the distribution of the shocks.</span></span>
+<span id="cb33-4"><a href="svarma11-example.html#cb33-4" aria-hidden="true" tabindex="-1"></a>param.ini<span class="fl">.0</span>_mixt2 <span class="ot">&lt;-</span> <span class="fu">c</span>(Model_mixt2<span class="sc">$</span>Phi, </span>
+<span id="cb33-5"><a href="svarma11-example.html#cb33-5" aria-hidden="true" tabindex="-1"></a>                 Model_mixt2<span class="sc">$</span>Theta, </span>
+<span id="cb33-6"><a href="svarma11-example.html#cb33-6" aria-hidden="true" tabindex="-1"></a>                 Model_mixt2<span class="sc">$</span>C,</span>
+<span id="cb33-7"><a href="svarma11-example.html#cb33-7" aria-hidden="true" tabindex="-1"></a>                 param.distri<span class="fl">.1</span><span class="sc">$</span>theta1,param.distri<span class="fl">.2</span><span class="sc">$</span>theta1, </span>
+<span id="cb33-8"><a href="svarma11-example.html#cb33-8" aria-hidden="true" tabindex="-1"></a>                 param.distri<span class="fl">.1</span><span class="sc">$</span>theta2,param.distri<span class="fl">.2</span><span class="sc">$</span>theta2, </span>
+<span id="cb33-9"><a href="svarma11-example.html#cb33-9" aria-hidden="true" tabindex="-1"></a>                 param.distri<span class="fl">.1</span><span class="sc">$</span>theta3,param.distri<span class="fl">.2</span><span class="sc">$</span>theta3)</span>
+<span id="cb33-10"><a href="svarma11-example.html#cb33-10" aria-hidden="true" tabindex="-1"></a><span class="co"># add randomness</span></span>
+<span id="cb33-11"><a href="svarma11-example.html#cb33-11" aria-hidden="true" tabindex="-1"></a>param.ini.MLE_mixt2 <span class="ot">&lt;-</span> param.ini<span class="fl">.0</span>_mixt2 <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">+</span> .<span class="dv">2</span> <span class="sc">*</span> <span class="fu">rnorm</span>(<span class="fu">length</span>(param.ini<span class="fl">.0</span>_mixt2)))</span>
+<span id="cb33-12"><a href="svarma11-example.html#cb33-12" aria-hidden="true" tabindex="-1"></a>param.ini.MLE_mixt2[<span class="fu">abs</span>(param.ini.MLE_mixt2)<span class="sc">&gt;</span><span class="dv">10</span><span class="sc">^</span><span class="dv">8</span>] <span class="ot">&lt;-</span> <span class="fl">0.01</span></span></code></pre></div>
+</div>
+<div id="gaussian-mixture-and-t-student" class="section level3" number="3.1.2">
+<h3><span class="header-section-number">3.1.2</span> Gaussian mixture and t-student</h3>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="svarma11-example.html#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Summarize the distribution of the shocks in a unique object</span></span>
+<span id="cb34-2"><a href="svarma11-example.html#cb34-2" aria-hidden="true" tabindex="-1"></a>distri_mixt_t <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">type=</span><span class="fu">c</span>(<span class="st">&quot;mixt.gaussian&quot;</span>,<span class="st">&quot;student&quot;</span>),</span>
+<span id="cb34-3"><a href="svarma11-example.html#cb34-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">mu=</span><span class="fu">c</span>(param.mixture<span class="fl">.1</span><span class="sc">$</span>mu<span class="fl">.1</span>,<span class="cn">NaN</span>),</span>
+<span id="cb34-4"><a href="svarma11-example.html#cb34-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">sigma=</span><span class="fu">c</span>(param.mixture<span class="fl">.1</span><span class="sc">$</span>sigma<span class="fl">.1</span>,<span class="cn">NaN</span>),</span>
+<span id="cb34-5"><a href="svarma11-example.html#cb34-5" aria-hidden="true" tabindex="-1"></a>               <span class="at">p=</span><span class="fu">c</span>(p<span class="fl">.1</span>, <span class="cn">NaN</span>),</span>
+<span id="cb34-6"><a href="svarma11-example.html#cb34-6" aria-hidden="true" tabindex="-1"></a>               <span class="at">df=</span><span class="fu">c</span>(<span class="cn">NaN</span>,<span class="dv">6</span>))</span>
+<span id="cb34-7"><a href="svarma11-example.html#cb34-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-8"><a href="svarma11-example.html#cb34-8" aria-hidden="true" tabindex="-1"></a><span class="do">## Collect the parameters in the object Model</span></span>
+<span id="cb34-9"><a href="svarma11-example.html#cb34-9" aria-hidden="true" tabindex="-1"></a>Model_mixt_t <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb34-10"><a href="svarma11-example.html#cb34-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">Mu =</span> Mu,</span>
+<span id="cb34-11"><a href="svarma11-example.html#cb34-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">Phi =</span> Phi,</span>
+<span id="cb34-12"><a href="svarma11-example.html#cb34-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">Theta =</span> Theta,</span>
+<span id="cb34-13"><a href="svarma11-example.html#cb34-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">C =</span> C,</span>
+<span id="cb34-14"><a href="svarma11-example.html#cb34-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">distri =</span> distri_mixt_t</span>
+<span id="cb34-15"><a href="svarma11-example.html#cb34-15" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb34-16"><a href="svarma11-example.html#cb34-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-17"><a href="svarma11-example.html#cb34-17" aria-hidden="true" tabindex="-1"></a><span class="do">## Simulate the process</span></span>
+<span id="cb34-18"><a href="svarma11-example.html#cb34-18" aria-hidden="true" tabindex="-1"></a>res_mixt_t <span class="ot">&lt;-</span> <span class="fu">simul.VARMA</span>(Model_mixt_t,</span>
+<span id="cb34-19"><a href="svarma11-example.html#cb34-19" aria-hidden="true" tabindex="-1"></a>                   <span class="at">nb.sim =</span> T<span class="sc">+</span><span class="dv">1</span>,</span>
+<span id="cb34-20"><a href="svarma11-example.html#cb34-20" aria-hidden="true" tabindex="-1"></a>                   Y0,eta0)</span>
+<span id="cb34-21"><a href="svarma11-example.html#cb34-21" aria-hidden="true" tabindex="-1"></a>Y_mixt_t <span class="ot">&lt;-</span> <span class="fu">t</span>(res_mixt_t<span class="sc">$</span>Y)[,<span class="dv">1</span><span class="sc">:</span>n]</span>
+<span id="cb34-22"><a href="svarma11-example.html#cb34-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-23"><a href="svarma11-example.html#cb34-23" aria-hidden="true" tabindex="-1"></a>data_sim <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">date =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(Y_mixt_t), <span class="at">Y1 =</span> Y_mixt_t[,<span class="dv">1</span>], <span class="at">Y2 =</span> Y_mixt_t[,<span class="dv">2</span>]) <span class="sc">%&gt;%</span> </span>
+<span id="cb34-24"><a href="svarma11-example.html#cb34-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span>date, <span class="at">names_to =</span> <span class="st">&quot;factor&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;value&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb34-25"><a href="svarma11-example.html#cb34-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">factor =</span> <span class="fu">fct_relevel</span>(factor, <span class="fu">names</span>(Y_mixt_t)))</span>
+<span id="cb34-26"><a href="svarma11-example.html#cb34-26" aria-hidden="true" tabindex="-1"></a>data_sim <span class="sc">%&gt;%</span> </span>
+<span id="cb34-27"><a href="svarma11-example.html#cb34-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> value)) <span class="sc">+</span> </span>
+<span id="cb34-28"><a href="svarma11-example.html#cb34-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb34-29"><a href="svarma11-example.html#cb34-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="fu">vars</span>(factor), <span class="at">nrow =</span> <span class="fu">ncol</span>(Y_mixt_t), <span class="at">dir =</span> <span class="st">&quot;v&quot;</span>, <span class="at">scales =</span> <span class="st">&quot;free&quot;</span>) <span class="sc">+</span></span>
+<span id="cb34-30"><a href="svarma11-example.html#cb34-30" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Simulated series (Gaussian mixture and Student t)&quot;</span>,</span>
+<span id="cb34-31"><a href="svarma11-example.html#cb34-31" aria-hidden="true" tabindex="-1"></a>         <span class="at">y =</span> <span class="st">&quot;&quot;</span>, <span class="at">x=</span> <span class="st">&quot;&quot;</span>) </span></code></pre></div>
+<p><img src="Dynamic-Identification-GitHub2_files/figure-html/model-mixt-t-1.png" width="672" /></p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="svarma11-example.html#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="do">## GMM estimation</span></span>
+<span id="cb35-2"><a href="svarma11-example.html#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="do">## Specify the moments</span></span>
+<span id="cb35-3"><a href="svarma11-example.html#cb35-3" aria-hidden="true" tabindex="-1"></a>u <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">0</span>),<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">2</span>),<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>),<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">0</span>),<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>),<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">0</span>),<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">2</span>),<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">2</span>))</span>
+<span id="cb35-4"><a href="svarma11-example.html#cb35-4" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>),<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>),<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">0</span>),<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>),<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">2</span>),<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">2</span>),<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">0</span>),<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>))</span>
+<span id="cb35-5"><a href="svarma11-example.html#cb35-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-6"><a href="svarma11-example.html#cb35-6" aria-hidden="true" tabindex="-1"></a><span class="do">## Specify the initial values as the true values + randomness</span></span>
+<span id="cb35-7"><a href="svarma11-example.html#cb35-7" aria-hidden="true" tabindex="-1"></a>param.ini<span class="fl">.0</span>_mixt_t <span class="ot">&lt;-</span> <span class="fu">c</span>(Model_mixt_t<span class="sc">$</span>C,Model_mixt_t<span class="sc">$</span>Theta,kappa.<span class="fl">3.</span>modif,kappa.<span class="fl">4.</span>modif)</span>
+<span id="cb35-8"><a href="svarma11-example.html#cb35-8" aria-hidden="true" tabindex="-1"></a><span class="co"># add randomness:</span></span>
+<span id="cb35-9"><a href="svarma11-example.html#cb35-9" aria-hidden="true" tabindex="-1"></a>param.ini.GMM_mixt_t <span class="ot">&lt;-</span> param.ini<span class="fl">.0</span>_mixt_t <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">+</span> .<span class="dv">2</span> <span class="sc">*</span> <span class="fu">rnorm</span>(<span class="fu">length</span>(param.ini<span class="fl">.0</span>_mixt_t)))</span></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="svarma11-example.html#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="do">## MLE Estimation</span></span>
+<span id="cb36-2"><a href="svarma11-example.html#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="do">## Set initial values (true values+randomness),</span></span>
+<span id="cb36-3"><a href="svarma11-example.html#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="do">## including the parameters of the distribution of the shocks.</span></span>
+<span id="cb36-4"><a href="svarma11-example.html#cb36-4" aria-hidden="true" tabindex="-1"></a>param.ini<span class="fl">.0</span>_mixt_t <span class="ot">&lt;-</span> <span class="fu">c</span>(Model_mixt_t<span class="sc">$</span>Phi, </span>
+<span id="cb36-5"><a href="svarma11-example.html#cb36-5" aria-hidden="true" tabindex="-1"></a>                 Model_mixt_t<span class="sc">$</span>Theta, </span>
+<span id="cb36-6"><a href="svarma11-example.html#cb36-6" aria-hidden="true" tabindex="-1"></a>                 Model_mixt_t<span class="sc">$</span>C,</span>
+<span id="cb36-7"><a href="svarma11-example.html#cb36-7" aria-hidden="true" tabindex="-1"></a>                 param.distri<span class="fl">.1</span><span class="sc">$</span>theta1,param.distri<span class="fl">.2</span><span class="sc">$</span>theta1, </span>
+<span id="cb36-8"><a href="svarma11-example.html#cb36-8" aria-hidden="true" tabindex="-1"></a>                 param.distri<span class="fl">.1</span><span class="sc">$</span>theta2,param.distri<span class="fl">.2</span><span class="sc">$</span>theta2, </span>
+<span id="cb36-9"><a href="svarma11-example.html#cb36-9" aria-hidden="true" tabindex="-1"></a>                 param.distri<span class="fl">.1</span><span class="sc">$</span>theta3,param.distri<span class="fl">.2</span><span class="sc">$</span>theta3)</span>
+<span id="cb36-10"><a href="svarma11-example.html#cb36-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-11"><a href="svarma11-example.html#cb36-11" aria-hidden="true" tabindex="-1"></a><span class="co"># add randomness</span></span>
+<span id="cb36-12"><a href="svarma11-example.html#cb36-12" aria-hidden="true" tabindex="-1"></a>param.ini.MLE_mixt_t <span class="ot">&lt;-</span> param.ini<span class="fl">.0</span>_mixt_t <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">+</span> .<span class="dv">2</span> <span class="sc">*</span> <span class="fu">rnorm</span>(<span class="fu">length</span>(param.ini<span class="fl">.0</span>_mixt_t)))</span>
+<span id="cb36-13"><a href="svarma11-example.html#cb36-13" aria-hidden="true" tabindex="-1"></a>param.ini.MLE_mixt_t[<span class="fu">abs</span>(param.ini.MLE_mixt_t)<span class="sc">&gt;</span><span class="dv">10</span><span class="sc">^</span><span class="dv">8</span>] <span class="ot">&lt;-</span> <span class="fl">0.01</span></span></code></pre></div>
+</div>
+<div id="two-t-student" class="section level3" number="3.1.3">
+<h3><span class="header-section-number">3.1.3</span> Two t-student</h3>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="svarma11-example.html#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Two t-student distributions</span></span>
+<span id="cb37-2"><a href="svarma11-example.html#cb37-2" aria-hidden="true" tabindex="-1"></a>distri_t2 <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">type=</span><span class="fu">c</span>(<span class="st">&quot;student&quot;</span>,<span class="st">&quot;student&quot;</span>),</span>
+<span id="cb37-3"><a href="svarma11-example.html#cb37-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">mu=</span><span class="fu">c</span>(<span class="cn">NaN</span>,<span class="cn">NaN</span>),</span>
+<span id="cb37-4"><a href="svarma11-example.html#cb37-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">sigma=</span><span class="fu">c</span>(<span class="cn">NaN</span>,<span class="cn">NaN</span>),</span>
+<span id="cb37-5"><a href="svarma11-example.html#cb37-5" aria-hidden="true" tabindex="-1"></a>               <span class="at">p=</span><span class="fu">c</span>(<span class="cn">NaN</span>, <span class="cn">NaN</span>),</span>
+<span id="cb37-6"><a href="svarma11-example.html#cb37-6" aria-hidden="true" tabindex="-1"></a>               <span class="at">df=</span><span class="fu">c</span>(<span class="dv">6</span>,<span class="dv">6</span>))</span>
+<span id="cb37-7"><a href="svarma11-example.html#cb37-7" aria-hidden="true" tabindex="-1"></a><span class="do">## Collect the parameters in the object Model</span></span>
+<span id="cb37-8"><a href="svarma11-example.html#cb37-8" aria-hidden="true" tabindex="-1"></a>Model_t2 <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb37-9"><a href="svarma11-example.html#cb37-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">Mu =</span> Mu,</span>
+<span id="cb37-10"><a href="svarma11-example.html#cb37-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">Phi =</span> Phi,</span>
+<span id="cb37-11"><a href="svarma11-example.html#cb37-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">Theta =</span> Theta,</span>
+<span id="cb37-12"><a href="svarma11-example.html#cb37-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">C =</span> C,</span>
+<span id="cb37-13"><a href="svarma11-example.html#cb37-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">distri =</span> distri_t2</span>
+<span id="cb37-14"><a href="svarma11-example.html#cb37-14" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb37-15"><a href="svarma11-example.html#cb37-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-16"><a href="svarma11-example.html#cb37-16" aria-hidden="true" tabindex="-1"></a><span class="do">## Simulate the process</span></span>
+<span id="cb37-17"><a href="svarma11-example.html#cb37-17" aria-hidden="true" tabindex="-1"></a>res_t2 <span class="ot">&lt;-</span> <span class="fu">simul.VARMA</span>(Model_t2,</span>
+<span id="cb37-18"><a href="svarma11-example.html#cb37-18" aria-hidden="true" tabindex="-1"></a>                   <span class="at">nb.sim =</span> T<span class="sc">+</span><span class="dv">1</span>,</span>
+<span id="cb37-19"><a href="svarma11-example.html#cb37-19" aria-hidden="true" tabindex="-1"></a>                   Y0,eta0)</span>
+<span id="cb37-20"><a href="svarma11-example.html#cb37-20" aria-hidden="true" tabindex="-1"></a>Y_t2 <span class="ot">&lt;-</span> <span class="fu">t</span>(res_t2<span class="sc">$</span>Y)[,<span class="dv">1</span><span class="sc">:</span>n]</span>
+<span id="cb37-21"><a href="svarma11-example.html#cb37-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-22"><a href="svarma11-example.html#cb37-22" aria-hidden="true" tabindex="-1"></a>data_sim <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">date =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(Y_t2), <span class="at">Y1 =</span> Y_t2[,<span class="dv">1</span>], <span class="at">Y2 =</span> Y_t2[,<span class="dv">2</span>]) <span class="sc">%&gt;%</span> </span>
+<span id="cb37-23"><a href="svarma11-example.html#cb37-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span>date, <span class="at">names_to =</span> <span class="st">&quot;factor&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;value&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb37-24"><a href="svarma11-example.html#cb37-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">factor =</span> <span class="fu">fct_relevel</span>(factor, <span class="fu">names</span>(Y_t2)))</span>
+<span id="cb37-25"><a href="svarma11-example.html#cb37-25" aria-hidden="true" tabindex="-1"></a>data_sim <span class="sc">%&gt;%</span> </span>
+<span id="cb37-26"><a href="svarma11-example.html#cb37-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> value)) <span class="sc">+</span> </span>
+<span id="cb37-27"><a href="svarma11-example.html#cb37-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb37-28"><a href="svarma11-example.html#cb37-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="fu">vars</span>(factor), <span class="at">nrow =</span> <span class="fu">ncol</span>(Y_t2), <span class="at">dir =</span> <span class="st">&quot;v&quot;</span>, <span class="at">scales =</span> <span class="st">&quot;free&quot;</span>) <span class="sc">+</span></span>
+<span id="cb37-29"><a href="svarma11-example.html#cb37-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Simulated series (two Student t)&quot;</span>,</span>
+<span id="cb37-30"><a href="svarma11-example.html#cb37-30" aria-hidden="true" tabindex="-1"></a>         <span class="at">y =</span> <span class="st">&quot;&quot;</span>, <span class="at">x=</span> <span class="st">&quot;&quot;</span>) </span></code></pre></div>
+<p><img src="Dynamic-Identification-GitHub2_files/figure-html/model_t2-1.png" width="672" /></p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="svarma11-example.html#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="do">## GMM estimation</span></span>
+<span id="cb38-2"><a href="svarma11-example.html#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="do">## Specify the moments</span></span>
+<span id="cb38-3"><a href="svarma11-example.html#cb38-3" aria-hidden="true" tabindex="-1"></a>u <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">0</span>),<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">2</span>),<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>),<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">0</span>),<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>),<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">0</span>),<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">2</span>),<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">2</span>))</span>
+<span id="cb38-4"><a href="svarma11-example.html#cb38-4" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>),<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>),<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">0</span>),<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>),<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">2</span>),<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">2</span>),<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">0</span>),<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>))</span>
+<span id="cb38-5"><a href="svarma11-example.html#cb38-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-6"><a href="svarma11-example.html#cb38-6" aria-hidden="true" tabindex="-1"></a><span class="do">## Specify the initial values as the true values + randomness</span></span>
+<span id="cb38-7"><a href="svarma11-example.html#cb38-7" aria-hidden="true" tabindex="-1"></a>param.ini<span class="fl">.0</span>_t2 <span class="ot">&lt;-</span> <span class="fu">c</span>(Model_t2<span class="sc">$</span>C,Model_t2<span class="sc">$</span>Theta,kappa.<span class="fl">3.</span>modif,kappa.<span class="fl">4.</span>modif)</span>
+<span id="cb38-8"><a href="svarma11-example.html#cb38-8" aria-hidden="true" tabindex="-1"></a><span class="co"># add randomness:</span></span>
+<span id="cb38-9"><a href="svarma11-example.html#cb38-9" aria-hidden="true" tabindex="-1"></a>param.ini.GMM_t2 <span class="ot">&lt;-</span> param.ini<span class="fl">.0</span>_t2 <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">+</span> .<span class="dv">2</span> <span class="sc">*</span> <span class="fu">rnorm</span>(<span class="fu">length</span>(param.ini<span class="fl">.0</span>_t2)))</span></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="svarma11-example.html#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="do">## MLE Estimation</span></span>
+<span id="cb39-2"><a href="svarma11-example.html#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="do">## Set initial values (true values+randomness),</span></span>
+<span id="cb39-3"><a href="svarma11-example.html#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="do">## including the parameters of the distribution of the shocks.</span></span>
+<span id="cb39-4"><a href="svarma11-example.html#cb39-4" aria-hidden="true" tabindex="-1"></a>param.ini<span class="fl">.0</span>_t2 <span class="ot">&lt;-</span> <span class="fu">c</span>(Model_t2<span class="sc">$</span>Phi, </span>
+<span id="cb39-5"><a href="svarma11-example.html#cb39-5" aria-hidden="true" tabindex="-1"></a>                 Model_t2<span class="sc">$</span>Theta, </span>
+<span id="cb39-6"><a href="svarma11-example.html#cb39-6" aria-hidden="true" tabindex="-1"></a>                 Model_t2<span class="sc">$</span>C,</span>
+<span id="cb39-7"><a href="svarma11-example.html#cb39-7" aria-hidden="true" tabindex="-1"></a>                 param.distri<span class="fl">.1</span><span class="sc">$</span>theta1,param.distri<span class="fl">.2</span><span class="sc">$</span>theta1, </span>
+<span id="cb39-8"><a href="svarma11-example.html#cb39-8" aria-hidden="true" tabindex="-1"></a>                 param.distri<span class="fl">.1</span><span class="sc">$</span>theta2,param.distri<span class="fl">.2</span><span class="sc">$</span>theta2, </span>
+<span id="cb39-9"><a href="svarma11-example.html#cb39-9" aria-hidden="true" tabindex="-1"></a>                 param.distri<span class="fl">.1</span><span class="sc">$</span>theta3,param.distri<span class="fl">.2</span><span class="sc">$</span>theta3)</span>
+<span id="cb39-10"><a href="svarma11-example.html#cb39-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-11"><a href="svarma11-example.html#cb39-11" aria-hidden="true" tabindex="-1"></a><span class="co"># add randomness</span></span>
+<span id="cb39-12"><a href="svarma11-example.html#cb39-12" aria-hidden="true" tabindex="-1"></a>param.ini.MLE_t2 <span class="ot">&lt;-</span> param.ini<span class="fl">.0</span>_t2 <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">+</span> .<span class="dv">2</span> <span class="sc">*</span> <span class="fu">rnorm</span>(<span class="fu">length</span>(param.ini<span class="fl">.0</span>_t2)))</span>
+<span id="cb39-13"><a href="svarma11-example.html#cb39-13" aria-hidden="true" tabindex="-1"></a>param.ini.MLE_t2[<span class="fu">abs</span>(param.ini.MLE_t2)<span class="sc">&gt;</span><span class="dv">10</span><span class="sc">^</span><span class="dv">8</span>] <span class="ot">&lt;-</span> <span class="fl">0.01</span></span></code></pre></div>
+</div>
+</div>
+<div id="estimation" class="section level2" number="3.2">
+<h2><span class="header-section-number">3.2</span> Estimation</h2>
+<p>The estimation of the parameters requires many computations and requires a bit of execution time. Since we need to repeat each estimation procedure one time for each of the three combinations of the distributions of the shocks, it is particularly convenient (and simple) to use parallel computing. The next two chunks of code compute the 2SLS-GMM and the ML estimator for the three processes.</p>
+<p>Notice that in the ML estimation we assume that the actual distributions of the shocks is unknown and we use the p.d.f. of a Gaussian mixtures in all of the three cases. This condition better approximates the practical case where the true distribution is unknown. Therefore, the estimation method is more precisely a <em>pseudo</em> maximum likelihood approach. The choice of the Gaussian mixture depends on its parsimony (in terms of number of parameters) and flexibility. Indeed, it admits bimodality and can attain any possible combination of skewness and kurtosis such that <span class="math inline">\(\text{kurtosis} \geq \text{skewness}^2 +1\)</span>.</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="svarma11-example.html#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Preliminary settings for the optimization algorithm</span></span>
+<span id="cb40-2"><a href="svarma11-example.html#cb40-2" aria-hidden="true" tabindex="-1"></a>nb.loops <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb40-3"><a href="svarma11-example.html#cb40-3" aria-hidden="true" tabindex="-1"></a>MAXIT.nlminb <span class="ot">&lt;-</span> <span class="dv">300</span></span>
+<span id="cb40-4"><a href="svarma11-example.html#cb40-4" aria-hidden="true" tabindex="-1"></a>MAXIT.NlMd <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
+<span id="cb40-5"><a href="svarma11-example.html#cb40-5" aria-hidden="true" tabindex="-1"></a>indic.Blaschke <span class="ot">&lt;-</span> <span class="dv">1</span>      <span class="co"># Consider Blaschke transformations of Theta after initial estimation</span></span>
+<span id="cb40-6"><a href="svarma11-example.html#cb40-6" aria-hidden="true" tabindex="-1"></a>nb.loops.BM <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb40-7"><a href="svarma11-example.html#cb40-7" aria-hidden="true" tabindex="-1"></a>MAXIT.nlminb.BM <span class="ot">&lt;-</span> <span class="dv">300</span></span>
+<span id="cb40-8"><a href="svarma11-example.html#cb40-8" aria-hidden="true" tabindex="-1"></a>MAXIT.NlMd.BM <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
+<span id="cb40-9"><a href="svarma11-example.html#cb40-9" aria-hidden="true" tabindex="-1"></a>indic.solve.C <span class="ot">&lt;-</span> <span class="dv">1</span>       <span class="co"># override inapprorpriate C matrix (during optimization)</span></span></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="svarma11-example.html#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="do">## GMM estimator</span></span>
+<span id="cb41-2"><a href="svarma11-example.html#cb41-2" aria-hidden="true" tabindex="-1"></a>data_list <span class="ot">&lt;-</span> <span class="fu">list</span>(Y_mixt2, Y_mixt_t, Y_t2)</span>
+<span id="cb41-3"><a href="svarma11-example.html#cb41-3" aria-hidden="true" tabindex="-1"></a>initial_list <span class="ot">&lt;-</span> <span class="fu">list</span>(param.ini.GMM_mixt2, param.ini.GMM_mixt_t, param.ini.GMM_t2)</span>
+<span id="cb41-4"><a href="svarma11-example.html#cb41-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-5"><a href="svarma11-example.html#cb41-5" aria-hidden="true" tabindex="-1"></a>cl <span class="ot">&lt;-</span> parallel<span class="sc">::</span><span class="fu">makeCluster</span>(<span class="dv">3</span>)</span>
+<span id="cb41-6"><a href="svarma11-example.html#cb41-6" aria-hidden="true" tabindex="-1"></a>doParallel<span class="sc">::</span><span class="fu">registerDoParallel</span>(cl)</span>
+<span id="cb41-7"><a href="svarma11-example.html#cb41-7" aria-hidden="true" tabindex="-1"></a>results_GMM <span class="ot">&lt;-</span> <span class="fu">foreach</span>(<span class="at">i =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(data_list), <span class="at">.packages=</span><span class="st">&#39;optimx&#39;</span>) <span class="sc">%dopar%</span>{</span>
+<span id="cb41-8"><a href="svarma11-example.html#cb41-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">estim.VARMAp1.2SLS.GMM</span>(data_list[[i]], u, v,</span>
+<span id="cb41-9"><a href="svarma11-example.html#cb41-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">nb.iterations.gmm =</span> <span class="dv">2</span>,</span>
+<span id="cb41-10"><a href="svarma11-example.html#cb41-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">maxitNM =</span> <span class="dv">2000</span>,</span>
+<span id="cb41-11"><a href="svarma11-example.html#cb41-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">indic.Blaschke =</span> <span class="dv">1</span>,            <span class="co"># after the first estimation, transform Theta                                                                 # via Blaschke matrices to get new starting values </span></span>
+<span id="cb41-12"><a href="svarma11-example.html#cb41-12" aria-hidden="true" tabindex="-1"></a>                                     <span class="co"># for different regimes of fundamentalness</span></span>
+<span id="cb41-13"><a href="svarma11-example.html#cb41-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">indic.print=</span><span class="dv">0</span>,</span>
+<span id="cb41-14"><a href="svarma11-example.html#cb41-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">lag.NW=</span><span class="dv">2</span>,                      <span class="co"># number of lags used in the Newey-West approach </span></span>
+<span id="cb41-15"><a href="svarma11-example.html#cb41-15" aria-hidden="true" tabindex="-1"></a>                                     <span class="co"># used to compute standard deviations of parameter estimates</span></span>
+<span id="cb41-16"><a href="svarma11-example.html#cb41-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">indic.estim.phi=</span><span class="dv">1</span>,             <span class="co"># estimate also the AR coefficients</span></span>
+<span id="cb41-17"><a href="svarma11-example.html#cb41-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">indic.constant =</span> <span class="dv">0</span>,            <span class="co"># determines if the model includes a constant</span></span>
+<span id="cb41-18"><a href="svarma11-example.html#cb41-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">indic.3rd.4th.order.moments=</span><span class="dv">1</span>, <span class="co"># both 3rd-order and 4th-order moments are used in the GMM </span></span>
+<span id="cb41-19"><a href="svarma11-example.html#cb41-19" aria-hidden="true" tabindex="-1"></a>                                     <span class="co"># if indic.3rd.4th.order.moments==3, then use only third-order moments </span></span>
+<span id="cb41-20"><a href="svarma11-example.html#cb41-20" aria-hidden="true" tabindex="-1"></a>                                     <span class="co"># if indic.3rd.4th.order.moments ==4, then use only 4th-order moments</span></span>
+<span id="cb41-21"><a href="svarma11-example.html#cb41-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">param.ini=</span>initial_list[[i]],   <span class="co"># specify initial values</span></span>
+<span id="cb41-22"><a href="svarma11-example.html#cb41-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">p =</span> p,</span>
+<span id="cb41-23"><a href="svarma11-example.html#cb41-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">addit.IV=</span><span class="dv">3</span></span>
+<span id="cb41-24"><a href="svarma11-example.html#cb41-24" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb41-25"><a href="svarma11-example.html#cb41-25" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb41-26"><a href="svarma11-example.html#cb41-26" aria-hidden="true" tabindex="-1"></a>parallel<span class="sc">::</span><span class="fu">stopCluster</span>(cl)</span>
+<span id="cb41-27"><a href="svarma11-example.html#cb41-27" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(results_GMM) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;mixt2&quot;</span>, <span class="st">&quot;mixt_t&quot;</span>, <span class="st">&quot;t2&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="svarma11-example.html#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Maximum likelihood estimator</span></span>
+<span id="cb42-2"><a href="svarma11-example.html#cb42-2" aria-hidden="true" tabindex="-1"></a>data_list <span class="ot">&lt;-</span> <span class="fu">list</span>(Y_mixt2, Y_mixt_t, Y_t2)</span>
+<span id="cb42-3"><a href="svarma11-example.html#cb42-3" aria-hidden="true" tabindex="-1"></a>models_list <span class="ot">&lt;-</span> <span class="fu">list</span>(Model_mixt2, Model_mixt_t, Model_t2)</span>
+<span id="cb42-4"><a href="svarma11-example.html#cb42-4" aria-hidden="true" tabindex="-1"></a>initial_list <span class="ot">&lt;-</span> <span class="fu">list</span>(param.ini.MLE_mixt2, param.ini.MLE_mixt_t, param.ini.MLE_t2)</span>
+<span id="cb42-5"><a href="svarma11-example.html#cb42-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-6"><a href="svarma11-example.html#cb42-6" aria-hidden="true" tabindex="-1"></a>cl <span class="ot">&lt;-</span> parallel<span class="sc">::</span><span class="fu">makeCluster</span>(<span class="dv">3</span>)</span>
+<span id="cb42-7"><a href="svarma11-example.html#cb42-7" aria-hidden="true" tabindex="-1"></a>doParallel<span class="sc">::</span><span class="fu">registerDoParallel</span>(cl)</span>
+<span id="cb42-8"><a href="svarma11-example.html#cb42-8" aria-hidden="true" tabindex="-1"></a>results_ML <span class="ot">&lt;-</span> <span class="fu">foreach</span>(<span class="at">i =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(data_list), <span class="at">.packages=</span><span class="fu">c</span>(<span class="st">&#39;optimx&#39;</span>, <span class="st">&#39;Matrix&#39;</span>)) <span class="sc">%dopar%</span>{</span>
+<span id="cb42-9"><a href="svarma11-example.html#cb42-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">estim.MA.inversion</span>(initial_list[[i]],</span>
+<span id="cb42-10"><a href="svarma11-example.html#cb42-10" aria-hidden="true" tabindex="-1"></a>    models_list[[i]],</span>
+<span id="cb42-11"><a href="svarma11-example.html#cb42-11" aria-hidden="true" tabindex="-1"></a>    data_list[[i]],</span>
+<span id="cb42-12"><a href="svarma11-example.html#cb42-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">MAXIT.nlminb =</span> MAXIT.nlminb,    <span class="co"># max iterations for nlminb optimization</span></span>
+<span id="cb42-13"><a href="svarma11-example.html#cb42-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">MAXIT.NlMd =</span> MAXIT.NlMd,        <span class="co"># max iterations in Nelder-Mead optimization </span></span>
+<span id="cb42-14"><a href="svarma11-example.html#cb42-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">nb.loops =</span> nb.loops,            </span>
+<span id="cb42-15"><a href="svarma11-example.html#cb42-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">indic.Blaschke =</span> <span class="dv">1</span>,             <span class="co"># Transform Theta to get different non-fund regimes</span></span>
+<span id="cb42-16"><a href="svarma11-example.html#cb42-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">MAXIT.nlminb.BM =</span> MAXIT.nlminb, <span class="co"># max iter of nlminb after Blaschke transformations</span></span>
+<span id="cb42-17"><a href="svarma11-example.html#cb42-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">MAXIT.NlMd.BM =</span> MAXIT.NlMd,     <span class="co"># max iter in Nelder-Mead after Blaschke transformations</span></span>
+<span id="cb42-18"><a href="svarma11-example.html#cb42-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">nb.loops.BM =</span> nb.loops.BM,      </span>
+<span id="cb42-19"><a href="svarma11-example.html#cb42-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">indic.print=</span><span class="dv">0</span>,                  <span class="co"># print</span></span>
+<span id="cb42-20"><a href="svarma11-example.html#cb42-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">indic.compute.cov.mat=</span><span class="dv">1</span>         <span class="co"># compute covariance matrix of parameter estimates</span></span>
+<span id="cb42-21"><a href="svarma11-example.html#cb42-21" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb42-22"><a href="svarma11-example.html#cb42-22" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb42-23"><a href="svarma11-example.html#cb42-23" aria-hidden="true" tabindex="-1"></a>parallel<span class="sc">::</span><span class="fu">stopCluster</span>(cl)</span>
+<span id="cb42-24"><a href="svarma11-example.html#cb42-24" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(results_ML) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;mixt2&quot;</span>, <span class="st">&quot;mixt_t&quot;</span>, <span class="st">&quot;t2&quot;</span>)</span></code></pre></div>
+</div>
+<div id="results" class="section level2" number="3.3">
+<h2><span class="header-section-number">3.3</span> Results</h2>
+<p>Below, we report three tables that summarise the results.</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="svarma11-example.html#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Print results in kables</span></span>
+<span id="cb43-2"><a href="svarma11-example.html#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span></code></pre></div>
+<pre><code>## Warning: package &#39;knitr&#39; was built under R version 3.6.2</code></pre>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="svarma11-example.html#cb45-1" aria-hidden="true" tabindex="-1"></a>Parameters <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;$</span><span class="sc">\\</span><span class="st">Phi_{11}$&quot;</span>, <span class="st">&quot;$</span><span class="sc">\\</span><span class="st">Phi_{21}$&quot;</span>, <span class="st">&quot;$</span><span class="sc">\\</span><span class="st">Phi_{12}$&quot;</span>, <span class="st">&quot;$</span><span class="sc">\\</span><span class="st">Phi_{22}$&quot;</span>, </span>
+<span id="cb45-2"><a href="svarma11-example.html#cb45-2" aria-hidden="true" tabindex="-1"></a>                <span class="st">&quot;$</span><span class="sc">\\</span><span class="st">Theta_{11}$&quot;</span>, <span class="st">&quot;$</span><span class="sc">\\</span><span class="st">Theta_{21}$&quot;</span>, <span class="st">&quot;$</span><span class="sc">\\</span><span class="st">Theta_{12}$&quot;</span>, <span class="st">&quot;$</span><span class="sc">\\</span><span class="st">Theta_{22}$&quot;</span>, </span>
+<span id="cb45-3"><a href="svarma11-example.html#cb45-3" aria-hidden="true" tabindex="-1"></a>                <span class="st">&quot;$C_{11}$&quot;</span>, <span class="st">&quot;$C_{21}$&quot;</span>, <span class="st">&quot;$C_{12}$&quot;</span>, <span class="st">&quot;$C_{22}$&quot;</span>)</span></code></pre></div>
+<div id="two-gaussian-mixtures-1" class="section level3" number="3.3.1">
+<h3><span class="header-section-number">3.3.1</span> Two Gaussian Mixtures</h3>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="svarma11-example.html#cb46-1" aria-hidden="true" tabindex="-1"></a>True <span class="ot">&lt;-</span> <span class="fu">c</span>(Model_mixt2<span class="sc">$</span>Phi, Model_mixt2<span class="sc">$</span>Theta, Model_mixt2<span class="sc">$</span>C)</span>
+<span id="cb46-2"><a href="svarma11-example.html#cb46-2" aria-hidden="true" tabindex="-1"></a>GMM <span class="ot">&lt;-</span> <span class="fu">c</span>(results_GMM<span class="sc">$</span>mixt2<span class="sc">$</span>Phi.est, results_GMM<span class="sc">$</span>mixt2<span class="sc">$</span>Theta.est, results_GMM<span class="sc">$</span>mixt2<span class="sc">$</span>C0.est)</span>
+<span id="cb46-3"><a href="svarma11-example.html#cb46-3" aria-hidden="true" tabindex="-1"></a>GMM.stdev <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">sqrt</span>(<span class="fu">diag</span>(results_GMM<span class="sc">$</span>mixt2<span class="sc">$</span>Asympt<span class="sc">$</span>Var.alpha.hat)),</span>
+<span id="cb46-4"><a href="svarma11-example.html#cb46-4" aria-hidden="true" tabindex="-1"></a>               <span class="fu">sqrt</span>(<span class="fu">diag</span>(results_GMM<span class="sc">$</span>mixt2<span class="sc">$</span>Asympt<span class="sc">$</span>Var.beta.hat)[<span class="dv">5</span><span class="sc">:</span><span class="dv">8</span>]),</span>
+<span id="cb46-5"><a href="svarma11-example.html#cb46-5" aria-hidden="true" tabindex="-1"></a>               <span class="fu">sqrt</span>(<span class="fu">diag</span>(results_GMM<span class="sc">$</span>mixt2<span class="sc">$</span>Asympt<span class="sc">$</span>Var.beta.hat)[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]))</span>
+<span id="cb46-6"><a href="svarma11-example.html#cb46-6" aria-hidden="true" tabindex="-1"></a>MLE <span class="ot">&lt;-</span> <span class="fu">c</span>(results_ML<span class="sc">$</span>mixt2<span class="sc">$</span>Phi, results_ML<span class="sc">$</span>mixt2<span class="sc">$</span>Theta, results_ML<span class="sc">$</span>mixt2<span class="sc">$</span>C)</span>
+<span id="cb46-7"><a href="svarma11-example.html#cb46-7" aria-hidden="true" tabindex="-1"></a>MLE.stdv <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">diag</span>(results_ML<span class="sc">$</span>mixt2<span class="sc">$</span>MV)[<span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>])</span>
+<span id="cb46-8"><a href="svarma11-example.html#cb46-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-9"><a href="svarma11-example.html#cb46-9" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(Parameters, True,GMM,GMM.stdev,MLE,MLE.stdv) <span class="sc">%&gt;%</span> </span>
+<span id="cb46-10"><a href="svarma11-example.html#cb46-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate_if</span>(is.numeric, format, <span class="at">digits=</span><span class="dv">3</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb46-11"><a href="svarma11-example.html#cb46-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(<span class="at">caption =</span> <span class="st">&quot;Estimates of the parameters. The structural shocks are both distributed as Gaussian mixtures&quot;</span>)</span></code></pre></div>
+<table>
+<caption><span id="tab:unnamed-chunk-8">Table 3.1: </span>Estimates of the parameters. The structural shocks are both distributed as Gaussian mixtures</caption>
+<thead>
+<tr class="header">
+<th align="left">Parameters</th>
+<th align="left">True</th>
+<th align="left">GMM</th>
+<th align="left">GMM.stdev</th>
+<th align="left">MLE</th>
+<th align="left">MLE.stdv</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><span class="math inline">\(\Phi_{11}\)</span></td>
+<td align="left">0.8</td>
+<td align="left">0.7874</td>
+<td align="left">0.0352</td>
+<td align="left">0.7942</td>
+<td align="left">0.00661</td>
+</tr>
+<tr class="even">
+<td align="left"><span class="math inline">\(\Phi_{21}\)</span></td>
+<td align="left">-0.3</td>
+<td align="left">-0.2639</td>
+<td align="left">0.0653</td>
+<td align="left">-0.3198</td>
+<td align="left">0.03229</td>
+</tr>
+<tr class="odd">
+<td align="left"><span class="math inline">\(\Phi_{12}\)</span></td>
+<td align="left">0.3</td>
+<td align="left">0.3453</td>
+<td align="left">0.0439</td>
+<td align="left">0.2931</td>
+<td align="left">0.00689</td>
+</tr>
+<tr class="even">
+<td align="left"><span class="math inline">\(\Phi_{22}\)</span></td>
+<td align="left">0.5</td>
+<td align="left">0.5667</td>
+<td align="left">0.0839</td>
+<td align="left">0.5209</td>
+<td align="left">0.02970</td>
+</tr>
+<tr class="odd">
+<td align="left"><span class="math inline">\(\Theta_{11}\)</span></td>
+<td align="left">-0.5</td>
+<td align="left">-0.4166</td>
+<td align="left">0.1248</td>
+<td align="left">-0.5048</td>
+<td align="left">0.01798</td>
+</tr>
+<tr class="even">
+<td align="left"><span class="math inline">\(\Theta_{21}\)</span></td>
+<td align="left">1.0</td>
+<td align="left">0.3032</td>
+<td align="left">3.2928</td>
+<td align="left">0.9425</td>
+<td align="left">0.14850</td>
+</tr>
+<tr class="odd">
+<td align="left"><span class="math inline">\(\Theta_{12}\)</span></td>
+<td align="left">0.0</td>
+<td align="left">-0.0960</td>
+<td align="left">1.3531</td>
+<td align="left">0.0184</td>
+<td align="left">0.01583</td>
+</tr>
+<tr class="even">
+<td align="left"><span class="math inline">\(\Theta_{22}\)</span></td>
+<td align="left">-2.0</td>
+<td align="left">-2.6837</td>
+<td align="left">1.0324</td>
+<td align="left">-2.0761</td>
+<td align="left">0.13627</td>
+</tr>
+<tr class="odd">
+<td align="left"><span class="math inline">\(C_{11}\)</span></td>
+<td align="left">0.0</td>
+<td align="left">-0.0296</td>
+<td align="left">0.0675</td>
+<td align="left">-0.0226</td>
+<td align="left">0.01339</td>
+</tr>
+<tr class="even">
+<td align="left"><span class="math inline">\(C_{21}\)</span></td>
+<td align="left">1.0</td>
+<td align="left">-0.5974</td>
+<td align="left">0.2431</td>
+<td align="left">0.9123</td>
+<td align="left">0.08143</td>
+</tr>
+<tr class="odd">
+<td align="left"><span class="math inline">\(C_{12}\)</span></td>
+<td align="left">1.0</td>
+<td align="left">0.9291</td>
+<td align="left">0.0741</td>
+<td align="left">0.9555</td>
+<td align="left">0.04064</td>
+</tr>
+<tr class="even">
+<td align="left"><span class="math inline">\(C_{22}\)</span></td>
+<td align="left">0.5</td>
+<td align="left">0.0155</td>
+<td align="left">1.1746</td>
+<td align="left">0.4202</td>
+<td align="left">0.07429</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="gaussian-mixtures-and-t-student" class="section level3" number="3.3.2">
+<h3><span class="header-section-number">3.3.2</span> Gaussian mixtures and t-student</h3>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="svarma11-example.html#cb47-1" aria-hidden="true" tabindex="-1"></a>True <span class="ot">&lt;-</span> <span class="fu">c</span>(Model_mixt_t<span class="sc">$</span>Phi, Model_mixt_t<span class="sc">$</span>Theta, Model_mixt_t<span class="sc">$</span>C)</span>
+<span id="cb47-2"><a href="svarma11-example.html#cb47-2" aria-hidden="true" tabindex="-1"></a>GMM <span class="ot">&lt;-</span> <span class="fu">c</span>(results_GMM<span class="sc">$</span>mixt_t<span class="sc">$</span>Phi.est, results_GMM<span class="sc">$</span>mixt_t<span class="sc">$</span>Theta.est, results_GMM<span class="sc">$</span>mixt_t<span class="sc">$</span>C0.est)</span>
+<span id="cb47-3"><a href="svarma11-example.html#cb47-3" aria-hidden="true" tabindex="-1"></a>GMM.stdev <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">sqrt</span>(<span class="fu">diag</span>(results_GMM<span class="sc">$</span>mixt_t<span class="sc">$</span>Asympt<span class="sc">$</span>Var.alpha.hat)),</span>
+<span id="cb47-4"><a href="svarma11-example.html#cb47-4" aria-hidden="true" tabindex="-1"></a>               <span class="fu">sqrt</span>(<span class="fu">diag</span>(results_GMM<span class="sc">$</span>mixt_t<span class="sc">$</span>Asympt<span class="sc">$</span>Var.beta.hat)[<span class="dv">5</span><span class="sc">:</span><span class="dv">8</span>]),</span>
+<span id="cb47-5"><a href="svarma11-example.html#cb47-5" aria-hidden="true" tabindex="-1"></a>               <span class="fu">sqrt</span>(<span class="fu">diag</span>(results_GMM<span class="sc">$</span>mixt_t<span class="sc">$</span>Asympt<span class="sc">$</span>Var.beta.hat)[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]))</span>
+<span id="cb47-6"><a href="svarma11-example.html#cb47-6" aria-hidden="true" tabindex="-1"></a>MLE <span class="ot">&lt;-</span> <span class="fu">c</span>(results_ML<span class="sc">$</span>mixt_t<span class="sc">$</span>Phi, results_ML<span class="sc">$</span>mixt_t<span class="sc">$</span>Theta, results_ML<span class="sc">$</span>mixt_t<span class="sc">$</span>C)</span>
+<span id="cb47-7"><a href="svarma11-example.html#cb47-7" aria-hidden="true" tabindex="-1"></a>MLE.stdv <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">diag</span>(results_ML<span class="sc">$</span>mixt_t<span class="sc">$</span>MV)[<span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>])</span>
+<span id="cb47-8"><a href="svarma11-example.html#cb47-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-9"><a href="svarma11-example.html#cb47-9" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(Parameters, True,GMM,GMM.stdev,MLE,MLE.stdv) <span class="sc">%&gt;%</span> </span>
+<span id="cb47-10"><a href="svarma11-example.html#cb47-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate_if</span>(is.numeric, format, <span class="at">digits=</span><span class="dv">3</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb47-11"><a href="svarma11-example.html#cb47-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(<span class="at">caption =</span> <span class="st">&quot;Estimates of the parameters. Shock 1 is distributed as a Gaussian mixture, Shock 2 is distributed as a Student-t&quot;</span>)</span></code></pre></div>
+<table>
+<caption><span id="tab:unnamed-chunk-9">Table 3.2: </span>Estimates of the parameters. Shock 1 is distributed as a Gaussian mixture, Shock 2 is distributed as a Student-t</caption>
+<thead>
+<tr class="header">
+<th align="left">Parameters</th>
+<th align="left">True</th>
+<th align="left">GMM</th>
+<th align="left">GMM.stdev</th>
+<th align="left">MLE</th>
+<th align="left">MLE.stdv</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><span class="math inline">\(\Phi_{11}\)</span></td>
+<td align="left">0.8</td>
+<td align="left">0.79387</td>
+<td align="left">0.0443</td>
+<td align="left">0.80571</td>
+<td align="left">0.0249</td>
+</tr>
+<tr class="even">
+<td align="left"><span class="math inline">\(\Phi_{21}\)</span></td>
+<td align="left">-0.3</td>
+<td align="left">-0.21871</td>
+<td align="left">0.0803</td>
+<td align="left">-0.28341</td>
+<td align="left">0.0360</td>
+</tr>
+<tr class="odd">
+<td align="left"><span class="math inline">\(\Phi_{12}\)</span></td>
+<td align="left">0.3</td>
+<td align="left">0.30281</td>
+<td align="left">0.0368</td>
+<td align="left">0.27944</td>
+<td align="left">0.0204</td>
+</tr>
+<tr class="even">
+<td align="left"><span class="math inline">\(\Phi_{22}\)</span></td>
+<td align="left">0.5</td>
+<td align="left">0.60563</td>
+<td align="left">0.0690</td>
+<td align="left">0.48775</td>
+<td align="left">0.0340</td>
+</tr>
+<tr class="odd">
+<td align="left"><span class="math inline">\(\Theta_{11}\)</span></td>
+<td align="left">-0.5</td>
+<td align="left">-0.32365</td>
+<td align="left">0.2307</td>
+<td align="left">-0.42512</td>
+<td align="left">0.0549</td>
+</tr>
+<tr class="even">
+<td align="left"><span class="math inline">\(\Theta_{21}\)</span></td>
+<td align="left">1.0</td>
+<td align="left">1.83036</td>
+<td align="left">0.7210</td>
+<td align="left">0.96220</td>
+<td align="left">0.1600</td>
+</tr>
+<tr class="odd">
+<td align="left"><span class="math inline">\(\Theta_{12}\)</span></td>
+<td align="left">0.0</td>
+<td align="left">0.00764</td>
+<td align="left">0.3047</td>
+<td align="left">-0.05963</td>
+<td align="left">0.0570</td>
+</tr>
+<tr class="even">
+<td align="left"><span class="math inline">\(\Theta_{22}\)</span></td>
+<td align="left">-2.0</td>
+<td align="left">-2.28968</td>
+<td align="left">0.6047</td>
+<td align="left">-1.92401</td>
+<td align="left">0.1336</td>
+</tr>
+<tr class="odd">
+<td align="left"><span class="math inline">\(C_{11}\)</span></td>
+<td align="left">0.0</td>
+<td align="left">-0.08657</td>
+<td align="left">0.0925</td>
+<td align="left">-0.00305</td>
+<td align="left">0.0649</td>
+</tr>
+<tr class="even">
+<td align="left"><span class="math inline">\(C_{21}\)</span></td>
+<td align="left">1.0</td>
+<td align="left">0.63183</td>
+<td align="left">0.1317</td>
+<td align="left">1.04883</td>
+<td align="left">0.0924</td>
+</tr>
+<tr class="odd">
+<td align="left"><span class="math inline">\(C_{12}\)</span></td>
+<td align="left">1.0</td>
+<td align="left">0.84969</td>
+<td align="left">0.0434</td>
+<td align="left">0.94151</td>
+<td align="left">0.0518</td>
+</tr>
+<tr class="even">
+<td align="left"><span class="math inline">\(C_{22}\)</span></td>
+<td align="left">0.5</td>
+<td align="left">0.64782</td>
+<td align="left">0.3537</td>
+<td align="left">0.42375</td>
+<td align="left">0.0864</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="two-t-student-1" class="section level3" number="3.3.3">
+<h3><span class="header-section-number">3.3.3</span> Two t-student</h3>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="svarma11-example.html#cb48-1" aria-hidden="true" tabindex="-1"></a>True <span class="ot">&lt;-</span> <span class="fu">c</span>(Model_t2<span class="sc">$</span>Phi, Model_t2<span class="sc">$</span>Theta, Model_t2<span class="sc">$</span>C)</span>
+<span id="cb48-2"><a href="svarma11-example.html#cb48-2" aria-hidden="true" tabindex="-1"></a>GMM <span class="ot">&lt;-</span> <span class="fu">c</span>(results_GMM<span class="sc">$</span>t2<span class="sc">$</span>Phi.est, results_GMM<span class="sc">$</span>t2<span class="sc">$</span>Theta.est, results_GMM<span class="sc">$</span>t2<span class="sc">$</span>C0.est)</span>
+<span id="cb48-3"><a href="svarma11-example.html#cb48-3" aria-hidden="true" tabindex="-1"></a>GMM.stdev <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">sqrt</span>(<span class="fu">diag</span>(results_GMM<span class="sc">$</span>t2<span class="sc">$</span>Asympt<span class="sc">$</span>Var.alpha.hat)),</span>
+<span id="cb48-4"><a href="svarma11-example.html#cb48-4" aria-hidden="true" tabindex="-1"></a>               <span class="fu">sqrt</span>(<span class="fu">diag</span>(results_GMM<span class="sc">$</span>t2<span class="sc">$</span>Asympt<span class="sc">$</span>Var.beta.hat)[<span class="dv">5</span><span class="sc">:</span><span class="dv">8</span>]),</span>
+<span id="cb48-5"><a href="svarma11-example.html#cb48-5" aria-hidden="true" tabindex="-1"></a>               <span class="fu">sqrt</span>(<span class="fu">diag</span>(results_GMM<span class="sc">$</span>t2<span class="sc">$</span>Asympt<span class="sc">$</span>Var.beta.hat)[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]))</span>
+<span id="cb48-6"><a href="svarma11-example.html#cb48-6" aria-hidden="true" tabindex="-1"></a>MLE <span class="ot">&lt;-</span> <span class="fu">c</span>(results_ML<span class="sc">$</span>t2<span class="sc">$</span>Phi, results_ML<span class="sc">$</span>t2<span class="sc">$</span>Theta, results_ML<span class="sc">$</span>t2<span class="sc">$</span>C)</span>
+<span id="cb48-7"><a href="svarma11-example.html#cb48-7" aria-hidden="true" tabindex="-1"></a>MLE.stdv <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">diag</span>(results_ML<span class="sc">$</span>t2<span class="sc">$</span>MV)[<span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>])</span>
+<span id="cb48-8"><a href="svarma11-example.html#cb48-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-9"><a href="svarma11-example.html#cb48-9" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(Parameters, True,GMM,GMM.stdev,MLE,MLE.stdv) <span class="sc">%&gt;%</span> </span>
+<span id="cb48-10"><a href="svarma11-example.html#cb48-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate_if</span>(is.numeric, format, <span class="at">digits=</span><span class="dv">3</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb48-11"><a href="svarma11-example.html#cb48-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(<span class="at">caption =</span> <span class="st">&quot;Estimates of the parameters. The structural shocks are both distributed as mixture Gaussians.&quot;</span>)</span></code></pre></div>
+<table>
+<caption><span id="tab:unnamed-chunk-10">Table 3.3: </span>Estimates of the parameters. The structural shocks are both distributed as mixture Gaussians.</caption>
+<thead>
+<tr class="header">
+<th align="left">Parameters</th>
+<th align="left">True</th>
+<th align="left">GMM</th>
+<th align="left">GMM.stdev</th>
+<th align="left">MLE</th>
+<th align="left">MLE.stdv</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><span class="math inline">\(\Phi_{11}\)</span></td>
+<td align="left">0.8</td>
+<td align="left">0.808</td>
+<td align="left">0.0374</td>
+<td align="left">0.8207</td>
+<td align="left">0.0153</td>
+</tr>
+<tr class="even">
+<td align="left"><span class="math inline">\(\Phi_{21}\)</span></td>
+<td align="left">-0.3</td>
+<td align="left">-0.392</td>
+<td align="left">0.0653</td>
+<td align="left">-0.3749</td>
+<td align="left">0.0405</td>
+</tr>
+<tr class="odd">
+<td align="left"><span class="math inline">\(\Phi_{12}\)</span></td>
+<td align="left">0.3</td>
+<td align="left">0.315</td>
+<td align="left">0.0400</td>
+<td align="left">0.3154</td>
+<td align="left">0.0121</td>
+</tr>
+<tr class="even">
+<td align="left"><span class="math inline">\(\Phi_{22}\)</span></td>
+<td align="left">0.5</td>
+<td align="left">0.537</td>
+<td align="left">0.0608</td>
+<td align="left">0.5730</td>
+<td align="left">0.0399</td>
+</tr>
+<tr class="odd">
+<td align="left"><span class="math inline">\(\Theta_{11}\)</span></td>
+<td align="left">-0.5</td>
+<td align="left">-2.179</td>
+<td align="left">0.5948</td>
+<td align="left">-0.5994</td>
+<td align="left">0.0149</td>
+</tr>
+<tr class="even">
+<td align="left"><span class="math inline">\(\Theta_{21}\)</span></td>
+<td align="left">1.0</td>
+<td align="left">-1.594</td>
+<td align="left">0.8446</td>
+<td align="left">0.8510</td>
+<td align="left">0.0826</td>
+</tr>
+<tr class="odd">
+<td align="left"><span class="math inline">\(\Theta_{12}\)</span></td>
+<td align="left">0.0</td>
+<td align="left">-0.583</td>
+<td align="left">0.2113</td>
+<td align="left">0.0463</td>
+<td align="left">0.0138</td>
+</tr>
+<tr class="even">
+<td align="left"><span class="math inline">\(\Theta_{22}\)</span></td>
+<td align="left">-2.0</td>
+<td align="left">-1.855</td>
+<td align="left">0.4369</td>
+<td align="left">-1.5144</td>
+<td align="left">0.0667</td>
+</tr>
+<tr class="odd">
+<td align="left"><span class="math inline">\(C_{11}\)</span></td>
+<td align="left">0.0</td>
+<td align="left">0.289</td>
+<td align="left">0.0962</td>
+<td align="left">-0.4091</td>
+<td align="left">0.0277</td>
+</tr>
+<tr class="even">
+<td align="left"><span class="math inline">\(C_{21}\)</span></td>
+<td align="left">1.0</td>
+<td align="left">0.473</td>
+<td align="left">0.1664</td>
+<td align="left">0.8530</td>
+<td align="left">0.0692</td>
+</tr>
+<tr class="odd">
+<td align="left"><span class="math inline">\(C_{12}\)</span></td>
+<td align="left">1.0</td>
+<td align="left">0.406</td>
+<td align="left">0.1054</td>
+<td align="left">0.9764</td>
+<td align="left">0.0500</td>
+</tr>
+<tr class="even">
+<td align="left"><span class="math inline">\(C_{22}\)</span></td>
+<td align="left">0.5</td>
+<td align="left">-0.973</td>
+<td align="left">0.2613</td>
+<td align="left">1.0192</td>
+<td align="left">0.0815</td>
+</tr>
+</tbody>
+</table>
+<p>As we can see, the GMM estimator approximates the true value of the distribution only when the distribution of the shocks are sufficiently different from the Gaussian case. However, the 2SLS-GMM estimator is significantly less precise in all the three cases. For this reason, in practice, GMR2019 suggest to use this estimator to choose the initial values of the (pseudo) maximum likelihood procedure. The latter estimator is indeed more efficient and, in our example, performs sufficiently well in estimating the parameters, also in presence of non-fundamentalness. However, the case of two Student t distribution leads to unstable estimates, i.e. the estimated values and fundamentalness regimes can change substantially in different random simulations of the model. On the contrary, the estimates are stable in the other two cases.</p>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="gmr-estimation-method.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="application-to-real-world-data.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["Dynamic-Identification-GitHub2.pdf", "Dynamic-Identification-GitHub2.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

@@ -1,0 +1,185 @@
+# Application to real-world data
+
+In this section, we implement the GMR2019 method on the FRED-MD dataset. We take inspiration from the bivariate VAR model by Blanchard and Quah (1989), by fitting a bivariate VARMA(4,1) model of the growth of industrial production and the unemployment rate using the monthly data for the U.S. economy over the period 1960-2020. This naive model will still prove to be useful to get a practical sense of the procedure. 
+
+As a first step, we import the data and select the relevant series.
+
+```{r import-fredmd, warning = FALSE}
+library(BVAR) ## Used only to call the fred-md dataset
+library(lubridate)
+source("C:/Users/Alessandro Ciancetta/Documents/Universita/UniPi/V/TesiEconomics/ScriptR-TesiEconomics/DaFare26maggio/Code/sources/FAVAR_functions/plot_ts.R")
+
+data <- fred_md %>% 
+  rownames_to_column(var = "date") %>% 
+  mutate(date = as_date(date)) %>% 
+ # select(date, INDPRO, CPIAUCSL, FEDFUNDS, UNRATE) %>% 
+  select(date, INDPRO, UNRATE) %>% 
+  filter(date >= ymd(19600101) & date < ymd(20200101))
+dates <- data$date
+data <- data[,-1]
+plot_ts(data, date = dates)
+```
+
+We then pre-process the data to get stationary time series, by taking the growth rate of the industrial production and the de-trended unemployment rate.  
+```{r clean-data}
+T <- nrow(data)
+
+## growth rates of the industrial production
+indpro_growth <- data$INDPRO/(c(NaN,data$INDPRO[1:(T-1)])) - 1
+
+## De-trended rate of unemployment 
+## (in this case, this almost coincide with de-meaning)
+trend <- 1:T
+unrate_detrend <- lm(data$UNRATE ~ trend)$residuals
+# View(cbind(data$UNRATE, unrate_detrend, data$UNRATE-unrate_detrend))
+
+y <- tibble(indpro_growth=indpro_growth[-1], unrate=unrate_detrend[-1])
+plot_ts(y)
+```
+
+We can now estimate the model. As a first step, we compute the 2SLS-GMM estimator. This method is quite imprecise, but it has the advantage of requiring no assumptions on the distribution of the errors and it is faster than the maximum likelihood approach. For this reason, GMR2019 suggest to use this estimator as a first step, and to then use the estiamted values as the initial parameters of for the ML procedure. Since the true distribution of the shocks is unknown, we more precisely adopt a pseudo maximum likelihood approach by considering the p.d.f. of a Gaussian mixture.
+
+```{r gmm-estimation}
+## Set the number of lags
+p = 4
+
+## Initialize the cumulants (for GMM)
+df <- 5
+mu.2 <- 1
+mu.4 <- (3 + 6/(df - 4))
+mu.3 <- 0
+kappa.3.modif <- 0
+kappa.4.modif <- mu.4 - 3*mu.2^2
+
+## Overweight order-2 moments in the first step
+multipl.order.2 <- 10
+indic.solve.C <- 1 #0
+
+u <- rbind(
+  c(2,0),
+  c(0,2),
+  
+  c(1,0),
+  c(2,0),
+  
+  c(1,0),
+  c(2,0),
+  
+  c(0,1),
+  c(0,2),
+  
+  c(0,1),
+  c(0,2)
+)
+
+v <- rbind(
+  c(0,0),
+  c(0,0),
+  
+  c(2,0),
+  c(1,0),
+  
+  c(0,2),
+  c(0,1),
+  
+  c(0,2),
+  c(0,1),
+  
+  c(2,0),
+  c(1,0)
+)
+
+param.ini.4.GMM <- NULL
+
+## Estimation
+res.estim.GMM <- estim.VARMAp1.2SLS.GMM(as.matrix(y),u,v,
+                                        nb.iterations.gmm = 5,
+                                        maxitNM=2000,
+                                        indic.Blaschke=1,
+                                        indic.print=0,
+                                        lag.NW=3,
+                                        indic.estim.phi=1,
+                                        indic.constant = 1,
+                                        indic.3rd.4th.order.moments=1,
+                                        param.ini=param.ini.4.GMM,
+                                        p=p,
+                                        addit.IV=3 ## number of IVs
+                                        )
+
+res.estim.GMM$Theta
+```
+
+```{r pml-estimation}
+## Set the GMM estimates as the initial values for the ML 
+## optimization procedure
+Model.est.GMM <- list()
+Model.est.GMM$Phi <- res.estim.GMM$Phi.est
+n <- dim(Model.est.GMM$Phi)[1]
+Model.est.GMM$C <- res.estim.GMM$C0.est
+Model.est.GMM$Theta <- array(res.estim.GMM$Theta.est,c(n,n,1))
+Model.est.GMM$distri <- NULL
+Model.est.GMM$Mu <- res.estim.GMM$mu.est
+
+ETA.est <- estim.struct.shocks(Y = as.matrix(y), Model = Model.est.GMM)$ETA.est
+
+vec.theta1 <- NULL
+vec.theta2 <- NULL
+vec.theta3 <- NULL
+
+par(mfrow=c(2,2))
+for(i in 1:n){
+  res.estim <- estim.MLE.mixtures(ETA.est[,i])
+  vec.theta1 <- c(vec.theta1,res.estim$param.est[1])
+  vec.theta2 <- c(vec.theta2,res.estim$param.est[2])
+  vec.theta3 <- c(vec.theta3,res.estim$param.est[3])
+  xx <- seq(-10,10,by=.01)
+  f <- density.mixt.gauss(res.estim$param.est,xx)
+  plot(xx,f,type="l")
+  lines(density(ETA.est[,i],bw=.1),col="red")
+}
+
+## Estimate the model
+param.ini <- c(res.estim.GMM$Phi.est,res.estim.GMM$Theta.est,
+               res.estim.GMM$C0.est,
+               vec.theta1,vec.theta2,vec.theta3)
+
+res.estim.MLE <- estim.MA.inversion(param.ini,Model.est.GMM,as.matrix(y),
+                                    MAXIT.nlminb=300,
+                                    MAXIT.NlMd=1000,
+                                    nb.loops=4,
+                                    indic.Blaschke=1,
+                                    MAXIT.nlminb.BM=300,
+                                    MAXIT.NlMd.BM=1000,
+                                    nb.loops.BM=2,
+                                    indic.print=0,indic.compute.cov.mat=1)
+res.estim.MLE$Theta
+```
+
+The next table compares the results of the estimation.
+
+```{r results-real-data}
+Parameters <- c("$\\Phi_{11}^{(1)}$", "$\\Phi_{21}^{(1)}$", "$\\Phi_{12}^{(1)}$", "$\\Phi_{22}^{(1)}$",
+                "$\\Phi_{11}^{(2)}$", "$\\Phi_{21}^{(2)}$", "$\\Phi_{12}^{(2)}$", "$\\Phi_{22}^{(2)}$",
+                "$\\Phi_{11}^{(3)}$", "$\\Phi_{21}^{(3)}$", "$\\Phi_{12}^{(3)}$", "$\\Phi_{22}^{(3)}$",
+                "$\\Phi_{11}^{(4)}$", "$\\Phi_{21}^{(4)}$", "$\\Phi_{12}^{(4)}$", "$\\Phi_{22}^{(4)}$",
+                "$\\Theta_{11}$", "$\\Theta_{21}$", "$\\Theta_{12}$", "$\\Theta_{22}$", 
+                "$C_{11}$", "$C_{21}$", "$C_{12}$", "$C_{22}$")
+
+GMM <- c(res.estim.GMM$Phi.est, res.estim.GMM$Theta, res.estim.GMM$C0.est)
+GMM.stdev <- c(sqrt(diag(res.estim.GMM$Asympt$Var.alpha.hat))[3:18],
+               sqrt(diag(res.estim.GMM$Asympt$Var.beta.hat)[5:8]),
+               sqrt(diag(res.estim.GMM$Asympt$Var.beta.hat)[1:4]))
+MLE <- c(res.estim.MLE$Phi, res.estim.MLE$Theta, res.estim.MLE$C)
+MLE.stdv <- sqrt(diag(res.estim.MLE$MV)[1:24])
+
+tibble(Parameters, GMM,GMM.stdev ,MLE,MLE.stdv) %>% 
+  mutate_if(is.numeric, round, digits=3) %>% 
+  knitr::kable(caption = "Estimates of the parameters")
+```
+
+<!-- **IRF of this model and the VAR model????** -->
+
+
+
+
+

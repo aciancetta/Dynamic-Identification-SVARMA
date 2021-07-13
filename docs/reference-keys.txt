@@ -13,6 +13,11 @@ eq:SVARMAp1
 eq:cgf
 eq:moments
 exm:unlabeled-div-7
+eq:parametrization-mixt
+tab:unnamed-chunk-8
+tab:unnamed-chunk-9
+tab:unnamed-chunk-10
+tab:results-real-data
 introduction
 assumptions-for-ssvarma-models
 invertibility-of-the-ma-part
@@ -23,3 +28,14 @@ ma1-case
 ssvarmap1-case
 svarmapq-case
 semi-parametric-estimation-two-stage-2sls-gmm-approach
+svarma11-example
+simulation
+two-gaussian-mixtures
+gaussian-mixture-and-t-student
+two-t-student
+estimation
+results
+two-gaussian-mixtures-1
+gaussian-mixtures-and-t-student
+two-t-student-1
+application-to-real-world-data

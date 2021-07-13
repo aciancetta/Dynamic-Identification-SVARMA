@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Section 4 Application to real-world data | Dynamic Identification in SVARMA Models</title>
+  <meta name="description" content="This book present the general framework of VARMA models and introduces the notion of non-fundamentalness. The problem is assessed using the methodology of Gourieroux, Manfort and Renne (2019), which is illustrated in detail, within the framework of non-Gaussian and independent structural shocks of the corresponding structural model. Simulations and application to real-world data are presented." />
+  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Section 4 Application to real-world data | Dynamic Identification in SVARMA Models" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This book present the general framework of VARMA models and introduces the notion of non-fundamentalness. The problem is assessed using the methodology of Gourieroux, Manfort and Renne (2019), which is illustrated in detail, within the framework of non-Gaussian and independent structural shocks of the corresponding structural model. Simulations and application to real-world data are presented." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Section 4 Application to real-world data | Dynamic Identification in SVARMA Models" />
+  
+  <meta name="twitter:description" content="This book present the general framework of VARMA models and introduces the notion of non-fundamentalness. The problem is assessed using the methodology of Gourieroux, Manfort and Renne (2019), which is illustrated in detail, within the framework of non-Gaussian and independent structural shocks of the corresponding structural model. Simulations and application to real-world data are presented." />
+  
+
+<meta name="author" content="Alessandro Ciancetta" />
+
+
+<meta name="date" content="2021-07-13" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="svarma11-example.html"/>
+
+<script src="libs/header-attrs-2.7/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Dynamic Identification in SVARMAs</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Abstract</a></li>
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="introduction.html"><a href="introduction.html#assumptions-for-ssvarma-models"><i class="fa fa-check"></i><b>1.1</b> Assumptions for SSVARMA models</a></li>
+<li class="chapter" data-level="1.2" data-path="introduction.html"><a href="introduction.html#invertibility-of-the-ma-part"><i class="fa fa-check"></i><b>1.2</b> Invertibility of the MA part</a></li>
+<li class="chapter" data-level="1.3" data-path="introduction.html"><a href="introduction.html#non-fundamentalness"><i class="fa fa-check"></i><b>1.3</b> Non-fundamentalness</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="gmr-estimation-method.html"><a href="gmr-estimation-method.html"><i class="fa fa-check"></i><b>2</b> GMR estimation method</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="gmr-estimation-method.html"><a href="gmr-estimation-method.html#maximum-likelihood-approach"><i class="fa fa-check"></i><b>2.1</b> Maximum likelihood approach</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="gmr-estimation-method.html"><a href="gmr-estimation-method.html#ma1-case"><i class="fa fa-check"></i><b>2.1.1</b> MA(1) case</a></li>
+<li class="chapter" data-level="2.1.2" data-path="gmr-estimation-method.html"><a href="gmr-estimation-method.html#ssvarmap1-case"><i class="fa fa-check"></i><b>2.1.2</b> SSVARMA(p,1) case</a></li>
+<li class="chapter" data-level="2.1.3" data-path="gmr-estimation-method.html"><a href="gmr-estimation-method.html#svarmapq-case"><i class="fa fa-check"></i><b>2.1.3</b> SVARMA(p,q) case</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="gmr-estimation-method.html"><a href="gmr-estimation-method.html#semi-parametric-estimation-two-stage-2sls-gmm-approach"><i class="fa fa-check"></i><b>2.2</b> Semi-parametric estimation: Two-stage 2SLS-GMM approach</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="svarma11-example.html"><a href="svarma11-example.html"><i class="fa fa-check"></i><b>3</b> SVARMA(1,1) example</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="svarma11-example.html"><a href="svarma11-example.html#simulation"><i class="fa fa-check"></i><b>3.1</b> Simulation</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="svarma11-example.html"><a href="svarma11-example.html#two-gaussian-mixtures"><i class="fa fa-check"></i><b>3.1.1</b> Two Gaussian mixtures</a></li>
+<li class="chapter" data-level="3.1.2" data-path="svarma11-example.html"><a href="svarma11-example.html#gaussian-mixture-and-t-student"><i class="fa fa-check"></i><b>3.1.2</b> Gaussian mixture and t-student</a></li>
+<li class="chapter" data-level="3.1.3" data-path="svarma11-example.html"><a href="svarma11-example.html#two-t-student"><i class="fa fa-check"></i><b>3.1.3</b> Two t-student</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="svarma11-example.html"><a href="svarma11-example.html#estimation"><i class="fa fa-check"></i><b>3.2</b> Estimation</a></li>
+<li class="chapter" data-level="3.3" data-path="svarma11-example.html"><a href="svarma11-example.html#results"><i class="fa fa-check"></i><b>3.3</b> Results</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="svarma11-example.html"><a href="svarma11-example.html#two-gaussian-mixtures-1"><i class="fa fa-check"></i><b>3.3.1</b> Two Gaussian Mixtures</a></li>
+<li class="chapter" data-level="3.3.2" data-path="svarma11-example.html"><a href="svarma11-example.html#gaussian-mixtures-and-t-student"><i class="fa fa-check"></i><b>3.3.2</b> Gaussian mixtures and t-student</a></li>
+<li class="chapter" data-level="3.3.3" data-path="svarma11-example.html"><a href="svarma11-example.html#two-t-student-1"><i class="fa fa-check"></i><b>3.3.3</b> Two t-student</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="application-to-real-world-data.html"><a href="application-to-real-world-data.html"><i class="fa fa-check"></i><b>4</b> Application to real-world data</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Dynamic Identification in SVARMA Models</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="application-to-real-world-data" class="section level1" number="4">
+<h1><span class="header-section-number">Section 4</span> Application to real-world data</h1>
+<p>In this section, we implement the GMR2019 method on the FRED-MD dataset. We take inspiration from the bivariate VAR model by Blanchard and Quah (1989), by fitting a bivariate VARMA(4,1) model of the growth of industrial production and the unemployment rate using the monthly data for the U.S. economy over the period 1960-2020. This naive model will still prove to be useful to get a practical sense of the procedure.</p>
+<p>As a first step, we import the data and select the relevant series.</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="application-to-real-world-data.html#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(BVAR) <span class="do">## Used only to call the fred-md dataset</span></span></code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;BVAR&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:vars&#39;:
+## 
+##     fevd, irf</code></pre>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="application-to-real-world-data.html#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span></code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;lubridate&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     date, intersect, setdiff, union</code></pre>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="application-to-real-world-data.html#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">&quot;C:/Users/Alessandro Ciancetta/Documents/Universita/UniPi/V/TesiEconomics/ScriptR-TesiEconomics/DaFare26maggio/Code/sources/FAVAR_functions/plot_ts.R&quot;</span>)</span>
+<span id="cb55-2"><a href="application-to-real-world-data.html#cb55-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-3"><a href="application-to-real-world-data.html#cb55-3" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> fred_md <span class="sc">%&gt;%</span> </span>
+<span id="cb55-4"><a href="application-to-real-world-data.html#cb55-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rownames_to_column</span>(<span class="at">var =</span> <span class="st">&quot;date&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb55-5"><a href="application-to-real-world-data.html#cb55-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">date =</span> <span class="fu">as_date</span>(date)) <span class="sc">%&gt;%</span> </span>
+<span id="cb55-6"><a href="application-to-real-world-data.html#cb55-6" aria-hidden="true" tabindex="-1"></a> <span class="co"># select(date, INDPRO, CPIAUCSL, FEDFUNDS, UNRATE) %&gt;% </span></span>
+<span id="cb55-7"><a href="application-to-real-world-data.html#cb55-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(date, INDPRO, UNRATE) <span class="sc">%&gt;%</span> </span>
+<span id="cb55-8"><a href="application-to-real-world-data.html#cb55-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(date <span class="sc">&gt;=</span> <span class="fu">ymd</span>(<span class="dv">19600101</span>) <span class="sc">&amp;</span> date <span class="sc">&lt;</span> <span class="fu">ymd</span>(<span class="dv">20200101</span>))</span>
+<span id="cb55-9"><a href="application-to-real-world-data.html#cb55-9" aria-hidden="true" tabindex="-1"></a>dates <span class="ot">&lt;-</span> data<span class="sc">$</span>date</span>
+<span id="cb55-10"><a href="application-to-real-world-data.html#cb55-10" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> data[,<span class="sc">-</span><span class="dv">1</span>]</span>
+<span id="cb55-11"><a href="application-to-real-world-data.html#cb55-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_ts</span>(data, <span class="at">date =</span> dates)</span></code></pre></div>
+<p><img src="Dynamic-Identification-GitHub2_files/figure-html/import-fredmd-1.png" width="672" /></p>
+<p>We then pre-process the data to get stationary time series, by taking the growth rate of the industrial production and the de-trended unemployment rate.</p>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="application-to-real-world-data.html#cb56-1" aria-hidden="true" tabindex="-1"></a>T <span class="ot">&lt;-</span> <span class="fu">nrow</span>(data)</span>
+<span id="cb56-2"><a href="application-to-real-world-data.html#cb56-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-3"><a href="application-to-real-world-data.html#cb56-3" aria-hidden="true" tabindex="-1"></a><span class="do">## growth rates of the industrial production</span></span>
+<span id="cb56-4"><a href="application-to-real-world-data.html#cb56-4" aria-hidden="true" tabindex="-1"></a>indpro_growth <span class="ot">&lt;-</span> data<span class="sc">$</span>INDPRO<span class="sc">/</span>(<span class="fu">c</span>(<span class="cn">NaN</span>,data<span class="sc">$</span>INDPRO[<span class="dv">1</span><span class="sc">:</span>(T<span class="dv">-1</span>)])) <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb56-5"><a href="application-to-real-world-data.html#cb56-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-6"><a href="application-to-real-world-data.html#cb56-6" aria-hidden="true" tabindex="-1"></a><span class="do">## De-trended rate of unemployment </span></span>
+<span id="cb56-7"><a href="application-to-real-world-data.html#cb56-7" aria-hidden="true" tabindex="-1"></a><span class="do">## (in this case, this almost coincide with de-meaning)</span></span>
+<span id="cb56-8"><a href="application-to-real-world-data.html#cb56-8" aria-hidden="true" tabindex="-1"></a>trend <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span>T</span>
+<span id="cb56-9"><a href="application-to-real-world-data.html#cb56-9" aria-hidden="true" tabindex="-1"></a>unrate_detrend <span class="ot">&lt;-</span> <span class="fu">lm</span>(data<span class="sc">$</span>UNRATE <span class="sc">~</span> trend)<span class="sc">$</span>residuals</span>
+<span id="cb56-10"><a href="application-to-real-world-data.html#cb56-10" aria-hidden="true" tabindex="-1"></a><span class="co"># View(cbind(data$UNRATE, unrate_detrend, data$UNRATE-unrate_detrend))</span></span>
+<span id="cb56-11"><a href="application-to-real-world-data.html#cb56-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-12"><a href="application-to-real-world-data.html#cb56-12" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">indpro_growth=</span>indpro_growth[<span class="sc">-</span><span class="dv">1</span>], <span class="at">unrate=</span>unrate_detrend[<span class="sc">-</span><span class="dv">1</span>])</span>
+<span id="cb56-13"><a href="application-to-real-world-data.html#cb56-13" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_ts</span>(y)</span></code></pre></div>
+<p><img src="Dynamic-Identification-GitHub2_files/figure-html/clean-data-1.png" width="672" /></p>
+<p>We can now estimate the model. As a first step, we compute the 2SLS-GMM estimator. This method is quite imprecise, but it has the advantage of requiring no assumptions on the distribution of the errors and it is faster than the maximum likelihood approach. For this reason, GMR2019 suggest to use this estimator as a first step, and to then use the estiamted values as the initial parameters of for the ML procedure. Since the true distribution of the shocks is unknown, we more precisely adopt a pseudo maximum likelihood approach by considering the p.d.f. of a Gaussian mixture.</p>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="application-to-real-world-data.html#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Set the number of lags</span></span>
+<span id="cb57-2"><a href="application-to-real-world-data.html#cb57-2" aria-hidden="true" tabindex="-1"></a>p <span class="ot">=</span> <span class="dv">4</span></span>
+<span id="cb57-3"><a href="application-to-real-world-data.html#cb57-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-4"><a href="application-to-real-world-data.html#cb57-4" aria-hidden="true" tabindex="-1"></a><span class="do">## Initialize the cumulants (for GMM)</span></span>
+<span id="cb57-5"><a href="application-to-real-world-data.html#cb57-5" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="dv">5</span></span>
+<span id="cb57-6"><a href="application-to-real-world-data.html#cb57-6" aria-hidden="true" tabindex="-1"></a>mu<span class="fl">.2</span> <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb57-7"><a href="application-to-real-world-data.html#cb57-7" aria-hidden="true" tabindex="-1"></a>mu<span class="fl">.4</span> <span class="ot">&lt;-</span> (<span class="dv">3</span> <span class="sc">+</span> <span class="dv">6</span><span class="sc">/</span>(df <span class="sc">-</span> <span class="dv">4</span>))</span>
+<span id="cb57-8"><a href="application-to-real-world-data.html#cb57-8" aria-hidden="true" tabindex="-1"></a>mu<span class="fl">.3</span> <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb57-9"><a href="application-to-real-world-data.html#cb57-9" aria-hidden="true" tabindex="-1"></a>kappa.<span class="fl">3.</span>modif <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb57-10"><a href="application-to-real-world-data.html#cb57-10" aria-hidden="true" tabindex="-1"></a>kappa.<span class="fl">4.</span>modif <span class="ot">&lt;-</span> mu<span class="fl">.4</span> <span class="sc">-</span> <span class="dv">3</span><span class="sc">*</span>mu<span class="fl">.2</span><span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb57-11"><a href="application-to-real-world-data.html#cb57-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-12"><a href="application-to-real-world-data.html#cb57-12" aria-hidden="true" tabindex="-1"></a><span class="do">## Overweight order-2 moments in the first step</span></span>
+<span id="cb57-13"><a href="application-to-real-world-data.html#cb57-13" aria-hidden="true" tabindex="-1"></a>multipl.order<span class="fl">.2</span> <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb57-14"><a href="application-to-real-world-data.html#cb57-14" aria-hidden="true" tabindex="-1"></a>indic.solve.C <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="co">#0</span></span>
+<span id="cb57-15"><a href="application-to-real-world-data.html#cb57-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-16"><a href="application-to-real-world-data.html#cb57-16" aria-hidden="true" tabindex="-1"></a>u <span class="ot">&lt;-</span> <span class="fu">rbind</span>(</span>
+<span id="cb57-17"><a href="application-to-real-world-data.html#cb57-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">0</span>),</span>
+<span id="cb57-18"><a href="application-to-real-world-data.html#cb57-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">2</span>),</span>
+<span id="cb57-19"><a href="application-to-real-world-data.html#cb57-19" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb57-20"><a href="application-to-real-world-data.html#cb57-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>),</span>
+<span id="cb57-21"><a href="application-to-real-world-data.html#cb57-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">0</span>),</span>
+<span id="cb57-22"><a href="application-to-real-world-data.html#cb57-22" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb57-23"><a href="application-to-real-world-data.html#cb57-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>),</span>
+<span id="cb57-24"><a href="application-to-real-world-data.html#cb57-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">0</span>),</span>
+<span id="cb57-25"><a href="application-to-real-world-data.html#cb57-25" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb57-26"><a href="application-to-real-world-data.html#cb57-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),</span>
+<span id="cb57-27"><a href="application-to-real-world-data.html#cb57-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">2</span>),</span>
+<span id="cb57-28"><a href="application-to-real-world-data.html#cb57-28" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb57-29"><a href="application-to-real-world-data.html#cb57-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),</span>
+<span id="cb57-30"><a href="application-to-real-world-data.html#cb57-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">2</span>)</span>
+<span id="cb57-31"><a href="application-to-real-world-data.html#cb57-31" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb57-32"><a href="application-to-real-world-data.html#cb57-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-33"><a href="application-to-real-world-data.html#cb57-33" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">rbind</span>(</span>
+<span id="cb57-34"><a href="application-to-real-world-data.html#cb57-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>),</span>
+<span id="cb57-35"><a href="application-to-real-world-data.html#cb57-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>),</span>
+<span id="cb57-36"><a href="application-to-real-world-data.html#cb57-36" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb57-37"><a href="application-to-real-world-data.html#cb57-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">0</span>),</span>
+<span id="cb57-38"><a href="application-to-real-world-data.html#cb57-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>),</span>
+<span id="cb57-39"><a href="application-to-real-world-data.html#cb57-39" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb57-40"><a href="application-to-real-world-data.html#cb57-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">2</span>),</span>
+<span id="cb57-41"><a href="application-to-real-world-data.html#cb57-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),</span>
+<span id="cb57-42"><a href="application-to-real-world-data.html#cb57-42" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb57-43"><a href="application-to-real-world-data.html#cb57-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">2</span>),</span>
+<span id="cb57-44"><a href="application-to-real-world-data.html#cb57-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),</span>
+<span id="cb57-45"><a href="application-to-real-world-data.html#cb57-45" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb57-46"><a href="application-to-real-world-data.html#cb57-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">0</span>),</span>
+<span id="cb57-47"><a href="application-to-real-world-data.html#cb57-47" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>)</span>
+<span id="cb57-48"><a href="application-to-real-world-data.html#cb57-48" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb57-49"><a href="application-to-real-world-data.html#cb57-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-50"><a href="application-to-real-world-data.html#cb57-50" aria-hidden="true" tabindex="-1"></a>param.ini.<span class="fl">4.</span>GMM <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb57-51"><a href="application-to-real-world-data.html#cb57-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-52"><a href="application-to-real-world-data.html#cb57-52" aria-hidden="true" tabindex="-1"></a><span class="do">## Estimation</span></span>
+<span id="cb57-53"><a href="application-to-real-world-data.html#cb57-53" aria-hidden="true" tabindex="-1"></a>res.estim.GMM <span class="ot">&lt;-</span> <span class="fu">estim.VARMAp1.2SLS.GMM</span>(<span class="fu">as.matrix</span>(y),u,v,</span>
+<span id="cb57-54"><a href="application-to-real-world-data.html#cb57-54" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">nb.iterations.gmm =</span> <span class="dv">5</span>,</span>
+<span id="cb57-55"><a href="application-to-real-world-data.html#cb57-55" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">maxitNM=</span><span class="dv">2000</span>,</span>
+<span id="cb57-56"><a href="application-to-real-world-data.html#cb57-56" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">indic.Blaschke=</span><span class="dv">1</span>,</span>
+<span id="cb57-57"><a href="application-to-real-world-data.html#cb57-57" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">indic.print=</span><span class="dv">0</span>,</span>
+<span id="cb57-58"><a href="application-to-real-world-data.html#cb57-58" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">lag.NW=</span><span class="dv">3</span>,</span>
+<span id="cb57-59"><a href="application-to-real-world-data.html#cb57-59" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">indic.estim.phi=</span><span class="dv">1</span>,</span>
+<span id="cb57-60"><a href="application-to-real-world-data.html#cb57-60" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">indic.constant =</span> <span class="dv">1</span>,</span>
+<span id="cb57-61"><a href="application-to-real-world-data.html#cb57-61" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">indic.3rd.4th.order.moments=</span><span class="dv">1</span>,</span>
+<span id="cb57-62"><a href="application-to-real-world-data.html#cb57-62" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">param.ini=</span>param.ini.<span class="fl">4.</span>GMM,</span>
+<span id="cb57-63"><a href="application-to-real-world-data.html#cb57-63" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">p=</span>p,</span>
+<span id="cb57-64"><a href="application-to-real-world-data.html#cb57-64" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">addit.IV=</span><span class="dv">3</span> <span class="do">## number of IVs</span></span>
+<span id="cb57-65"><a href="application-to-real-world-data.html#cb57-65" aria-hidden="true" tabindex="-1"></a>                                        )</span></code></pre></div>
+<pre><code>## Warning in optimx.check(par, optcfg$ufn, optcfg$ugr, optcfg$uhess, lower, : Parameters or bounds appear to have different scalings.
+##   This can cause poor performance in optimization. 
+##   It is important for derivative free methods like BOBYQA, UOBYQA, NEWUOA.</code></pre>
+<pre><code>## [1] &quot;=========================================================&quot;
+## [1] &quot;=========================================================&quot;
+## [1] &quot; First pass: &#39;Ad hoc&#39; Omega &quot;
+## [1] &quot;=========================================================&quot;
+## [1] &quot;=========================================================&quot;
+## [1] &quot;--- Initial value of the criteria: 29937.6155367797&quot;
+## [1] &quot;--- Starting Minimization of criteria ---&quot;
+## [1] &quot;Criteria at the end of iteration 1 (Max eval:2000): 40.1708158013186&quot;
+## [1] &quot;Criteria at the end of iteration 2 (Max eval:2000): 27.5107882558548&quot;
+## [1] &quot;Criteria at the end of iteration 3 (Max eval:2000): 26.9856472785477&quot;
+## [1] &quot;Criteria at the end of iteration 4 (Max eval:2000): 26.8099561388832&quot;
+## [1] &quot;Criteria at the end of iteration 5 (Max eval:2000): 26.7317391216593&quot;
+## [1] &quot;--- End of Minimization of criteria ---&quot;
+##            [,1]       [,2]
+## [1,] -0.3803227 0.02150216
+## [2,]  2.2840275 0.68875288
+## [1] &quot;Looking for alternative MA representation (1/4)&quot;
+## [1] &quot;Looking for alternative MA representation (2/4)&quot;
+## [1] &quot;Looking for alternative MA representation (3/4)&quot;
+## [1] &quot;Looking for alternative MA representation (4/4)&quot;
+## [1] &quot;--- Initial value of the criteria: 183.517926644411&quot;
+## [1] &quot;--- Starting Minimization of criteria ---&quot;
+## [1] &quot;Criteria at the end of iteration 1 (Max eval:2000): 28.805434800134&quot;
+## [1] &quot;Criteria at the end of iteration 2 (Max eval:2000): 28.6132274326595&quot;
+## [1] &quot;Criteria at the end of iteration 3 (Max eval:2000): 28.5239740250049&quot;
+## [1] &quot;Criteria at the end of iteration 4 (Max eval:2000): 28.5022171426145&quot;
+## [1] &quot;Criteria at the end of iteration 5 (Max eval:2000): 28.5015763825543&quot;
+## [1] &quot;--- End of Minimization of criteria ---&quot;
+## [1] &quot;--- Initial value of the criteria: 164.411475847416&quot;
+## [1] &quot;--- Starting Minimization of criteria ---&quot;
+## [1] &quot;Criteria at the end of iteration 1 (Max eval:2000): 22.338224897635&quot;
+## [1] &quot;Criteria at the end of iteration 2 (Max eval:2000): 21.9489708511242&quot;
+## [1] &quot;Criteria at the end of iteration 3 (Max eval:2000): 21.4215159195505&quot;
+## [1] &quot;Criteria at the end of iteration 4 (Max eval:2000): 21.0532296111802&quot;
+## [1] &quot;Criteria at the end of iteration 5 (Max eval:2000): 20.7530964006408&quot;
+## [1] &quot;--- End of Minimization of criteria ---&quot;
+## [1] &quot;&quot;
+## [1] &quot; ++++ Improvement of criteria ++++&quot;
+## [1] &quot;&quot;
+##           [,1]       [,2]
+## [1,] -0.256607 0.03564682
+## [2,] 10.328807 1.31278123
+## [1] &quot;--- Initial value of the criteria: 583.592122111067&quot;
+## [1] &quot;--- Starting Minimization of criteria ---&quot;
+## [1] &quot;Criteria at the end of iteration 1 (Max eval:2000): 32.1926192844288&quot;
+## [1] &quot;Criteria at the end of iteration 2 (Max eval:2000): 31.6598609210212&quot;
+## [1] &quot;Criteria at the end of iteration 3 (Max eval:2000): 31.1925827317296&quot;
+## [1] &quot;Criteria at the end of iteration 4 (Max eval:2000): 31.1190938169463&quot;
+## [1] &quot;Criteria at the end of iteration 5 (Max eval:2000): 31.0682874150904&quot;
+## [1] &quot;--- End of Minimization of criteria ---&quot;
+## [1] &quot;=========================================================&quot;
+## [1] &quot;=========================================================&quot;
+## [1] &quot; Second pass: &#39;Optimal&#39; Omega &quot;
+## [1] &quot;=========================================================&quot;
+## [1] &quot;=========================================================&quot;
+## [1] &quot;Criteria at the end of iteration 1 (Max eval:2000): 13.3410870057891&quot;
+## [1] &quot;Criteria at the end of iteration 2 (Max eval:2000): 12.9875604677233&quot;
+## [1] &quot;Criteria at the end of iteration 3 (Max eval:2000): 12.8917352487576&quot;
+## [1] &quot;Criteria at the end of iteration 4 (Max eval:2000): 12.8822959720433&quot;
+## [1] &quot;Criteria at the end of iteration 5 (Max eval:2000): 12.679107536186&quot;
+## [1] &quot;--- End of Minimization of criteria ---&quot;</code></pre>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="application-to-real-world-data.html#cb60-1" aria-hidden="true" tabindex="-1"></a>res.estim.GMM<span class="sc">$</span>Theta</span></code></pre></div>
+<pre><code>##            [,1]       [,2]
+## [1,] -0.1349984 0.02815548
+## [2,]  8.9776912 1.16963120</code></pre>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="application-to-real-world-data.html#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Set the GMM estimates as the initial values for the ML </span></span>
+<span id="cb62-2"><a href="application-to-real-world-data.html#cb62-2" aria-hidden="true" tabindex="-1"></a><span class="do">## optimization procedure</span></span>
+<span id="cb62-3"><a href="application-to-real-world-data.html#cb62-3" aria-hidden="true" tabindex="-1"></a>Model.est.GMM <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb62-4"><a href="application-to-real-world-data.html#cb62-4" aria-hidden="true" tabindex="-1"></a>Model.est.GMM<span class="sc">$</span>Phi <span class="ot">&lt;-</span> res.estim.GMM<span class="sc">$</span>Phi.est</span>
+<span id="cb62-5"><a href="application-to-real-world-data.html#cb62-5" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">dim</span>(Model.est.GMM<span class="sc">$</span>Phi)[<span class="dv">1</span>]</span>
+<span id="cb62-6"><a href="application-to-real-world-data.html#cb62-6" aria-hidden="true" tabindex="-1"></a>Model.est.GMM<span class="sc">$</span>C <span class="ot">&lt;-</span> res.estim.GMM<span class="sc">$</span>C0.est</span>
+<span id="cb62-7"><a href="application-to-real-world-data.html#cb62-7" aria-hidden="true" tabindex="-1"></a>Model.est.GMM<span class="sc">$</span>Theta <span class="ot">&lt;-</span> <span class="fu">array</span>(res.estim.GMM<span class="sc">$</span>Theta.est,<span class="fu">c</span>(n,n,<span class="dv">1</span>))</span>
+<span id="cb62-8"><a href="application-to-real-world-data.html#cb62-8" aria-hidden="true" tabindex="-1"></a>Model.est.GMM<span class="sc">$</span>distri <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb62-9"><a href="application-to-real-world-data.html#cb62-9" aria-hidden="true" tabindex="-1"></a>Model.est.GMM<span class="sc">$</span>Mu <span class="ot">&lt;-</span> res.estim.GMM<span class="sc">$</span>mu.est</span>
+<span id="cb62-10"><a href="application-to-real-world-data.html#cb62-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-11"><a href="application-to-real-world-data.html#cb62-11" aria-hidden="true" tabindex="-1"></a>ETA.est <span class="ot">&lt;-</span> <span class="fu">estim.struct.shocks</span>(<span class="at">Y =</span> <span class="fu">as.matrix</span>(y), <span class="at">Model =</span> Model.est.GMM)<span class="sc">$</span>ETA.est</span>
+<span id="cb62-12"><a href="application-to-real-world-data.html#cb62-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-13"><a href="application-to-real-world-data.html#cb62-13" aria-hidden="true" tabindex="-1"></a>vec.theta1 <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb62-14"><a href="application-to-real-world-data.html#cb62-14" aria-hidden="true" tabindex="-1"></a>vec.theta2 <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb62-15"><a href="application-to-real-world-data.html#cb62-15" aria-hidden="true" tabindex="-1"></a>vec.theta3 <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb62-16"><a href="application-to-real-world-data.html#cb62-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-17"><a href="application-to-real-world-data.html#cb62-17" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb62-18"><a href="application-to-real-world-data.html#cb62-18" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n){</span>
+<span id="cb62-19"><a href="application-to-real-world-data.html#cb62-19" aria-hidden="true" tabindex="-1"></a>  res.estim <span class="ot">&lt;-</span> <span class="fu">estim.MLE.mixtures</span>(ETA.est[,i])</span>
+<span id="cb62-20"><a href="application-to-real-world-data.html#cb62-20" aria-hidden="true" tabindex="-1"></a>  vec.theta1 <span class="ot">&lt;-</span> <span class="fu">c</span>(vec.theta1,res.estim<span class="sc">$</span>param.est[<span class="dv">1</span>])</span>
+<span id="cb62-21"><a href="application-to-real-world-data.html#cb62-21" aria-hidden="true" tabindex="-1"></a>  vec.theta2 <span class="ot">&lt;-</span> <span class="fu">c</span>(vec.theta2,res.estim<span class="sc">$</span>param.est[<span class="dv">2</span>])</span>
+<span id="cb62-22"><a href="application-to-real-world-data.html#cb62-22" aria-hidden="true" tabindex="-1"></a>  vec.theta3 <span class="ot">&lt;-</span> <span class="fu">c</span>(vec.theta3,res.estim<span class="sc">$</span>param.est[<span class="dv">3</span>])</span>
+<span id="cb62-23"><a href="application-to-real-world-data.html#cb62-23" aria-hidden="true" tabindex="-1"></a>  xx <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">10</span>,<span class="dv">10</span>,<span class="at">by=</span>.<span class="dv">01</span>)</span>
+<span id="cb62-24"><a href="application-to-real-world-data.html#cb62-24" aria-hidden="true" tabindex="-1"></a>  f <span class="ot">&lt;-</span> <span class="fu">density.mixt.gauss</span>(res.estim<span class="sc">$</span>param.est,xx)</span>
+<span id="cb62-25"><a href="application-to-real-world-data.html#cb62-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(xx,f,<span class="at">type=</span><span class="st">&quot;l&quot;</span>)</span>
+<span id="cb62-26"><a href="application-to-real-world-data.html#cb62-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lines</span>(<span class="fu">density</span>(ETA.est[,i],<span class="at">bw=</span>.<span class="dv">1</span>),<span class="at">col=</span><span class="st">&quot;red&quot;</span>)</span>
+<span id="cb62-27"><a href="application-to-real-world-data.html#cb62-27" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb62-28"><a href="application-to-real-world-data.html#cb62-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-29"><a href="application-to-real-world-data.html#cb62-29" aria-hidden="true" tabindex="-1"></a><span class="do">## Estimate the model</span></span>
+<span id="cb62-30"><a href="application-to-real-world-data.html#cb62-30" aria-hidden="true" tabindex="-1"></a>param.ini <span class="ot">&lt;-</span> <span class="fu">c</span>(res.estim.GMM<span class="sc">$</span>Phi.est,res.estim.GMM<span class="sc">$</span>Theta.est,</span>
+<span id="cb62-31"><a href="application-to-real-world-data.html#cb62-31" aria-hidden="true" tabindex="-1"></a>               res.estim.GMM<span class="sc">$</span>C0.est,</span>
+<span id="cb62-32"><a href="application-to-real-world-data.html#cb62-32" aria-hidden="true" tabindex="-1"></a>               vec.theta1,vec.theta2,vec.theta3)</span>
+<span id="cb62-33"><a href="application-to-real-world-data.html#cb62-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-34"><a href="application-to-real-world-data.html#cb62-34" aria-hidden="true" tabindex="-1"></a>res.estim.MLE <span class="ot">&lt;-</span> <span class="fu">estim.MA.inversion</span>(param.ini,Model.est.GMM,<span class="fu">as.matrix</span>(y),</span>
+<span id="cb62-35"><a href="application-to-real-world-data.html#cb62-35" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">MAXIT.nlminb=</span><span class="dv">300</span>,</span>
+<span id="cb62-36"><a href="application-to-real-world-data.html#cb62-36" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">MAXIT.NlMd=</span><span class="dv">1000</span>,</span>
+<span id="cb62-37"><a href="application-to-real-world-data.html#cb62-37" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">nb.loops=</span><span class="dv">4</span>,</span>
+<span id="cb62-38"><a href="application-to-real-world-data.html#cb62-38" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">indic.Blaschke=</span><span class="dv">1</span>,</span>
+<span id="cb62-39"><a href="application-to-real-world-data.html#cb62-39" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">MAXIT.nlminb.BM=</span><span class="dv">300</span>,</span>
+<span id="cb62-40"><a href="application-to-real-world-data.html#cb62-40" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">MAXIT.NlMd.BM=</span><span class="dv">1000</span>,</span>
+<span id="cb62-41"><a href="application-to-real-world-data.html#cb62-41" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">nb.loops.BM=</span><span class="dv">2</span>,</span>
+<span id="cb62-42"><a href="application-to-real-world-data.html#cb62-42" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">indic.print=</span><span class="dv">0</span>,<span class="at">indic.compute.cov.mat=</span><span class="dv">1</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;param.ini:&quot;
+##  [1] -2.270024e-01 -3.869033e+00  1.389561e-02  1.545562e+00  2.687431e-01
+##  [6]  1.404742e+00 -1.818062e-02 -3.712492e-01  2.056953e-01  1.057485e-02
+## [11] -3.840567e-05 -1.599325e-01  1.786540e-01 -8.262147e-01  4.901788e-03
+## [16] -1.902981e-02 -1.349984e-01  8.977691e+00  2.815548e-02  1.169631e+00
+## [21]  8.939772e-04  9.557083e-02 -5.914673e-03  7.693439e-02  5.508629e-02
+## [26]  2.368594e+00 -7.585889e-01 -6.646727e-02  5.313747e-02 -9.038630e-02</code></pre>
+<pre><code>## Warning in optimx.check(par, optcfg$ufn, optcfg$ugr, optcfg$uhess, lower, : Parameters or bounds appear to have different scalings.
+##   This can cause poor performance in optimization. 
+##   It is important for derivative free methods like BOBYQA, UOBYQA, NEWUOA.
+
+## Warning in optimx.check(par, optcfg$ufn, optcfg$ugr, optcfg$uhess, lower, : Parameters or bounds appear to have different scalings.
+##   This can cause poor performance in optimization. 
+##   It is important for derivative free methods like BOBYQA, UOBYQA, NEWUOA.
+
+## Warning in optimx.check(par, optcfg$ufn, optcfg$ugr, optcfg$uhess, lower, : Parameters or bounds appear to have different scalings.
+##   This can cause poor performance in optimization. 
+##   It is important for derivative free methods like BOBYQA, UOBYQA, NEWUOA.
+
+## Warning in optimx.check(par, optcfg$ufn, optcfg$ugr, optcfg$uhess, lower, : Parameters or bounds appear to have different scalings.
+##   This can cause poor performance in optimization. 
+##   It is important for derivative free methods like BOBYQA, UOBYQA, NEWUOA.</code></pre>
+<pre><code>## [1] &quot;Looking for alternative MA representation (1/4)&quot;
+## [1] &quot;Looking for alternative MA representation (2/4)&quot;
+## [1] &quot;Looking for alternative MA representation (3/4)&quot;
+## [1] &quot;Looking for alternative MA representation (4/4)&quot;
+## [1] &quot;param.ini.i:&quot;
+##  [1] -2.270024e-01 -3.869033e+00  1.389561e-02  1.545562e+00  2.687431e-01
+##  [6]  1.404742e+00 -1.818062e-02 -3.712492e-01  2.056953e-01  1.057485e-02
+## [11] -3.840567e-05 -1.599325e-01  1.786540e-01 -8.262147e-01  4.901788e-03
+## [16] -1.902981e-02 -4.358196e+00  1.213685e+01 -2.493017e-02  7.251465e-01
+## [21] -1.552182e-03  3.750390e-03 -1.200788e-03  1.555104e-01  5.508629e-02
+## [26]  2.368594e+00 -7.585889e-01 -6.646727e-02  5.313747e-02 -9.038630e-02</code></pre>
+<pre><code>## Warning in optimx.check(par, optcfg$ufn, optcfg$ugr, optcfg$uhess, lower, : Parameters or bounds appear to have different scalings.
+##   This can cause poor performance in optimization. 
+##   It is important for derivative free methods like BOBYQA, UOBYQA, NEWUOA.
+
+## Warning in optimx.check(par, optcfg$ufn, optcfg$ugr, optcfg$uhess, lower, : Parameters or bounds appear to have different scalings.
+##   This can cause poor performance in optimization. 
+##   It is important for derivative free methods like BOBYQA, UOBYQA, NEWUOA.</code></pre>
+<pre><code>## [1] &quot;param.ini.i:&quot;
+##  [1] -2.270024e-01 -3.869033e+00  1.389561e-02  1.545562e+00  2.687431e-01
+##  [6]  1.404742e+00 -1.818062e-02 -3.712492e-01  2.056953e-01  1.057485e-02
+## [11] -3.840567e-05 -1.599325e-01  1.786540e-01 -8.262147e-01  4.901788e-03
+## [16] -1.902981e-02 -2.156171e-01  2.127534e+00  7.057141e-03  6.478586e-01
+## [21]  1.129001e-03  1.408667e-01 -6.683738e-03  6.782243e-02  5.508629e-02
+## [26]  2.368594e+00 -7.585889e-01 -6.646727e-02  5.313747e-02 -9.038630e-02</code></pre>
+<pre><code>## Warning in optimx.check(par, optcfg$ufn, optcfg$ugr, optcfg$uhess, lower, : Parameters or bounds appear to have different scalings.
+##   This can cause poor performance in optimization. 
+##   It is important for derivative free methods like BOBYQA, UOBYQA, NEWUOA.
+
+## Warning in optimx.check(par, optcfg$ufn, optcfg$ugr, optcfg$uhess, lower, : Parameters or bounds appear to have different scalings.
+##   This can cause poor performance in optimization. 
+##   It is important for derivative free methods like BOBYQA, UOBYQA, NEWUOA.</code></pre>
+<pre><code>## [1] &quot;param.ini.i:&quot;
+##  [1] -2.270024e-01 -3.869033e+00  1.389561e-02  1.545562e+00  2.687431e-01
+##  [6]  1.404742e+00 -1.818062e-02 -3.712492e-01  2.056953e-01  1.057485e-02
+## [11] -3.840567e-05 -1.599325e-01  1.786540e-01 -8.262147e-01  4.901788e-03
+## [16] -1.902981e-02 -4.477190e+00  3.611265e+01 -2.968505e-02  1.683193e+00
+## [21] -1.544659e-03  9.326253e-03 -1.077550e-03  1.084715e-01  5.508629e-02
+## [26]  2.368594e+00 -7.585889e-01 -6.646727e-02  5.313747e-02 -9.038630e-02</code></pre>
+<pre><code>## Warning in optimx.check(par, optcfg$ufn, optcfg$ugr, optcfg$uhess, lower, : Parameters or bounds appear to have different scalings.
+##   This can cause poor performance in optimization. 
+##   It is important for derivative free methods like BOBYQA, UOBYQA, NEWUOA.
+
+## Warning in optimx.check(par, optcfg$ufn, optcfg$ugr, optcfg$uhess, lower, : Parameters or bounds appear to have different scalings.
+##   This can cause poor performance in optimization. 
+##   It is important for derivative free methods like BOBYQA, UOBYQA, NEWUOA.</code></pre>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="application-to-real-world-data.html#cb71-1" aria-hidden="true" tabindex="-1"></a>res.estim.MLE<span class="sc">$</span>Theta</span></code></pre></div>
+<pre><code>##            [,1]      [,2]
+## [1,] 0.09898047 0.0244470
+## [2,] 2.67743894 0.5995404</code></pre>
+<p><img src="Dynamic-Identification-GitHub2_files/figure-html/pml-estimation-1.png" width="672" /></p>
+<p>The next table compares the results of the estimation.</p>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="application-to-real-world-data.html#cb73-1" aria-hidden="true" tabindex="-1"></a>Parameters <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;$</span><span class="sc">\\</span><span class="st">Phi_{11}^{(1)}$&quot;</span>, <span class="st">&quot;$</span><span class="sc">\\</span><span class="st">Phi_{21}^{(1)}$&quot;</span>, <span class="st">&quot;$</span><span class="sc">\\</span><span class="st">Phi_{12}^{(1)}$&quot;</span>, <span class="st">&quot;$</span><span class="sc">\\</span><span class="st">Phi_{22}^{(1)}$&quot;</span>,</span>
+<span id="cb73-2"><a href="application-to-real-world-data.html#cb73-2" aria-hidden="true" tabindex="-1"></a>                <span class="st">&quot;$</span><span class="sc">\\</span><span class="st">Phi_{11}^{(2)}$&quot;</span>, <span class="st">&quot;$</span><span class="sc">\\</span><span class="st">Phi_{21}^{(2)}$&quot;</span>, <span class="st">&quot;$</span><span class="sc">\\</span><span class="st">Phi_{12}^{(2)}$&quot;</span>, <span class="st">&quot;$</span><span class="sc">\\</span><span class="st">Phi_{22}^{(2)}$&quot;</span>,</span>
+<span id="cb73-3"><a href="application-to-real-world-data.html#cb73-3" aria-hidden="true" tabindex="-1"></a>                <span class="st">&quot;$</span><span class="sc">\\</span><span class="st">Phi_{11}^{(3)}$&quot;</span>, <span class="st">&quot;$</span><span class="sc">\\</span><span class="st">Phi_{21}^{(3)}$&quot;</span>, <span class="st">&quot;$</span><span class="sc">\\</span><span class="st">Phi_{12}^{(3)}$&quot;</span>, <span class="st">&quot;$</span><span class="sc">\\</span><span class="st">Phi_{22}^{(3)}$&quot;</span>,</span>
+<span id="cb73-4"><a href="application-to-real-world-data.html#cb73-4" aria-hidden="true" tabindex="-1"></a>                <span class="st">&quot;$</span><span class="sc">\\</span><span class="st">Phi_{11}^{(4)}$&quot;</span>, <span class="st">&quot;$</span><span class="sc">\\</span><span class="st">Phi_{21}^{(4)}$&quot;</span>, <span class="st">&quot;$</span><span class="sc">\\</span><span class="st">Phi_{12}^{(4)}$&quot;</span>, <span class="st">&quot;$</span><span class="sc">\\</span><span class="st">Phi_{22}^{(4)}$&quot;</span>,</span>
+<span id="cb73-5"><a href="application-to-real-world-data.html#cb73-5" aria-hidden="true" tabindex="-1"></a>                <span class="st">&quot;$</span><span class="sc">\\</span><span class="st">Theta_{11}$&quot;</span>, <span class="st">&quot;$</span><span class="sc">\\</span><span class="st">Theta_{21}$&quot;</span>, <span class="st">&quot;$</span><span class="sc">\\</span><span class="st">Theta_{12}$&quot;</span>, <span class="st">&quot;$</span><span class="sc">\\</span><span class="st">Theta_{22}$&quot;</span>, </span>
+<span id="cb73-6"><a href="application-to-real-world-data.html#cb73-6" aria-hidden="true" tabindex="-1"></a>                <span class="st">&quot;$C_{11}$&quot;</span>, <span class="st">&quot;$C_{21}$&quot;</span>, <span class="st">&quot;$C_{12}$&quot;</span>, <span class="st">&quot;$C_{22}$&quot;</span>)</span>
+<span id="cb73-7"><a href="application-to-real-world-data.html#cb73-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb73-8"><a href="application-to-real-world-data.html#cb73-8" aria-hidden="true" tabindex="-1"></a>GMM <span class="ot">&lt;-</span> <span class="fu">c</span>(res.estim.GMM<span class="sc">$</span>Phi.est, res.estim.GMM<span class="sc">$</span>Theta, res.estim.GMM<span class="sc">$</span>C0.est)</span>
+<span id="cb73-9"><a href="application-to-real-world-data.html#cb73-9" aria-hidden="true" tabindex="-1"></a>GMM.stdev <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">sqrt</span>(<span class="fu">diag</span>(res.estim.GMM<span class="sc">$</span>Asympt<span class="sc">$</span>Var.alpha.hat))[<span class="dv">3</span><span class="sc">:</span><span class="dv">18</span>],</span>
+<span id="cb73-10"><a href="application-to-real-world-data.html#cb73-10" aria-hidden="true" tabindex="-1"></a>               <span class="fu">sqrt</span>(<span class="fu">diag</span>(res.estim.GMM<span class="sc">$</span>Asympt<span class="sc">$</span>Var.beta.hat)[<span class="dv">5</span><span class="sc">:</span><span class="dv">8</span>]),</span>
+<span id="cb73-11"><a href="application-to-real-world-data.html#cb73-11" aria-hidden="true" tabindex="-1"></a>               <span class="fu">sqrt</span>(<span class="fu">diag</span>(res.estim.GMM<span class="sc">$</span>Asympt<span class="sc">$</span>Var.beta.hat)[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]))</span>
+<span id="cb73-12"><a href="application-to-real-world-data.html#cb73-12" aria-hidden="true" tabindex="-1"></a>MLE <span class="ot">&lt;-</span> <span class="fu">c</span>(res.estim.MLE<span class="sc">$</span>Phi, res.estim.MLE<span class="sc">$</span>Theta, res.estim.MLE<span class="sc">$</span>C)</span>
+<span id="cb73-13"><a href="application-to-real-world-data.html#cb73-13" aria-hidden="true" tabindex="-1"></a>MLE.stdv <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">diag</span>(res.estim.MLE<span class="sc">$</span>MV)[<span class="dv">1</span><span class="sc">:</span><span class="dv">24</span>])</span>
+<span id="cb73-14"><a href="application-to-real-world-data.html#cb73-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb73-15"><a href="application-to-real-world-data.html#cb73-15" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(Parameters, GMM,GMM.stdev ,MLE,MLE.stdv) <span class="sc">%&gt;%</span> </span>
+<span id="cb73-16"><a href="application-to-real-world-data.html#cb73-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate_if</span>(is.numeric, round, <span class="at">digits=</span><span class="dv">3</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb73-17"><a href="application-to-real-world-data.html#cb73-17" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="at">caption =</span> <span class="st">&quot;Estimates of the parameters&quot;</span>)</span></code></pre></div>
+<table>
+<caption><span id="tab:results-real-data">Table 4.1: </span>Estimates of the parameters</caption>
+<thead>
+<tr class="header">
+<th align="left">Parameters</th>
+<th align="right">GMM</th>
+<th align="right">GMM.stdev</th>
+<th align="right">MLE</th>
+<th align="right">MLE.stdv</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><span class="math inline">\(\Phi_{11}^{(1)}\)</span></td>
+<td align="right">-0.227</td>
+<td align="right">0.183</td>
+<td align="right">0.258</td>
+<td align="right">0.111</td>
+</tr>
+<tr class="even">
+<td align="left"><span class="math inline">\(\Phi_{21}^{(1)}\)</span></td>
+<td align="right">-3.869</td>
+<td align="right">6.589</td>
+<td align="right">-3.276</td>
+<td align="right">1.379</td>
+</tr>
+<tr class="odd">
+<td align="left"><span class="math inline">\(\Phi_{12}^{(1)}\)</span></td>
+<td align="right">0.014</td>
+<td align="right">0.008</td>
+<td align="right">0.019</td>
+<td align="right">0.008</td>
+</tr>
+<tr class="even">
+<td align="left"><span class="math inline">\(\Phi_{22}^{(1)}\)</span></td>
+<td align="right">1.546</td>
+<td align="right">0.333</td>
+<td align="right">1.453</td>
+<td align="right">0.071</td>
+</tr>
+<tr class="odd">
+<td align="left"><span class="math inline">\(\Phi_{11}^{(2)}\)</span></td>
+<td align="right">0.269</td>
+<td align="right">0.079</td>
+<td align="right">0.274</td>
+<td align="right">0.073</td>
+</tr>
+<tr class="even">
+<td align="left"><span class="math inline">\(\Phi_{21}^{(2)}\)</span></td>
+<td align="right">1.405</td>
+<td align="right">2.697</td>
+<td align="right">0.945</td>
+<td align="right">0.961</td>
+</tr>
+<tr class="odd">
+<td align="left"><span class="math inline">\(\Phi_{12}^{(2)}\)</span></td>
+<td align="right">-0.018</td>
+<td align="right">0.008</td>
+<td align="right">-0.019</td>
+<td align="right">0.008</td>
+</tr>
+<tr class="even">
+<td align="left"><span class="math inline">\(\Phi_{22}^{(2)}\)</span></td>
+<td align="right">-0.371</td>
+<td align="right">0.301</td>
+<td align="right">-0.276</td>
+<td align="right">0.091</td>
+</tr>
+<tr class="odd">
+<td align="left"><span class="math inline">\(\Phi_{11}^{(3)}\)</span></td>
+<td align="right">0.206</td>
+<td align="right">0.054</td>
+<td align="right">0.182</td>
+<td align="right">0.056</td>
+</tr>
+<tr class="even">
+<td align="left"><span class="math inline">\(\Phi_{21}^{(3)}\)</span></td>
+<td align="right">0.011</td>
+<td align="right">1.551</td>
+<td align="right">0.228</td>
+<td align="right">1.076</td>
+</tr>
+<tr class="odd">
+<td align="left"><span class="math inline">\(\Phi_{12}^{(3)}\)</span></td>
+<td align="right">0.000</td>
+<td align="right">0.003</td>
+<td align="right">-0.004</td>
+<td align="right">0.003</td>
+</tr>
+<tr class="even">
+<td align="left"><span class="math inline">\(\Phi_{22}^{(3)}\)</span></td>
+<td align="right">-0.160</td>
+<td align="right">0.086</td>
+<td align="right">-0.060</td>
+<td align="right">0.062</td>
+</tr>
+<tr class="odd">
+<td align="left"><span class="math inline">\(\Phi_{11}^{(4)}\)</span></td>
+<td align="right">0.179</td>
+<td align="right">0.050</td>
+<td align="right">0.114</td>
+<td align="right">0.056</td>
+</tr>
+<tr class="even">
+<td align="left"><span class="math inline">\(\Phi_{21}^{(4)}\)</span></td>
+<td align="right">-0.826</td>
+<td align="right">1.486</td>
+<td align="right">0.423</td>
+<td align="right">0.797</td>
+</tr>
+<tr class="odd">
+<td align="left"><span class="math inline">\(\Phi_{12}^{(4)}\)</span></td>
+<td align="right">0.005</td>
+<td align="right">0.002</td>
+<td align="right">0.004</td>
+<td align="right">0.002</td>
+</tr>
+<tr class="even">
+<td align="left"><span class="math inline">\(\Phi_{22}^{(4)}\)</span></td>
+<td align="right">-0.019</td>
+<td align="right">0.063</td>
+<td align="right">-0.123</td>
+<td align="right">0.032</td>
+</tr>
+<tr class="odd">
+<td align="left"><span class="math inline">\(\Theta_{11}\)</span></td>
+<td align="right">-0.135</td>
+<td align="right">0.167</td>
+<td align="right">0.099</td>
+<td align="right">0.105</td>
+</tr>
+<tr class="even">
+<td align="left"><span class="math inline">\(\Theta_{21}\)</span></td>
+<td align="right">8.978</td>
+<td align="right">4.204</td>
+<td align="right">2.677</td>
+<td align="right">1.090</td>
+</tr>
+<tr class="odd">
+<td align="left"><span class="math inline">\(\Theta_{12}\)</span></td>
+<td align="right">0.028</td>
+<td align="right">0.014</td>
+<td align="right">0.024</td>
+<td align="right">0.008</td>
+</tr>
+<tr class="even">
+<td align="left"><span class="math inline">\(\Theta_{22}\)</span></td>
+<td align="right">1.170</td>
+<td align="right">0.403</td>
+<td align="right">0.600</td>
+<td align="right">0.067</td>
+</tr>
+<tr class="odd">
+<td align="left"><span class="math inline">\(C_{11}\)</span></td>
+<td align="right">0.001</td>
+<td align="right">0.001</td>
+<td align="right">0.000</td>
+<td align="right">0.001</td>
+</tr>
+<tr class="even">
+<td align="left"><span class="math inline">\(C_{21}\)</span></td>
+<td align="right">0.096</td>
+<td align="right">0.028</td>
+<td align="right">0.150</td>
+<td align="right">0.007</td>
+</tr>
+<tr class="odd">
+<td align="left"><span class="math inline">\(C_{12}\)</span></td>
+<td align="right">-0.006</td>
+<td align="right">0.001</td>
+<td align="right">-0.007</td>
+<td align="right">0.000</td>
+</tr>
+<tr class="even">
+<td align="left"><span class="math inline">\(C_{22}\)</span></td>
+<td align="right">0.077</td>
+<td align="right">0.024</td>
+<td align="right">0.036</td>
+<td align="right">0.029</td>
+</tr>
+</tbody>
+</table>
+<!-- **IRF of this model and the VAR model????** -->
+
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="svarma11-example.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["Dynamic-Identification-GitHub2.pdf", "Dynamic-Identification-GitHub2.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
