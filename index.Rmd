@@ -1,5 +1,5 @@
 ---
-title: "Dynamic Identification in VARMA Models"
+title: "Dynamic Identification in SVARMA Models"
 author: "Alessandro Ciancetta"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
