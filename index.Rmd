@@ -10,6 +10,6 @@ link-citations: yes
 description: "This book present the general framework of VARMA models and introduces the notion of non-fundamentalness. The problem is assessed using the methodology of Gourieroux, Manfort and Renne (2019), which is illustrated in detail, within the framework of non-Gaussian and independent structural shocks of the corresponding structural model. Simulations and application to real-world data are presented."
 ---
 
-# Main
+# Preface {-}
 
 This a basic GitHub page example
